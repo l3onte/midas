@@ -1,0 +1,63 @@
+@model midasMVC.Models.ViewModels.LoginViewModel 
+@{
+    ViewData["Title"] = "Ingresar";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ingresar - Midas Finanzas</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+</head>
+<body>
+<div class="login-page">
+    <section class="login-hero">
+        <div class="hero-overlay">
+            <div>
+                <h2>Midas</h2>
+                <p>Toma el control total de tus ingresos, gastos y presupuestos.</p>
+            </div>
+        </div>
+    </section>
+    <section class="login-panel">
+        <div class="login-box">
+            <h1>Bienvenido de nuevo</h1>
+            <p class="subtitle">Inicia sesión para gestionar tus finanzas personales.</p>
+            <form asp-action="Login" method="post">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">Correo electrónico</label>
+                    <input asp-for="Email" class="form-control form-control-lg" autocomplete="username" placeholder="ejemplo@correo.com" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">Contraseña</label>
+                    <input asp-for="Password" class="form-control form-control-lg" autocomplete="current-password" placeholder="••••••••" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                
+                <div class="form-check mb-4">
+                    <input asp-for="RememberMe" class="form-check-input" />
+                    <label asp-for="RememberMe" class="form-check-label">Recordar mi sesión</label>
+                </div>
+                
+                <button class="btn btn-primary w-100 btn-lg" type="submit">
+                    Iniciar Sesión
+                </button>
+            </form>
+        </div>
+    </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+</html>

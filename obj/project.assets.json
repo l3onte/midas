@@ -98,11 +98,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\xampp\\htdocs\\midas\\midasMVC.csproj",
+      "projectUniqueName": "c:\\xampp\\htdocs\\midas\\midasMVC.csproj",
       "projectName": "midasMVC",
-      "projectPath": "C:\\xampp\\htdocs\\midas\\midasMVC.csproj",
+      "projectPath": "c:\\xampp\\htdocs\\midas\\midasMVC.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\xampp\\htdocs\\midas\\obj\\",
+      "outputPath": "c:\\xampp\\htdocs\\midas\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\DevExpress 24.1\\Components\\Offline Packages",
