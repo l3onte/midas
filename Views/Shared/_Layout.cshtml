@@ -7,88 +7,132 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/midasMVC.styles.css" asp-append-version="true" />
+    <style>
+        .app-sidebar {
+            width: 260px;
+            background-color: #1e293b; /* Color de fondo oscuro y elegante */
+            color: #f8fafc;
+        }
+        .app-sidebar .nav-link {
+            color: #94a3b8;
+            border-radius: 0.375rem;
+            padding: 0.6rem 1rem;
+            transition: all 0.2s ease-in-out;
+        }
+        .app-sidebar .nav-link:hover, 
+        .app-sidebar .nav-link.active {
+            color: #ffffff;
+            background-color: #334155;
+        }
+        .app-sidebar .brand-text {
+            color: #ffffff;
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+        @@media (max-width: 767.98px) {
+            .app-sidebar {
+                width: 100%;
+                min-height: auto !important;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Midas</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        @if (User.Identity?.IsAuthenticated == true)
+    <div class="d-flex flex-column flex-md-row min-vh-100">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar d-flex flex-column justify-content-between p-3 flex-shrink-0">
+            <div>
+                <!-- Brand / Logo -->
+                <div class="d-flex align-items-center mb-4 px-2 pt-2 border-bottom border-secondary pb-3">
+                    <a class="brand-text fw-bold text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">
+                        Midas
+                    </a>
+                </div>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <ul class="nav nav-pills flex-column gap-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                Inicio
+                            </a>
+                        </li>
+
+                        @if (User.IsInRole("Usuario Free") || User.IsInRole("Usuario Premium") || User.IsInRole("Administrador"))
                         {
-                            <!-- Opción accesible para TODOS los usuarios autenticados (Free, Premium y Admin) -->
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Inicio</a>
+                                <a class="nav-link" asp-controller="Movimientos" asp-action="Index">
+                                    Movimientos
+                                </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Cuentas" asp-action="Index">
+                                    Mis Cuentas
+                                </a>
+                            </li>
+                        }
 
-                            @if (User.IsInRole("Usuario Free") || User.IsInRole("Usuario Premium") || User.IsInRole("Administrador"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Movimientos" asp-action="Index">Movimientos</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Cuentas" asp-action="Index">Mis Cuentas</a>
-                                </li>
-                            }
+                        @if (User.IsInRole("Usuario Premium") || User.IsInRole("Administrador"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Reportes">
+                                    Reportes y Metas
+                                </a>
+                            </li>
+                        }
 
-                            @if (User.IsInRole("Usuario Premium") || User.IsInRole("Administrador"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Reportes">Reportes y Metas</a>
-                                </li>
-                            }
-
-                            @if (User.IsInRole("Administrador"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Administracion">Administración</a>
-                                </li>
-                            }
+                        @if (User.IsInRole("Administrador"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Administracion">
+                                    Administración
+                                </a>
+                            </li>
                         }
                     </ul>
-
-                    @if (User.Identity?.IsAuthenticated == true)
-                    {
-                        <div class="d-flex align-items-center gap-3">
-                            <span class="small text-muted">
-                                @User.Identity.Name 
-                                (@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value)
-                            </span>
-                            <form asp-controller="Cuenta" asp-action="Logout" method="post" class="m-0">
-                                @Html.AntiForgeryToken()
-                                <button class="btn btn-outline-danger btn-sm" type="submit">
-                                    Cerrar sesión
-                                </button>
-                            </form>
-                        </div>
-                    }
-                </div>
+                }
             </div>
-        </nav>
-    </header>
+
+            <!-- Panel de Usuario / Sesión al final -->
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <div class="border-top border-secondary pt-3 mt-3 px-1">
+                    <div class="d-flex flex-column gap-2">
+                        <div class="lh-sm">
+                            <div class="fw-semibold text-light text-truncate">@User.Identity.Name</div>
+                            <small class="text-muted" style="font-size: 0.8rem;">
+                                @User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value
+                            </small>
+                        </div>
+                        <form asp-controller="Cuenta" asp-action="Logout" method="post" class="m-0">
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-outline-danger btn-sm w-100 mt-1" type="submit">
+                                Cerrar sesión
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </aside>
+
+        <!-- Main Workspace -->
+        <div class="d-flex flex-column flex-grow-1 bg-light">
+            <main role="main" class="flex-grow-1 p-4 p-md-5">
+                @RenderBody()
+            </main>
+
+            <footer class="border-top bg-white text-muted p-3">
+                <div class="container-fluid text-center text-md-start">
+                    &copy; 2026 - Midas - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+                </div>
+            </footer>
+        </div>
+    </div>
 
     @if (User.Identity?.IsAuthenticated == true)
     {
         <script src="~/js/idle-timeout.js" asp-append-version="true"></script>
     }
-
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Midas - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
-        </div>
-    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

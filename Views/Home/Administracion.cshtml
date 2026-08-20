@@ -1,6 +1,171 @@
+@model IEnumerable<midasMVC.Models.User>
+
 @{
-    ViewData["Title"] = "Administracion";
+    ViewData["Title"] = "Administración de Usuarios";
 }
 
-<h1>Session de Administracion</h1>
-<p>Acceso para administrador.</p>
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Gestión de Usuarios</h2>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">
+            + Agregar Usuario
+        </button>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-striped align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Rol</th>
+                        <th>Ingreso</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td>@user.Id</td>
+                                <td>@user.Name @user.Last_name</td>
+                                <td>@(string.IsNullOrEmpty(user.Phone) ? "N/A" : user.Phone)</td>
+                                <td>@user.Role?.Name</td>
+                                <td>@user.Created_at.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @if (user.Status)
+                                    {
+                                        <span class="badge bg-success">Activo</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Inactivo</span>
+                                    }
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary me-1" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#editModal-@user.Id">
+                                        Editar
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <div class="modal fade" id="editModal-@user.Id" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form asp-controller="User" asp-action="Edit" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="Id" value="@user.Id" />
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Editar Usuario</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nombre</label>
+                                                    <input type="text" name="Name" class="form-control" value="@user.Name" required />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Apellido</label>
+                                                    <input type="text" name="Last_name" class="form-control" value="@user.Last_name" required />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Correo Electrónico</label>
+                                                    <input type="email" name="Email" class="form-control" value="@user.Email" required />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Teléfono</label>
+                                                    <input type="text" name="Phone" class="form-control" value="@user.Phone" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Rol</label>
+                                                    <select name="Role_id" class="form-select">
+                                                        <option value="1" selected="@(user.Role_id == 1)">Administrador</option>
+                                                        <option value="2" selected="@(user.Role_id == 2)">Usuario Free</option>
+                                                        <option value="3" selected="@(user.Role_id == 3)">Usuario Premium</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-check mb-3">
+                                                    <input type="checkbox" name="Status" value="true" class="form-check-input" id="status-@user.Id" @(user.Status ? "checked" : "") />
+                                                    <label class="form-check-label" for="status-@user.Id">Usuario Activo</label>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center py-3">No hay usuarios registrados.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-controller="User" asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" name="Name" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Apellido</label>
+                        <input type="text" name="Last_name" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Correo Electrónico</label>
+                        <input type="email" name="Email" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" name="Password" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Teléfono</label>
+                        <input type="text" name="Phone" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Rol</label>
+                        <select name="Role_id" class="form-select" required>
+                            <option value="1">Administrador</option>
+                            <option value="2" selected>Usuario Free</option>
+                            <option value="3">Usuario Premium</option>
+                        </select>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" name="Status" value="true" class="form-check-input" id="createStatus" checked />
+                        <label class="form-check-label" for="createStatus">Activo</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
