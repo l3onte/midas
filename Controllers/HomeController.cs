@@ -16,7 +16,23 @@ public class HomeController : Controller
         _userRepository = userRepository;
     }
 
-    public IActionResult Index() => View();
+    [Authorize(Roles = "Administrador")]
+    public async Task<IActionResult> Inicio_Administrador()
+    {
+        var stats = await _userRepository.GetUsersStatsAsync();
+        return View(stats);
+    }
+
+    [Authorize]
+    public IActionResult Index()
+    {
+        if (User.IsInRole("Administrador"))
+        {
+            return RedirectToAction("Inicio_Administrador");
+        }
+
+        return View();
+    }
 
     public IActionResult Privacy() => View();
 

@@ -28,7 +28,6 @@ C:\xampp\htdocs\midas\obj\Debug\net10.0\scopedcss\projectbundle\midasMVC.bundle.
 C:\xampp\htdocs\midas\obj\Debug\net10.0\compressed\gosluynsbl-{0}-lzuzevhzme-lzuzevhzme.gz
 C:\xampp\htdocs\midas\obj\Debug\net10.0\compressed\9u7iy6xenn-{0}-b9sayid5wm-b9sayid5wm.gz
 C:\xampp\htdocs\midas\obj\Debug\net10.0\compressed\z7uh8pb37x-{0}-61n19gt1b8-61n19gt1b8.gz
-C:\xampp\htdocs\midas\obj\Debug\net10.0\compressed\g8o30zl3kj-{0}-gcvc8dkm81-gcvc8dkm81.gz
 C:\xampp\htdocs\midas\obj\Debug\net10.0\compressed\zpror2cfbw-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 C:\xampp\htdocs\midas\obj\Debug\net10.0\compressed\bew2vl4lrl-{0}-bqjiyaj88i-bqjiyaj88i.gz
 C:\xampp\htdocs\midas\obj\Debug\net10.0\compressed\ervzwknt8j-{0}-c2jlpeoesf-c2jlpeoesf.gz
@@ -102,3 +101,4 @@ C:\xampp\htdocs\midas\obj\Debug\net10.0\refint\midasMVC.dll
 C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.pdb
 C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.genruntimeconfig.cache
 C:\xampp\htdocs\midas\obj\Debug\net10.0\ref\midasMVC.dll
+C:\xampp\htdocs\midas\obj\Debug\net10.0\compressed\g8o30zl3kj-{0}-rwwg4kvl57-rwwg4kvl57.gz

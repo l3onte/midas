@@ -1,0 +1,60 @@
+@model midasMVC.Models.ViewModels.UserStatsViewModel
+
+@{
+    ViewData["Title"] = "Panel de Inicio";
+}
+
+<div class="container py-4">
+    <h2 class="mb-4">Panel de Inicio - Administrador</h2>
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Usuarios</h5>
+                    <p class="display-6 fw-bold mb-0">@Model.TotalUsuarios</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Usuarios Activos</h5>
+                    <p class="display-6 fw-bold mb-0">@Model.TotalActivos</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-danger text-white shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Usuarios Inactivos</h5>
+                    <p class="display-6 fw-bold mb-0">@Model.TotalInactivos</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">Distribución de Roles</h5>
+        </div>
+        <div class="card-body">
+            <div class="row text-center">
+                <div class="col-md-4 border-end">
+                    <h6>Administradores</h6>
+                    <p class="fs-4 mb-1">@Model.TotalAdmin</p>
+                    <span class="badge bg-dark">@Model.PorcentajeAdmin %</span>
+                </div>
+                <div class="col-md-4 border-end">
+                    <h6>Usuarios Free</h6>
+                    <p class="fs-4 mb-1">@Model.TotalFree</p>
+                    <span class="badge bg-secondary">@Model.PorcentajeFree %</span>
+                </div>
+                <div class="col-md-4">
+                    <h6>Usuarios Premium</h6>
+                    <p class="fs-4 mb-1">@Model.TotalPremium</p>
+                    <span class="badge bg-warning text-dark">@Model.PorcentajePremium %</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

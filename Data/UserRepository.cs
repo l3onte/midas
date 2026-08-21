@@ -1,5 +1,6 @@
 using System.Data;
 using midasMVC.Models;
+using midasMVC.Models.ViewModels;
 using MySqlConnector;
 
 namespace midasMVC.Data;
@@ -91,6 +92,42 @@ public class UserRepository
         var newId = Convert.ToInt32(await command.ExecuteScalarAsync());
         return newId;
     }
+
+    public async Task<UserStatsViewModel> GetUsersStatsAsync()
+    {
+        const string sql = @"
+            SELECT 
+                COUNT(*) AS total_usuarios,
+                SUM(CASE WHEN u.status = 1 THEN 1 ELSE 0 END) AS total_activos,
+                SUM(CASE WHEN u.status = 0 THEN 1 ELSE 0 END) AS total_inactivos,
+                SUM(CASE WHEN r.name = 'Usuario Free' THEN 1 ELSE 0 END) AS total_free,
+                SUM(CASE WHEN r.name = 'Usuario Premium' THEN 1 ELSE 0 END) AS total_premium,
+                SUM(CASE WHEN r.name = 'Administrador' THEN 1 ELSE 0 END) AS total_admin
+            FROM users u
+            INNER JOIN roles r ON u.rol_id = r.id;";
+
+        await using var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        await using var command = new MySqlCommand(sql, connection);
+        await using var reader = await command.ExecuteReaderAsync();
+
+        if (await reader.ReadAsync())
+        {
+            return new UserStatsViewModel
+            {
+                TotalUsuarios = reader.IsDBNull(reader.GetOrdinal("total_usuarios")) ? 0 : reader.GetInt32("total_usuarios"),
+                TotalActivos = reader.IsDBNull(reader.GetOrdinal("total_activos")) ? 0 : Convert.ToInt32(reader.GetValue("total_activos")),
+                TotalInactivos = reader.IsDBNull(reader.GetOrdinal("total_inactivos")) ? 0 : Convert.ToInt32(reader.GetValue("total_inactivos")),
+                TotalFree = reader.IsDBNull(reader.GetOrdinal("total_free")) ? 0 : Convert.ToInt32(reader.GetValue("total_free")),
+                TotalPremium = reader.IsDBNull(reader.GetOrdinal("total_premium")) ? 0 : Convert.ToInt32(reader.GetValue("total_premium")),
+                TotalAdmin = reader.IsDBNull(reader.GetOrdinal("total_admin")) ? 0 : Convert.ToInt32(reader.GetValue("total_admin"))
+            };
+        }
+
+        return new UserStatsViewModel();
+    }
+
 
     public async Task<bool> UpdateUserAsync(int id, User user)
     {
