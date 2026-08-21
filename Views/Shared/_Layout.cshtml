@@ -10,7 +10,7 @@
     <style>
         .app-sidebar {
             width: 260px;
-            background-color: #1e293b; /* Color de fondo oscuro y elegante */
+            background-color: #79602b6d; 
             color: #f8fafc;
         }
         .app-sidebar .nav-link {
@@ -22,7 +22,7 @@
         .app-sidebar .nav-link:hover, 
         .app-sidebar .nav-link.active {
             color: #ffffff;
-            background-color: #334155;
+            background-color: #8d8d42;
         }
         .app-sidebar .brand-text {
             color: #ffffff;
@@ -39,10 +39,8 @@
 </head>
 <body>
     <div class="d-flex flex-column flex-md-row min-vh-100">
-        <!-- Sidebar Navigation -->
         <aside class="app-sidebar d-flex flex-column justify-content-between p-3 flex-shrink-0">
             <div>
-                <!-- Brand / Logo -->
                 <div class="d-flex align-items-center mb-4 px-2 pt-2 border-bottom border-secondary pb-3">
                     <a class="brand-text fw-bold text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">
                         Midas
@@ -53,21 +51,16 @@
                 {
                     <ul class="nav nav-pills flex-column gap-1">
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">
+                            <a class="nav-link text-black" asp-controller="Home" asp-action="Index">
                                 Inicio
                             </a>
                         </li>
 
-                        @if (User.IsInRole("Usuario Free") || User.IsInRole("Usuario Premium") || User.IsInRole("Administrador"))
+                        @if (User.IsInRole("Administrador"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Movimientos" asp-action="Index">
-                                    Movimientos
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Cuentas" asp-action="Index">
-                                    Mis Cuentas
+                                <a class="nav-link text-black" asp-action="Administracion">
+                                    Usuarios
                                 </a>
                             </li>
                         }
@@ -75,17 +68,8 @@
                         @if (User.IsInRole("Usuario Premium") || User.IsInRole("Administrador"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Home" asp-action="Reportes">
+                                <a class="nav-link text-black" asp-controller="Home" asp-action="Reportes">
                                     Reportes y Metas
-                                </a>
-                            </li>
-                        }
-
-                        @if (User.IsInRole("Administrador"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Home" asp-action="Administracion">
-                                    Administración
                                 </a>
                             </li>
                         }
@@ -93,7 +77,6 @@
                 }
             </div>
 
-            <!-- Panel de Usuario / Sesión al final -->
             @if (User.Identity?.IsAuthenticated == true)
             {
                 <div class="border-top border-secondary pt-3 mt-3 px-1">
@@ -115,7 +98,6 @@
             }
         </aside>
 
-        <!-- Main Workspace -->
         <div class="d-flex flex-column flex-grow-1 bg-light">
             <main role="main" class="flex-grow-1 p-4 p-md-5">
                 @RenderBody()
