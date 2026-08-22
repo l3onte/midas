@@ -26,7 +26,7 @@ namespace MyApp.Namespace
                 user.Password = passwordHasher.HashPassword(user, user.Password);
             }
 
-                await _userRepository.CreateUserAsync(user);
+            await _userRepository.CreateUserAsync(user);
             return RedirectToAction("Administracion", "Home");
         }
 

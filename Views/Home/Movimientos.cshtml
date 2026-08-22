@@ -1,0 +1,140 @@
+@model IEnumerable<midasMVC.Models.Movement>
+
+@{
+    ViewData["Title"] = "Movimientos";
+}
+
+<div class="mb-3">
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarMovimiento">
+        <i class="bi bi-plus-circle"></i> Agregar Movimiento
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Cuenta</th>
+                <th>Tipo</th>
+                <th>Categoría</th>
+                <th>Descripción</th>
+                <th>Monto</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var movement in Model) 
+                {
+                    bool esIngreso = movement.MovementType?.Name?.Equals("Ingreso", StringComparison.OrdinalIgnoreCase) ?? false;
+                    
+                    <tr>
+                        <td>@movement.Id</td>
+                        <td>@(movement.Account?.Name ?? "N/A")</td>
+                        <td>
+                            <span class="badge @(esIngreso ? "bg-success" : "bg-danger")">
+                                @(movement.MovementType?.Name ?? "N/A")
+                            </span>
+                        </td>
+                        <td>@(movement.MovementCategory?.Name ?? "N/A")</td>
+                        <td>@movement.Description</td>
+                        <td class="fw-bold @(esIngreso ? "text-success" : "text-danger")">
+                            @(esIngreso ? "+" : "-")@movement.Amount.ToString("C2", new System.Globalization.CultureInfo("en-US"))
+                        </td>
+                        <td>@movement.Created_at.ToString("dd/MM/yyyy HH:mm")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-4">
+                        No hay movimientos registrados.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="modalAgregarMovimiento" tabindex="-1" aria-labelledby="modalAgregarMovimientoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="modalAgregarMovimientoLabel">
+                    <i class="bi bi-plus-circle"></i> Registrar Movimiento
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="Movement" asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    
+                    <!-- Cuenta -->
+                    <div class="mb-3">
+                        <label for="Account_id" class="form-label fw-bold">Cuenta</label>
+                        <select name="Account_id" id="Account_id" class="form-select" required>
+                            <option value="">-- Seleccione una cuenta --</option>
+                            @if (ViewBag.Accounts != null)
+                            {
+                                foreach (var account in (IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Accounts)
+                                {
+                                    <option value="@account.Value">@account.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Movement_type_id" class="form-label fw-bold">Tipo de Movimiento</label>
+                        <select name="Movement_type_id" id="Movement_type_id" class="form-select" required>
+                            <option value="">-- Seleccione el tipo --</option>
+                            @if (ViewBag.Types != null)
+                            {
+                                foreach (var type in (IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Types)
+                                {
+                                    <option value="@type.Value">@type.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Movement_categorie_id" class="form-label fw-bold">Categoría</label>
+                        <select name="Movement_categorie_id" id="Movement_categorie_id" class="form-select" required>
+                            <option value="">-- Seleccione la categoría --</option>
+                            @if (ViewBag.Categories != null)
+                            {
+                                foreach (var cat in (IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Categories)
+                                {
+                                    <option value="@cat.Value">@cat.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Description" class="form-label fw-bold">Descripción</label>
+                        <input type="text" name="Description" id="Description" class="form-control" placeholder="Ej. Pago de servicios" required />
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="Amount" class="form-label fw-bold">Monto ($ USD)</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" step="0.01" min="0.01" name="Amount" id="Amount" class="form-control" placeholder="0.00" required />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Guardar Movimiento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

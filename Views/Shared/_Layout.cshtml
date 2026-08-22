@@ -55,6 +55,15 @@
                                 Inicio
                             </a>
                         </li>
+                    
+                        @if (User.IsInRole("Usuario Free") || User.IsInRole("Usuario Premium"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-black" asp-action="Movimientos">
+                                    Movimientos
+                                </a>
+                            </li>
+                        }
 
                         @if (User.IsInRole("Administrador"))
                         {
@@ -65,7 +74,7 @@
                             </li>
                         }
 
-                        @if (User.IsInRole("Usuario Premium") || User.IsInRole("Administrador"))
+                        @if (User.IsInRole("Usuario Premium"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-black" asp-controller="Home" asp-action="Reportes">

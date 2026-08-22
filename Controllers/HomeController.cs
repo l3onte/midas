@@ -1,6 +1,8 @@
 using System.Diagnostics;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using midasMVC.Data;
 using midasMVC.Models;
 
@@ -10,10 +12,12 @@ namespace midasMVC.Controllers;
 public class HomeController : Controller
 {
     private readonly UserRepository _userRepository;
+    private readonly MovementRepository _movementRepository;
 
-    public HomeController(UserRepository userRepository)
+    public HomeController(UserRepository userRepository, MovementRepository movementRepository)
     {
         _userRepository = userRepository;
+        _movementRepository = movementRepository;
     }
 
     [Authorize(Roles = "Administrador")]
@@ -23,6 +27,13 @@ public class HomeController : Controller
         return View(stats);
     }
 
+    [Authorize(Roles = "Usuario Free")]
+    public async Task<IActionResult> Inicio_User_Free()
+    {
+        return View();
+    }
+
+
     [Authorize]
     public IActionResult Index()
     {
@@ -31,7 +42,12 @@ public class HomeController : Controller
             return RedirectToAction("Inicio_Administrador");
         }
 
-        return View();
+        if (User.IsInRole("Usuario Free"))
+        {
+            return RedirectToAction("Inicio_User_Free");
+        }
+
+            return View();
     }
 
     public IActionResult Privacy() => View();
@@ -41,6 +57,31 @@ public class HomeController : Controller
     {
         var users = await _userRepository.GetUsersAsync();
         return View(users);
+    }
+
+    [Authorize(Roles = "Usuario Free, Usuario Premium")]
+    public async Task<IActionResult> Movimientos()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        // 1. Cargar movimientos
+        var movements = await _movementRepository.GetMovementsByUserIdAsync(userId);
+
+        // 2. Cargar opciones para los selects del modal
+        var accounts = await _movementRepository.GetAccountsByUserIdAsync(userId);
+        var categories = await _movementRepository.GetCategoriesAsync();
+        var types = await _movementRepository.GetMovementTypesAsync();
+
+        ViewBag.Accounts = accounts.Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+        ViewBag.Categories = categories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+        ViewBag.Types = types.Select(t => new SelectListItem { Value = t.Id.ToString(), Text = t.Name });
+
+        return View(movements);
     }
 
     [Authorize(Roles = "Administrador,Usuario Free")]

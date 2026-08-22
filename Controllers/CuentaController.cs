@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using midasMVC.Data;
+using midasMVC.Models;
 using midasMVC.Models.ViewModels;
 
 namespace MyApp.Namespace
@@ -57,11 +58,27 @@ namespace MyApp.Namespace
                 passwordOk = false;
             }
 
-            // AUTO-REPARACIÓN DE HASH EN BD
-            if (!passwordOk && cleanPassword == "admin123")
+            if (!passwordOk)
             {
-                string newHash = BCrypt.Net.BCrypt.HashPassword("admin123");
-                await _userRepository.UpdatePasswordAsync(user.Id, newHash);
+                try
+                {
+                    var hasher = new Microsoft.AspNetCore.Identity.PasswordHasher<User>();
+                    var result = hasher.VerifyHashedPassword(user, user.Password.Trim(), cleanPassword);
+
+                    if (result == Microsoft.AspNetCore.Identity.PasswordVerificationResult.Success || 
+                        result == Microsoft.AspNetCore.Identity.PasswordVerificationResult.SuccessRehashNeeded)
+                    {
+                        passwordOk = true;
+                    }
+                }
+                catch
+                {
+                    passwordOk = false;
+                }
+            }
+
+            if (!passwordOk && user.Password.Trim() == cleanPassword)
+            {
                 passwordOk = true;
             }
 
@@ -69,6 +86,12 @@ namespace MyApp.Namespace
             {
                 ModelState.AddModelError("", "Correo o contraseña incorrectos.");
                 return View(model);
+            }
+
+            if (!user.Password.Trim().StartsWith("$2"))
+            {
+                string newBcryptHash = BCrypt.Net.BCrypt.HashPassword(cleanPassword);
+                await _userRepository.UpdatePasswordAsync(user.Id, newBcryptHash);
             }
 
             string roleName = user.Role?.Name ?? "Usuario Free";
@@ -91,17 +114,11 @@ namespace MyApp.Namespace
 
         [Authorize]
         [HttpGet]
-        public IActionResult Ping()
-        {
-            return NoContent();
-        }
+        public IActionResult Ping() => NoContent();
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult AccesoDenegado()
-        {
-            return View();
-        }
+        public IActionResult AccesoDenegado() => View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]

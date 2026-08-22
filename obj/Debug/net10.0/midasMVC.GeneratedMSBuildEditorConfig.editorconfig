@@ -47,6 +47,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmljaW9fQWRtaW5pc3RyYWRvci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/xampp/htdocs/midas/Views/Home/Inicio_User_Free.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmljaW9fVXNlcl9GcmVlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/xampp/htdocs/midas/Views/Home/Movimientos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxNb3ZpbWllbnRvcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/xampp/htdocs/midas/Views/Home/Premium_Version.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcmVtaXVtX1ZlcnNpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
