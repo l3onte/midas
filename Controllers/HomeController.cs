@@ -13,11 +13,13 @@ public class HomeController : Controller
 {
     private readonly UserRepository _userRepository;
     private readonly MovementRepository _movementRepository;
+    private readonly MovementCategoryRepository _movementCategoryRepository;
 
-    public HomeController(UserRepository userRepository, MovementRepository movementRepository)
+    public HomeController(UserRepository userRepository, MovementRepository movementRepository, MovementCategoryRepository movementCategoryRepository)
     {
         _userRepository = userRepository;
         _movementRepository = movementRepository;
+        _movementCategoryRepository = movementCategoryRepository;
     }
 
     [Authorize(Roles = "Administrador")]
@@ -81,6 +83,21 @@ public class HomeController : Controller
 
         return View(movements);
     }
+
+    [Authorize(Roles = "Usuario Free, Usuario Premium")]
+    public async Task<IActionResult> MovementCategories()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        var movementCategories = await _movementCategoryRepository.GetMovementCategoriesByUserIdAsync(userId);
+        return View(movementCategories);
+    }
+
 
     [Authorize(Roles = "Administrador,Usuario Free")]
     public IActionResult Free_Version() => View();
