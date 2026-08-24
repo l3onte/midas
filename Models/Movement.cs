@@ -9,6 +9,7 @@ public class Movement
     public int Movement_type_id { get; set; }
     public string Description { get; set; } = String.Empty;
     public decimal Amount { get; set; }
+    public decimal RunningBalance { get; set; }
     public DateTime Created_at { get; set; } = DateTime.UtcNow;
 
     public User? User { get; set; }

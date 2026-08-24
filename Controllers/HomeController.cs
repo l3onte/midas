@@ -69,10 +69,8 @@ public class HomeController : Controller
             return RedirectToAction("Login", "Account");
         }
 
-        // 1. Cargar movimientos
         var movements = await _movementRepository.GetMovementsByUserIdAsync(userId);
 
-        // 2. Cargar opciones para los selects del modal
         var accounts = await _movementRepository.GetAccountsByUserIdAsync(userId);
         var categories = await _movementRepository.GetCategoriesAsync();
         var types = await _movementRepository.GetMovementTypesAsync();

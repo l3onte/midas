@@ -20,6 +20,7 @@
                 <th>Categoría</th>
                 <th>Descripción</th>
                 <th>Monto</th>
+                <th>Balance Acumulado</th> 
                 <th>Fecha</th>
             </tr>
         </thead>
@@ -43,17 +44,13 @@
                         <td class="fw-bold @(esIngreso ? "text-success" : "text-danger")">
                             @(esIngreso ? "+" : "-")@movement.Amount.ToString("C2", new System.Globalization.CultureInfo("en-US"))
                         </td>
+                        <!-- Mostrar Balance Acumulado en USD -->
+                        <td class="fw-bold text-dark">
+                            $@movement.RunningBalance.ToString("N2", new System.Globalization.CultureInfo("en-US")) USD
+                        </td>
                         <td>@movement.Created_at.ToString("dd/MM/yyyy HH:mm")</td>
                     </tr>
                 }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="7" class="text-center text-muted py-4">
-                        No hay movimientos registrados.
-                    </td>
-                </tr>
             }
         </tbody>
     </table>

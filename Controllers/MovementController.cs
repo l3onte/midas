@@ -28,7 +28,6 @@ public class MovementController : Controller
             await _movementRepository.CreateMovementAsync(movement);
         }
 
-        // Redirige de vuelta a la vista de movimientos en HomeController
         return RedirectToAction("Movimientos", "Home");
     }
 

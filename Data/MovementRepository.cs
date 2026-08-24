@@ -41,14 +41,8 @@ public class MovementRepository
 
         var sql = @"
             SELECT 
-                m.id,
-                m.user_id,
-                m.account_id,
-                m.movement_categorie_id,
-                m.movement_type_id,
-                m.description,
-                m.amount,
-                m.created_at,
+                m.id, m.user_id, m.account_id, m.movement_categorie_id, m.movement_type_id,
+                m.description, m.amount, m.created_at,
                 a.name AS account_name,
                 mc.name AS movement_categorie_name,
                 mt.name AS movement_type_name
@@ -57,7 +51,8 @@ public class MovementRepository
             JOIN accounts a ON a.id = m.account_id
             JOIN movement_categories mc ON mc.id = m.movement_categorie_id
             JOIN movements_type mt ON mt.id = m.movement_type_id
-            WHERE m.user_id = @userId;
+            WHERE m.user_id = @userId
+            ORDER BY m.created_at ASC, m.id ASC; -- IMPORTANTE: Orden cronológico ascendente
         ";
 
         await using var connection = new MySqlConnection(_connectionString);
@@ -79,26 +74,24 @@ public class MovementRepository
                 Description = reader.GetString("description"),
                 Amount = reader.GetDecimal("amount"),
                 Created_at = reader.GetDateTime("created_at"),
-
-                Account = new Account
-                {
-                    Id = reader.GetInt32("account_id"),
-                    Name = reader.GetString("account_name")
-                },
-                MovementCategory = new MovementCategory
-                {
-                    Id = reader.GetInt32("movement_categorie_id"),
-                    Name = reader.GetString("movement_categorie_name")
-                },
-                MovementType = new MovementType
-                {
-                    Id = reader.GetInt32("movement_type_id"),
-                    Name = reader.GetString("movement_type_name")
-                }
+                Account = new Account { Id = reader.GetInt32("account_id"), Name = reader.GetString("account_name") },
+                MovementCategory = new MovementCategory { Id = reader.GetInt32("movement_categorie_id"), Name = reader.GetString("movement_categorie_name") },
+                MovementType = new MovementType { Id = reader.GetInt32("movement_type_id"), Name = reader.GetString("movement_type_name") }
             };
 
             movements.Add(movement);
         }
+
+        decimal runningBalance = 0m;
+        foreach (var mov in movements)
+        {
+            bool esIngreso = mov.MovementType?.Name?.Equals("Ingreso", StringComparison.OrdinalIgnoreCase) ?? false;
+            runningBalance += esIngreso ? mov.Amount : -mov.Amount;
+            mov.RunningBalance = runningBalance;
+        }
+
+
+        movements.Reverse();
 
         return movements;
     }
@@ -159,5 +152,28 @@ public class MovementRepository
         }
         return list;
     }
+
+    public async Task<decimal> GetTotalBalanceByUserId(int userId)
+    {
+        const string sql = @"
+        SELECT COALESCE(SUM(
+            CASE 
+                WHEN LOWER(mt.name) = 'ingreso' THEN m.amount 
+                ELSE -m.amount 
+            END
+        ), 0)
+        FROM movements m
+        JOIN movements_type mt ON mt.id = m.movement_type_id
+        WHERE m.user_id = @userId;";
+
+        await using var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync();
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@userId", userId);
+
+        var result = await command.ExecuteScalarAsync();
+        return Convert.ToDecimal(result);
+    }
+
 
 }
