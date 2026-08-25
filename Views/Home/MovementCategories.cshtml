@@ -5,9 +5,12 @@
 }
 
 <div class="mb-3">
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarCategoria">
-        <i class="bi bi-plus-circle"></i> Agregar Categoría
-    </button>
+    @if (User.IsInRole("Usuario Premium"))
+    {
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarCategoria">
+            <i class="bi bi-plus-circle"></i> Agregar Categoría
+        </button>
+    }
 </div>
 
 <div class="table-responsive">
@@ -16,7 +19,10 @@
             <tr>
                 <th>Id</th>
                 <th>Nombre</th>
-                <th>Acciones</th>
+                @if (User.IsInRole("Usuario Premium"))
+                {
+                    <th>Acciones</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -27,54 +33,88 @@
                     <tr>
                         <td>@category.Id</td>
                         <td>@category.Name</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-primary me-1"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editModal-@category.Id">
-                                Editar
-                            </button>
-                        </td>
+                        @if (User.IsInRole("Usuario Premium"))
+                        {
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary me-1"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editModal-@category.Id">
+                                    Editar
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-danger me-1"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal-@category.Id">
+                                    Eliminar
+                                </button>
+                            </td>
+                        }
                     </tr>
 
-                    <!-- Modal Editar Categoría -->
-                    <div class="modal fade" id="editModal-@category.Id" tabindex="-1" aria-labelledby="editModalLabel-@category.Id" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <form asp-controller="MovementCategory" asp-action="Edit" method="post">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="categorieId" value="@category.Id" />
-                                    
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="editModalLabel-@category.Id">Editar Categoría</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="mb-3">
-                                            <label for="name-@category.Id" class="form-label">Nombre de la Categoría</label>
-                                            <input type="text" class="form-control" id="name-@category.Id" name="Name" value="@category.Name" required />
+                    @if (User.IsInRole("Usuario Premium"))
+                    {
+                        <div class="modal fade" id="editModal-@category.Id" tabindex="-1" aria-labelledby="editModalLabel-@category.Id" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form asp-controller="MovementCategory" asp-action="Edit" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="categorieId" value="@category.Id" />
+                                        
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel-@category.Id">Editar Categoría</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                                    </div>
-                                </form>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="name-@category.Id" class="form-label">Nombre de la Categoría</label>
+                                                <input type="text" class="form-control" id="name-@category.Id" name="Name" value="@category.Name" required />
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
+
+                        <div class="modal fade" id="deleteModal-@category.Id" tabindex="-1" aria-labelledby="deleteModalLabel-@category.Id" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form asp-controller="MovementCategory" asp-action="Delete" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="categorieId" value="@category.Id" />
+                                        
+                                        <div class="modal-header bg-danger text-white">
+                                            <h5 class="modal-title" id="deleteModalLabel-@category.Id">Confirmar Eliminación</h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="mb-0">¿Estás seguro de que deseas eliminar la categoría <strong>@category.Name</strong>?</p>
+                                            <small class="text-muted">Esta acción no se puede deshacer.</small>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 }
             }
             else
             {
                 <tr>
-                    <td colspan="3" class="text-center text-muted">No hay categorías registradas.</td>
+                    <td colspan="@(User.IsInRole("Usuario Premium") ? "3" : "2")" class="text-center text-muted">No hay categorías registradas.</td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
 
-<!-- Modal Agregar Categoría -->
 <div class="modal fade" id="modalAgregarCategoria" tabindex="-1" aria-labelledby="modalAgregarCategoriaLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

@@ -77,5 +77,21 @@ public class MovementCategoryRepository
         return rowsAffected > 0;
     }
 
+    public async Task<bool> DeleteMovementCategoryAsync(int categorieId)
+    {
+        var sql = @"
+            DELETE FROM movement_categories WHERE id = @categorieId
+        ";
+
+        await using var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@categorieId", categorieId);
+
+        int rowsAffected= await command.ExecuteNonQueryAsync();
+        return rowsAffected > 0;
+    }
+
 
 }

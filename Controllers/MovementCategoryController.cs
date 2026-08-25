@@ -1,8 +1,8 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using midasMVC.Models;
 using midasMVC.Data;
+using midasMVC.Models;
 
 namespace midasMVC.Controllers;
 
@@ -18,6 +18,7 @@ public class MovementCategoryController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Usuario Premium")]
     public async Task<IActionResult> Create(MovementCategory movementCategory)
     {
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -36,6 +37,7 @@ public class MovementCategoryController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Usuario Premium")]
     public async Task<IActionResult> Edit(int categorieId, MovementCategory movementCategory)
     {
         if (ModelState.IsValid)
@@ -45,4 +47,18 @@ public class MovementCategoryController : Controller
 
         return RedirectToAction("MovementCategories", "Home");
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Usuario Premium")]
+    public async Task<IActionResult> Delete(int categorieId)
+    {
+        if (ModelState.IsValid)
+        {
+            await _movementCategoryRepository.DeleteMovementCategoryAsync(categorieId);
+        }
+
+        return RedirectToAction("MovementCategorie", "Home");
+    }
+
 }
