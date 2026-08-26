@@ -14,12 +14,14 @@ public class HomeController : Controller
     private readonly UserRepository _userRepository;
     private readonly MovementRepository _movementRepository;
     private readonly MovementCategoryRepository _movementCategoryRepository;
+    private readonly CuentasRepository _cuentasRepository;
 
-    public HomeController(UserRepository userRepository, MovementRepository movementRepository, MovementCategoryRepository movementCategoryRepository)
+    public HomeController(UserRepository userRepository, MovementRepository movementRepository, MovementCategoryRepository movementCategoryRepository, CuentasRepository cuentasRepository)
     {
         _userRepository = userRepository;
         _movementRepository = movementRepository;
         _movementCategoryRepository = movementCategoryRepository;
+        _cuentasRepository = cuentasRepository;
     }
 
     [Authorize(Roles = "Administrador")]
@@ -49,7 +51,7 @@ public class HomeController : Controller
             return RedirectToAction("Inicio_User_Free");
         }
 
-            return View();
+        return View();
     }
 
     public IActionResult Privacy() => View();
@@ -83,6 +85,22 @@ public class HomeController : Controller
 
         return View(movements);
     }
+
+    [Authorize(Roles = "Usuario Free, Usuario Premium")]
+    public async Task<IActionResult> MyAccounts()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        var accounts = await _cuentasRepository.GetAccountsByUserIdAsync(userId);
+
+        return View(accounts);
+    }
+
 
     [Authorize(Roles = "Usuario Free, Usuario Premium")]
     public async Task<IActionResult> MovementCategories()

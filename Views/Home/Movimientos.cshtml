@@ -44,7 +44,7 @@
                         <td class="fw-bold @(esIngreso ? "text-success" : "text-danger")">
                             @(esIngreso ? "+" : "-")@movement.Amount.ToString("C2", new System.Globalization.CultureInfo("en-US"))
                         </td>
-                        <!-- Mostrar Balance Acumulado en USD -->
+                        
                         <td class="fw-bold text-dark">
                             $@movement.RunningBalance.ToString("N2", new System.Globalization.CultureInfo("en-US")) USD
                         </td>

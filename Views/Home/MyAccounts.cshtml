@@ -1,0 +1,135 @@
+@using midasMVC.Models
+@model IEnumerable<midasMVC.Models.Account>
+
+@{
+    ViewData["Title"] = "Mis Cuentas";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Mis Cuentas</h2>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCrearCuenta">
+        <i class="bi bi-plus-circle me-1"></i> Agregar Cuenta
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Balance</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var account in Model)
+                {
+                    <tr>
+                        <td>@account.Id</td>
+                        <td>@account.Name</td>
+                        <td>@account.Account_type</td>
+                        <td>@account.Balance.ToString("N2") <span>C$</span></td>
+                        <td>
+                            @if (account.Status)
+                            {
+                                <span class="badge bg-success">Activo</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Inactivo</span>
+                            }
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditarCuenta_@account.Id">
+                                <i class="bi bi-pencil-square me-1"></i> Editar
+                            </button>
+                        </td>
+                    </tr>
+
+                    <!-- Modal Editar Cuenta -->
+                    <div class="modal fade" id="modalEditarCuenta_@account.Id" tabindex="-1" aria-labelledby="labelEditar_@account.Id" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form asp-controller="Account" asp-action="Edit" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="accountId" value="@account.Id" />
+                                    
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="labelEditar_@account.Id">Editar Cuenta: @account.Name</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label class="form-label font-weight-bold">Nombre de la Cuenta</label>
+                                            <input type="text" name="Name" class="form-control" value="@account.Name" required />
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" name="Status" id="statusCheck_@account.Id" value="true" @(account.Status ? "checked" : "") />
+                                            <input type="hidden" name="Status" value="false" />
+                                            <label class="form-check-label" for="statusCheck_@account.Id">Cuenta Activa</label>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center py-3">No hay cuentas registradas.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Crear Cuenta -->
+<div class="modal fade" id="modalCrearCuenta" tabindex="-1" aria-labelledby="labelCrearCuenta" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-controller="Account" asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h5 class="modal-title" id="labelCrearCuenta">Agregar Nueva Cuenta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre de la Cuenta</label>
+                        <input type="text" name="Name" class="form-control" placeholder="Ej. Cuenta de Ahorro BAC" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Cuenta</label>
+                        <select name="Account_type" class="form-select" asp-items="Html.GetEnumSelectList<AccountType>()" required>
+                            <option value="">-- Seleccione un tipo --</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Balance Inicial</label>
+                        <input type="number" step="0.01" name="Balance" class="form-control" value="0.00" required />
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" name="Status" id="statusCrear" value="true" checked />
+                        <input type="hidden" name="Status" value="false" />
+                        <label class="form-check-label" for="statusCrear">Cuenta Activa</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Crear Cuenta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

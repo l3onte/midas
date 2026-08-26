@@ -8,6 +8,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<MovementRepository>();
 builder.Services.AddScoped<MovementCategoryRepository>();
+builder.Services.AddScoped<CuentasRepository>();
 
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
