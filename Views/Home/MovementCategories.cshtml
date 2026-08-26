@@ -4,7 +4,8 @@
     ViewData["Title"] = "Administración de categorías de movimientos";
 }
 
-<div class="mb-3">
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Mis Categorias</h2>
     @if (User.IsInRole("Usuario Premium"))
     {
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarCategoria">
