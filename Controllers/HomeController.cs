@@ -74,7 +74,7 @@ public class HomeController : Controller
         var movements = await _movementRepository.GetMovementsByUserIdAsync(userId);
 
         var accounts = await _movementRepository.GetAccountsByUserIdAsync(userId);
-        var categories = await _movementRepository.GetCategoriesAsync();
+        var categories = await _movementRepository.GetCategoriesAsync(userId);
         var types = await _movementRepository.GetMovementTypesAsync();
 
         ViewBag.Accounts = accounts.Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });

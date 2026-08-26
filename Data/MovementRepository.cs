@@ -119,14 +119,15 @@ public class MovementRepository
         return rowsAffected > 0;
     }
 
-    public async Task<List<MovementCategory>> GetCategoriesAsync()
+    public async Task<List<MovementCategory>> GetCategoriesAsync(int userId)
     {
         var list = new List<MovementCategory>();
-        const string sql = "SELECT id, name FROM movement_categories;";
+        const string sql = "SELECT id, name FROM movement_categories WHERE user_id = @userId;";
 
         await using var connection = new MySqlConnection(_connectionString);
         await connection.OpenAsync();
         await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@userId", userId);
 
         await using var reader = await command.ExecuteReaderAsync();
         while (await reader.ReadAsync())
