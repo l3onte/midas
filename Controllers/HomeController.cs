@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using midasMVC.Data;
 using midasMVC.Models;
+using MySqlConnector;
 
 namespace midasMVC.Controllers;
 
@@ -15,13 +16,21 @@ public class HomeController : Controller
     private readonly MovementRepository _movementRepository;
     private readonly MovementCategoryRepository _movementCategoryRepository;
     private readonly CuentasRepository _cuentasRepository;
-
-    public HomeController(UserRepository userRepository, MovementRepository movementRepository, MovementCategoryRepository movementCategoryRepository, CuentasRepository cuentasRepository)
+    private readonly MetasRepository _metasRepository;
+    
+    public HomeController(
+        UserRepository userRepository,
+        MovementRepository movementRepository,
+        MovementCategoryRepository movementCategoryRepository,
+        CuentasRepository cuentasRepository,
+        MetasRepository metasRepository
+    )
     {
         _userRepository = userRepository;
         _movementRepository = movementRepository;
         _movementCategoryRepository = movementCategoryRepository;
         _cuentasRepository = cuentasRepository;
+        _metasRepository = metasRepository;
     }
 
     [Authorize(Roles = "Administrador")]
@@ -114,6 +123,21 @@ public class HomeController : Controller
 
         var movementCategories = await _movementCategoryRepository.GetMovementCategoriesByUserIdAsync(userId);
         return View(movementCategories);
+    }
+
+
+    [Authorize(Roles = "Usuario Premium")]
+    public async Task<IActionResult> MyGoals()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        var metas = await _metasRepository.GetGoalsByUserIdAsync(userId);
+        return View(metas);
     }
 
 

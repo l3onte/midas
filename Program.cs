@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using midasMVC.Data;
 using midasMVC.Models;
+using MySqlConnector;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<MovementRepository>();
 builder.Services.AddScoped<MovementCategoryRepository>();
 builder.Services.AddScoped<CuentasRepository>();
+builder.Services.AddScoped<MetasRepository>();
 
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
