@@ -18,15 +18,17 @@ public class MovementController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Movement movement)
+    public async Task<IActionResult> Create(Movement movement, int? goalId)
     {
-        int userId = GetCurrentUserId();
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        if (userId > 0 && movement.Account_id > 0 && movement.Movement_categorie_id > 0 && movement.Movement_type_id > 0)
+        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
         {
-            movement.User_id = userId;
-            await _movementRepository.CreateMovementAsync(movement);
+            return RedirectToAction("Login", "Account");
         }
+
+        movement.User_id = userId;
+        await _movementRepository.CreateMovementAsync(movement, goalId);
 
         return RedirectToAction("Movimientos", "Home");
     }

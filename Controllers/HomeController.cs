@@ -87,10 +87,12 @@ public class HomeController : Controller
         var accounts = await _movementRepository.GetAccountsByUserIdAsync(userId);
         var categories = await _movementRepository.GetCategoriesAsync(userId);
         var types = await _movementRepository.GetMovementTypesAsync();
-
+        var goals = await _movementRepository.GetMetasAsyncByUserId(userId);
+        
         ViewBag.Accounts = accounts.Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
         ViewBag.Categories = categories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
         ViewBag.Types = types.Select(t => new SelectListItem { Value = t.Id.ToString(), Text = t.Name });
+        ViewBag.Goals = goals.Select(g => new SelectListItem { Value = g.Id.ToString(), Text = g.Name }); 
 
         return View(movements);
     }

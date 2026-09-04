@@ -45,7 +45,6 @@
                         <td class="fw-bold @(esIngreso ? "text-success" : "text-danger")">
                             @(esIngreso ? "+" : "-")@movement.Amount.ToString("C2", new System.Globalization.CultureInfo("en-US"))
                         </td>
-                        
                         <td class="fw-bold text-dark">
                             $@movement.RunningBalance.ToString("N2", new System.Globalization.CultureInfo("en-US")) USD
                         </td>
@@ -57,6 +56,7 @@
     </table>
 </div>
 
+<!-- Modal Agregar Movimiento -->
 <div class="modal fade" id="modalAgregarMovimiento" tabindex="-1" aria-labelledby="modalAgregarMovimientoLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -77,7 +77,7 @@
                             <option value="">-- Seleccione una cuenta --</option>
                             @if (ViewBag.Accounts != null)
                             {
-                                foreach (var account in (IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Accounts)
+                                foreach (var account in (IEnumerable<SelectListItem>)ViewBag.Accounts)
                                 {
                                     <option value="@account.Value">@account.Text</option>
                                 }
@@ -85,27 +85,44 @@
                         </select>
                     </div>
 
+                    <!-- Tipo de Movimiento -->
                     <div class="mb-3">
                         <label for="Movement_type_id" class="form-label fw-bold">Tipo de Movimiento</label>
                         <select name="Movement_type_id" id="Movement_type_id" class="form-select" required>
                             <option value="">-- Seleccione el tipo --</option>
                             @if (ViewBag.Types != null)
                             {
-                                foreach (var type in (IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Types)
+                                foreach (var type in (IEnumerable<SelectListItem>)ViewBag.Types)
                                 {
-                                    <option value="@type.Value">@type.Text</option>
+                                    <option value="@type.Value" data-name="@type.Text">@type.Text</option>
                                 }
                             }
                         </select>
                     </div>
 
+                    <!-- Selector de Meta dentro del Modal de Movimientos -->
+                    <div class="mb-3" id="divGoal" style="display: none;">
+                        <label for="goalId" class="form-label fw-bold">Asignar a Meta (Opcional)</label>
+                        <select name="goalId" id="goalId" class="form-select">
+                            <option value="">-- Sin asignar a una meta --</option>
+                            @if (ViewBag.Goals != null)
+                            {
+                                foreach (var goal in (IEnumerable<SelectListItem>)ViewBag.Goals)
+                                {
+                                    <option value="@goal.Value">@goal.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Categoría -->
                     <div class="mb-3">
                         <label for="Movement_categorie_id" class="form-label fw-bold">Categoría</label>
                         <select name="Movement_categorie_id" id="Movement_categorie_id" class="form-select" required>
                             <option value="">-- Seleccione la categoría --</option>
                             @if (ViewBag.Categories != null)
                             {
-                                foreach (var cat in (IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Categories)
+                                foreach (var cat in (IEnumerable<SelectListItem>)ViewBag.Categories)
                                 {
                                     <option value="@cat.Value">@cat.Text</option>
                                 }
@@ -113,12 +130,13 @@
                         </select>
                     </div>
 
+                    <!-- Descripción -->
                     <div class="mb-3">
                         <label for="Description" class="form-label fw-bold">Descripción</label>
                         <input type="text" name="Description" id="Description" class="form-control" placeholder="Ej. Pago de servicios" required />
                     </div>
 
-
+                    <!-- Monto -->
                     <div class="mb-3">
                         <label for="Amount" class="form-label fw-bold">Monto ($ USD)</label>
                         <div class="input-group">
@@ -136,3 +154,25 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const typeSelect = document.getElementById("Movement_type_id");
+            const divGoal = document.getElementById("divGoal");
+            const goalSelect = document.getElementById("Goal_id");
+
+            typeSelect.addEventListener("change", function () {
+                const selectedOption = this.options[this.selectedIndex];
+                const typeName = selectedOption.getAttribute("data-name") || selectedOption.text;
+
+                if (typeName.trim().toLowerCase() === "ingreso") {
+                    divGoal.style.display = "block";
+                } else {
+                    divGoal.style.display = "none";
+                    goalSelect.value = ""; // Reiniciar valor si cambia de opinión
+                }
+            });
+        });
+    </script>
+}

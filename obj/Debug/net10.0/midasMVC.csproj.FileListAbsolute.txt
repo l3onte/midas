@@ -102,3 +102,8 @@ C:\xampp\htdocs\midas\obj\Debug\net10.0\refint\midasMVC.dll
 C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.pdb
 C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.genruntimeconfig.cache
 C:\xampp\htdocs\midas\obj\Debug\net10.0\ref\midasMVC.dll
+C:\xampp\htdocs\midas\bin\Debug\net10.0\Microsoft.OpenApi.dll
+C:\xampp\htdocs\midas\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\xampp\htdocs\midas\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\xampp\htdocs\midas\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.MvcApplicationPartsAssemblyInfo.cs

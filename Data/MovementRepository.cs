@@ -96,7 +96,7 @@ public class MovementRepository
         return movements;
     }
 
-    public async Task<bool> CreateMovementAsync(Movement movement)
+    public async Task<bool> CreateMovementAsync(Movement movement, int? goalId = null)
     {
         var insertMovementSql = @"
             INSERT INTO movements (user_id, account_id, movement_categorie_id, movement_type_id, description, amount, created_at) 
@@ -110,6 +110,12 @@ public class MovementRepository
                 ELSE -@amount 
             END
             WHERE id = @accountId AND user_id = @userId;
+        ";
+
+        var updateGoalAmountSql = @"
+            UPDATE goals 
+            SET current_amount = current_amount + @amount 
+            WHERE id = @goalId AND user_id = @userId;
         ";
 
         await using var connection = new MySqlConnection(_connectionString);
@@ -136,6 +142,16 @@ public class MovementRepository
             commandBalance.Parameters.AddWithValue("@amount", movement.Amount);
 
             await commandBalance.ExecuteNonQueryAsync();
+
+            if (movement.Movement_type_id == 1 && goalId.HasValue && goalId > 0)
+            {
+                await using var commandGoal = new MySqlCommand(updateGoalAmountSql, connection, transaction);
+                commandGoal.Parameters.AddWithValue("@goalId", goalId.Value);
+                commandGoal.Parameters.AddWithValue("@userId", movement.User_id);
+                commandGoal.Parameters.AddWithValue("@amount", movement.Amount);
+
+                await commandGoal.ExecuteNonQueryAsync();
+            }
 
             await transaction.CommitAsync();
             return true;
@@ -204,5 +220,36 @@ public class MovementRepository
         return Convert.ToDecimal(result);
     }
 
+    public async Task<List<Goal>> GetMetasAsyncByUserId(int userId)
+    {
+        var list = new List<Goal>();
+        const string sql = @"
+            SELECT 
+                id,
+                user_id,
+                name
+            FROM goals
+            WHERE user_id = @userId
+        ";
 
+        await using var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync();
+        await using var command = new MySqlCommand(sql, connection);
+
+        command.Parameters.AddWithValue("@userId", userId);
+
+        await using var reader = await command.ExecuteReaderAsync();
+
+        if (await reader.ReadAsync())
+        {
+            list.Add(new Goal()
+            {
+                Id = reader.GetInt32("id"),
+                User_id = reader.GetInt32("user_id"),
+                Name = reader.GetString("name")
+            });
+        }
+
+        return list;
+    }
 }
