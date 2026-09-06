@@ -20,7 +20,7 @@ public class MovementRepository
     public async Task<List<Account>> GetAccountsByUserIdAsync(int userId)
     {
         var list = new List<Account>();
-        const string sql = "SELECT id, name FROM accounts WHERE user_id = @userId;";
+        const string sql = "SELECT id, name FROM accounts WHERE user_id = @userId AND status = 1;";
 
         await using var connection = new MySqlConnection(_connectionString);
         await connection.OpenAsync();
