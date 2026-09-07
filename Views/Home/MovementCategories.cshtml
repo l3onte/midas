@@ -5,13 +5,23 @@
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Mis Categorias</h2>
-    @if (User.IsInRole("Usuario Premium"))
-    {
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarCategoria">
-            <i class="bi bi-plus-circle"></i> Agregar Categoría
-        </button>
-    }
+    <h2 class="mb-0">Mis Categorías</h2>
+
+    <div class="d-flex align-items-center gap-3">
+        <div class="input-group" style="max-width: 280px;">
+            <span class="input-group-text bg-white border-end-0">
+                <i class="bi bi-search text-muted"></i>
+            </span>
+            <input type="text" id="inputBuscar" class="form-control border-start-0 ps-0" placeholder="Buscar categoría...">
+        </div>
+
+        @if (User.IsInRole("Usuario Premium"))
+        {
+            <button type="button" class="btn btn-success text-nowrap" data-bs-toggle="modal" data-bs-target="#modalAgregarCategoria">
+                <i class="bi bi-plus-circle me-1"></i> Agregar Categoría
+            </button>
+        }
+    </div>
 </div>
 
 <div class="table-responsive">
@@ -140,3 +150,23 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const inputBuscar = document.getElementById("inputBuscar");
+            const filasTabla = document.querySelectorAll("tbody tr");
+
+            if (inputBuscar) {
+                inputBuscar.addEventListener("input", function () {
+                    const criterio = this.value.toLowerCase().trim();
+
+                    filasTabla.forEach(fila => {
+                        const textoFila = fila.textContent.toLowerCase();
+                        fila.style.display = textoFila.includes(criterio) ? "" : "none";
+                    });
+                });
+            }
+        });
+    </script>
+}
