@@ -12,7 +12,7 @@ namespace midasMVC.Controllers;
 [Authorize]
 public class HomeController : Controller
 {
-    private readonly UserRepository _userRepository;
+     private readonly UserRepository _userRepository;
     private readonly MovementRepository _movementRepository;
     private readonly MovementCategoryRepository _movementCategoryRepository;
     private readonly CuentasRepository _cuentasRepository;
@@ -40,27 +40,43 @@ public class HomeController : Controller
         return View(stats);
     }
 
-    [Authorize(Roles = "Usuario Free")]
+    [Authorize(Roles = "Usuario Free, Usuario Premium")]
     public async Task<IActionResult> Inicio_User_Free()
     {
-        return View();
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        var stats = await _movementRepository.GetUserDashboardStatsAsync(userId);
+        return View(stats);
     }
 
 
     [Authorize]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         if (User.IsInRole("Administrador"))
         {
             return RedirectToAction("Inicio_Administrador");
         }
 
-        if (User.IsInRole("Usuario Free"))
+        if (User.IsInRole("Usuario Free") || User.IsInRole("Usuario Premium"))
         {
             return RedirectToAction("Inicio_User_Free");
         }
 
-        return View();
+        // Respaldo en caso de que un usuario autenticado no caiga en los roles anteriores:
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        var stats = await _movementRepository.GetUserDashboardStatsAsync(userId);
+        return View("Index", stats);
     }
 
     public IActionResult Privacy() => View();

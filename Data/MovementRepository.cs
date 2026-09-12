@@ -252,4 +252,85 @@ public class MovementRepository
 
         return list;
     }
+
+    public async Task<DashboardUserViewModel> GetUserDashboardStatsAsync(int userId)
+    {
+        var vm = new DashboardUserViewModel();
+
+        await using var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        const string sqlTotales = @"
+            SELECT 
+                COALESCE(SUM(CASE WHEN mt.name = 'Ingreso' THEN m.amount ELSE 0 END), 0) AS TotalIngresos,
+                COALESCE(SUM(CASE WHEN mt.name = 'Gasto' THEN m.amount ELSE 0 END), 0) AS TotalGastos
+            FROM movements m
+            JOIN movements_type mt ON mt.id = m.movement_type_id
+            WHERE m.user_id = @userId;";
+
+        await using (var cmd = new MySqlCommand(sqlTotales, connection))
+        {
+            cmd.Parameters.AddWithValue("@userId", userId);
+            await using var reader = await cmd.ExecuteReaderAsync();
+            if (await reader.ReadAsync())
+            {
+                vm.TotalIngresado = reader.GetDecimal("TotalIngresos");
+                vm.TotalGastado = reader.GetDecimal("TotalGastos");
+            }
+        }
+
+        const string sqlCategorias = @"
+            SELECT mc.name AS Categoria, SUM(m.amount) AS Total
+            FROM movements m
+            JOIN movement_categories mc ON mc.id = m.movement_categorie_id
+            JOIN movements_type mt ON mt.id = m.movement_type_id
+            WHERE m.user_id = @userId AND LOWER(mt.name) = 'gasto'
+            GROUP BY mc.id, mc.name
+            ORDER BY Total DESC;";
+
+        await using (var cmd = new MySqlCommand(sqlCategorias, connection))
+        {
+            cmd.Parameters.AddWithValue("@userId", userId);
+            await using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                vm.CategoriasNombres.Add(reader.GetString("Categoria"));
+                vm.CategoriasGastos.Add(reader.GetDecimal("Total"));
+            }
+        }
+
+        if (vm.CategoriasNombres.Count > 0)
+        {
+            vm.CategoriaMasGastada = vm.CategoriasNombres[0];
+            vm.MontoCategoriaMasGastada = vm.CategoriasGastos[0];
+        }
+
+        const string sqlMensual = @"
+            SELECT 
+                MONTH(m.created_at) AS Mes,
+                SUM(CASE WHEN LOWER(mt.name) = 'ingreso' THEN m.amount ELSE 0 END) AS Ingresos,
+                SUM(CASE WHEN LOWER(mt.name) = 'gasto' THEN m.amount ELSE 0 END) AS Gastos
+            FROM movements m
+            JOIN movements_type mt ON mt.id = m.movement_type_id
+            WHERE m.user_id = @userId AND YEAR(m.created_at) = YEAR(CURDATE())
+            GROUP BY MONTH(m.created_at)
+            ORDER BY Mes ASC;";
+
+        await using (var cmd = new MySqlCommand(sqlMensual, connection))
+        {
+            cmd.Parameters.AddWithValue("@userId", userId);
+            await using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                int mesNum = reader.GetInt32("Mes");
+                string nombreMes = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(mesNum);
+                
+                vm.MesesNombres.Add(char.ToUpper(nombreMes[0]) + nombreMes.Substring(1));
+                vm.MensualIngresos.Add(reader.GetDecimal("Ingresos"));
+                vm.MensualGastos.Add(reader.GetDecimal("Gastos"));
+            }
+        }
+
+        return vm;
+    }
 }

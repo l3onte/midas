@@ -8,13 +8,18 @@ C:\xampp\htdocs\midas\bin\Debug\net10.0\midasMVC.runtimeconfig.json
 C:\xampp\htdocs\midas\bin\Debug\net10.0\midasMVC.dll
 C:\xampp\htdocs\midas\bin\Debug\net10.0\midasMVC.pdb
 C:\xampp\htdocs\midas\bin\Debug\net10.0\BCrypt-Net-Next.dll
+C:\xampp\htdocs\midas\bin\Debug\net10.0\Microsoft.OpenApi.dll
 C:\xampp\htdocs\midas\bin\Debug\net10.0\MySqlConnector.dll
+C:\xampp\htdocs\midas\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\xampp\htdocs\midas\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\xampp\htdocs\midas\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.csproj.AssemblyReference.cache
 C:\xampp\htdocs\midas\obj\Debug\net10.0\rpswa.dswa.cache.json
 C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.GeneratedMSBuildEditorConfig.editorconfig
 C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.AssemblyInfoInputs.cache
 C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.AssemblyInfo.cs
 C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.MvcApplicationPartsAssemblyInfo.cs
 C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.MvcApplicationPartsAssemblyInfo.cache
 C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.RazorAssemblyInfo.cache
 C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.RazorAssemblyInfo.cs
@@ -102,8 +107,3 @@ C:\xampp\htdocs\midas\obj\Debug\net10.0\refint\midasMVC.dll
 C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.pdb
 C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.genruntimeconfig.cache
 C:\xampp\htdocs\midas\obj\Debug\net10.0\ref\midasMVC.dll
-C:\xampp\htdocs\midas\bin\Debug\net10.0\Microsoft.OpenApi.dll
-C:\xampp\htdocs\midas\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\xampp\htdocs\midas\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\xampp\htdocs\midas\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\xampp\htdocs\midas\obj\Debug\net10.0\midasMVC.MvcApplicationPartsAssemblyInfo.cs

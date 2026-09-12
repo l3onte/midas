@@ -1,9 +1,112 @@
-@model midasMVC.Models.User
-
+@model midasMVC.Models.ViewModels.DashboardUserViewModel
 @{
-    ViewData["Title"] = "Inicio Usuario Free";
+    ViewData["Title"] = "Panel de Control";
 }
 
-<div>
-    Panel de Inicio Usuario Free
+<div class="container py-4">
+    <h2 class="mb-4">Mi Resumen Financiero</h2>
+
+    <!-- Tarjetas con KPIs -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm bg-success text-white">
+                <div class="card-body">
+                    <h6 class="card-title text-uppercase opacity-75">Total Ingresado</h6>
+                    <h3 class="fw-bold mb-0">@Model.TotalIngresado.ToString("C")</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm bg-danger text-white">
+                <div class="card-body">
+                    <h6 class="card-title text-uppercase opacity-75">Total Gastado</h6>
+                    <h3 class="fw-bold mb-0">@Model.TotalGastado.ToString("C")</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm bg-warning text-dark">
+                <div class="card-body">
+                    <h6 class="card-title text-uppercase opacity-75">Categoría con Mayor Gasto</h6>
+                    <h3 class="fw-bold mb-0">@Model.CategoriaMasGastada</h3>
+                    <small>@Model.MontoCategoriaMasGastada.ToString("C") acumulados</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Canvas para Gráficos -->
+    <div class="row g-4">
+        <div class="col-md-7">
+            <div class="card border-0 shadow-sm p-3">
+                <h5 class="card-title mb-3">Flujo de Ingresos vs Gastos</h5>
+                <canvas id="chartMensual" style="max-height: 320px;"></canvas>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card border-0 shadow-sm p-3">
+                <h5 class="card-title mb-3">Gastos por Categoría</h5>
+                <canvas id="chartCategorias" style="max-height: 320px;"></canvas>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Datos del ViewModel
+        const catLabels = @Html.Raw(Json.Serialize(Model.CategoriasNombres));
+        const catData = @Html.Raw(Json.Serialize(Model.CategoriasGastos));
+
+        const mesLabels = @Html.Raw(Json.Serialize(Model.MesesNombres));
+        const mesIngresos = @Html.Raw(Json.Serialize(Model.MensualIngresos));
+        const mesGastos = @Html.Raw(Json.Serialize(Model.MensualGastos));
+
+        // 1. Gráfico de Dona: Categorías
+        new Chart(document.getElementById('chartCategorias'), {
+            type: 'doughnut',
+            data: {
+                labels: catLabels,
+                datasets: [{
+                    data: catData,
+                    backgroundColor: [
+                        '#0d6efd', '#dc3545', '#ffc107', '#198754', '#0dcaf0', '#6c757d'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // 2. Gráfico de Barras: Mensual
+        new Chart(document.getElementById('chartMensual'), {
+            type: 'bar',
+            data: {
+                labels: mesLabels,
+                datasets: [
+                    {
+                        label: 'Ingresos',
+                        data: mesIngresos,
+                        backgroundColor: '#198754'
+                    },
+                    {
+                        label: 'Gastos',
+                        data: mesGastos,
+                        backgroundColor: '#dc3545'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+}
