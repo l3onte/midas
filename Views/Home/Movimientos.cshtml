@@ -4,201 +4,894 @@
     ViewData["Title"] = "Movimientos";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-    <h2 class="m-0">Mis Movimientos</h2>
+<div class="flex h-full min-h-0 w-full flex-col overflow-hidden">
 
-    <div class="d-flex align-items-center gap-2">
-        <div class="input-group" style="max-width: 280px;">
-            <span class="input-group-text bg-white border-end-0">
-                <i class="bi bi-search text-muted"></i>
-            </span>
-            <input type="text" id="inputBuscar" class="form-control border-start-0 ps-0" placeholder="Buscar movimiento...">
+    <div class="
+        flex
+        flex-shrink-0
+        flex-col
+        gap-3
+        pb-4
+        lg:flex-row
+        lg:items-center
+        lg:justify-between
+    ">
+
+        <div class="min-w-0">
+
+            <h2 class="
+                m-0
+                text-xl
+                font-bold
+                tracking-tight
+                text-[#f8ebca]
+                sm:text-2xl
+            ">
+                Mis Movimientos
+            </h2>
+
+            <p class="
+                mt-1
+                mb-0
+                text-xs
+                text-[#c3b18e]
+            ">
+                Consulta y administra tus movimientos financieros.
+            </p>
+
         </div>
 
-        <button type="button" class="btn btn-success d-flex align-items-center gap-1 text-nowrap" data-bs-toggle="modal" data-bs-target="#modalAgregarMovimiento">
-            <i class="bi bi-plus-circle"></i> <span>Agregar Movimiento</span>
-        </button>
-    </div>
-</div>
 
-<div class="table-responsive">
-    <table class="table table-striped table-hover align-middle">
-        <thead class="table-dark">
-            <tr>
-                <th>Id</th>
-                <th>Cuenta</th>
-                <th>Tipo</th>
-                <th>Categoría</th>
-                <th>Descripción</th>
-                <th>Monto</th>
-                <th>Balance Acumulado</th> 
-                <th>Fecha</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null && Model.Any())
-            {
-                @foreach (var movement in Model) 
-                {
-                    bool esIngreso = movement.MovementType?.Name?.Equals("Ingreso", StringComparison.OrdinalIgnoreCase) ?? false;
-                    
-                    <tr>
-                        <td>@movement.Id</td>
-                        <td>@(movement.Account?.Name ?? "N/A")</td>
-                        <td>
-                            <span class="badge @(esIngreso ? "bg-success" : "bg-danger")">
-                                @(movement.MovementType?.Name ?? "N/A")
-                            </span>
-                        </td>
-                        <td>@(movement.MovementCategory?.Name ?? "N/A")</td>
-                        <td>@movement.Description</td>
-                        <td class="fw-bold @(esIngreso ? "text-success" : "text-danger")">
-                            @(esIngreso ? "+" : "-")@movement.Amount.ToString("C2", new System.Globalization.CultureInfo("en-US"))
-                        </td>
-                        <td class="fw-bold text-dark">
-                            $@movement.RunningBalance.ToString("N2", new System.Globalization.CultureInfo("en-US")) USD
-                        </td>
-                        <td>@movement.Created_at.ToString("dd/MM/yyyy HH:mm")</td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-</div>
+        <div class="
+            flex
+            w-full
+            flex-col
+            gap-2
+            sm:flex-row
+            lg:w-auto
+        ">
 
-<!-- Modal Agregar Movimiento -->
-<div class="modal fade" id="modalAgregarMovimiento" tabindex="-1" aria-labelledby="modalAgregarMovimientoLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="modalAgregarMovimientoLabel">
-                    <i class="bi bi-plus-circle"></i> Registrar Movimiento
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="
+                flex
+                h-10
+                min-w-0
+                w-full
+                items-center
+                rounded-lg
+                border
+                border-white/10
+                bg-white/10
+                px-3
+                sm:w-[280px]
+            ">
+
+                <i class="
+                    fa-solid
+                    fa-magnifying-glass
+                    mr-2
+                    text-xs
+                    text-white/50
+                "></i>
+
+                <input type="text"
+                       id="inputBuscar"
+                       class="
+                            w-full
+                            min-w-0
+                            border-0
+                            bg-transparent
+                            text-xs
+                            text-white
+                            outline-none
+                            placeholder:text-white/50
+                       "
+                       placeholder="Buscar movimiento..." />
+
             </div>
-            <form asp-controller="Movement" asp-action="Create" method="post">
+
+
+            <!-- AGREGAR -->
+            <button type="button"
+                    class="
+                        inline-flex
+                        h-10
+                        items-center
+                        justify-center
+                        gap-2
+                        rounded-lg
+                        border
+                        border-[#e0ba5e]/40
+                        bg-[#c79a3f]
+                        px-4
+                        text-xs
+                        font-semibold
+                        text-white
+                        shadow-lg
+                        transition
+                        duration-200
+                        hover:bg-[#b38732]
+                        hover:shadow-xl
+                    "
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalAgregarMovimiento">
+
+                <i class="fa-solid fa-plus text-[11px]"></i>
+
+                <span>Agregar Movimiento</span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="
+        min-h-0
+        flex-1
+        overflow-hidden
+        rounded-2xl
+        border
+        border-white/10
+        bg-[#fffaf0]
+        shadow-xl
+    ">
+        <div class="
+            h-full
+            w-full
+            overflow-auto
+        ">
+
+            <table class="
+                m-0
+                min-w-[1050px]
+                w-full
+                align-middle
+                text-xs
+            ">
+
+                <thead class="
+                    sticky
+                    top-0
+                    z-10
+                    bg-[#ead9ae]
+                ">
+
+                    <tr class="border-b border-[#d7c59f]">
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Id
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Cuenta
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Tipo
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Categoría
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Descripción
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Monto
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Balance Acumulado
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Fecha
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var movement in Model)
+                        {
+                            bool esIngreso =
+                                movement.MovementType?.Name?
+                                .Equals(
+                                    "Ingreso",
+                                    StringComparison.OrdinalIgnoreCase
+                                ) ?? false;
+
+                            <tr class="
+                                border-b
+                                border-[#eee3ce]
+                                bg-[#fffaf0]
+                                transition
+                                duration-150
+                                hover:bg-[#f8efd9]
+                            ">
+
+                                <!-- ID -->
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    font-medium
+                                    text-[#5a4525]
+                                ">
+                                    @movement.Id
+                                </td>
+
+
+                                <!-- CUENTA -->
+                                <td class="
+                                    max-w-[190px]
+                                    px-4
+                                    py-3
+                                    text-[#4d3a20]
+                                ">
+
+                                    <div class="truncate">
+                                        @(movement.Account?.Name ?? "N/A")
+                                    </div>
+
+                                </td>
+
+
+                                <!-- TIPO -->
+                                <td class="px-4 py-3">
+
+                                    <span class="
+                                        inline-flex
+                                        items-center
+                                        rounded-full
+                                        px-2.5
+                                        py-1
+                                        text-[10px]
+                                        font-bold
+                                        @(esIngreso
+                                            ? "bg-emerald-100 text-emerald-700"
+                                            : "bg-red-100 text-red-700")
+                                    ">
+
+                                        <span class="
+                                            mr-1.5
+                                            h-1.5
+                                            w-1.5
+                                            rounded-full
+                                            @(esIngreso
+                                                ? "bg-emerald-500"
+                                                : "bg-red-500")
+                                        "></span>
+
+                                        @(movement.MovementType?.Name ?? "N/A")
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- CATEGORIA -->
+                                <td class="
+                                    max-w-[180px]
+                                    px-4
+                                    py-3
+                                    text-[#5f4a29]
+                                ">
+
+                                    <div class="truncate">
+                                        @(movement.MovementCategory?.Name ?? "N/A")
+                                    </div>
+
+                                </td>
+
+
+                                <!-- DESCRIPCION -->
+                                <td class="
+                                    max-w-[220px]
+                                    px-4
+                                    py-3
+                                    text-[#5f4a29]
+                                ">
+
+                                    <div class="truncate">
+                                        @movement.Description
+                                    </div>
+
+                                </td>
+
+
+                                <!-- MONTO -->
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    font-bold
+                                    @(esIngreso
+                                        ? "text-emerald-700"
+                                        : "text-red-700")
+                                ">
+
+                                    @(esIngreso ? "+" : "-")@movement.Amount.ToString(
+                                        "C2",
+                                        new System.Globalization.CultureInfo("en-US")
+                                    )
+
+                                </td>
+
+
+                                <!-- BALANCE -->
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    font-bold
+                                    text-[#4c381d]
+                                ">
+
+                                    $@movement.RunningBalance.ToString(
+                                        "N2",
+                                        new System.Globalization.CultureInfo("en-US")
+                                    )
+                                    <span class="text-[10px] font-medium text-[#977d4e]">
+                                        USD
+                                    </span>
+
+                                </td>
+
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    text-[#6f5a35]
+                                ">
+
+                                    @movement.Created_at.ToString(
+                                        "dd/MM/yyyy HH:mm"
+                                    )
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="modal fade"
+     id="modalAgregarMovimiento"
+     tabindex="-1"
+     aria-labelledby="modalAgregarMovimientoLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="
+            modal-content
+            overflow-hidden
+            rounded-2xl
+            border-0
+            bg-[#fffaf0]
+            shadow-2xl
+        ">
+
+
+            <div class="
+                modal-header
+                border-0
+                bg-gradient-to-r
+                from-[#b58934]
+                to-[#d0a74d]
+                px-5
+                py-4
+                text-white
+            ">
+
+                <h5 class="
+                    modal-title
+                    flex
+                    items-center
+                    gap-2
+                    text-base
+                    font-bold
+                "
+                    id="modalAgregarMovimientoLabel">
+
+                    <i class="fa-solid fa-plus-circle"></i>
+
+                    Registrar Movimiento
+
+                </h5>
+
+
+                <button type="button"
+                        class="
+                            btn-close
+                            btn-close-white
+                        "
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+
+            </div>
+
+
+            <form asp-controller="Movement"
+                  asp-action="Create"
+                  method="post">
+
                 @Html.AntiForgeryToken()
-                <div class="modal-body">
-                    
-                    <!-- Cuenta -->
+
+
+                <div class="modal-body p-5">
+
+                    <!-- CUENTA -->
                     <div class="mb-3">
-                        <label for="Account_id" class="form-label fw-bold">Cuenta</label>
-                        <select name="Account_id" id="Account_id" class="form-select" required>
-                            <option value="">-- Seleccione una cuenta --</option>
+
+                        <label for="Account_id"
+                               class="
+                                    form-label
+                                    mb-2
+                                    text-xs
+                                    font-bold
+                                    text-[#4d3a20]
+                               ">
+
+                            Cuenta
+
+                        </label>
+
+
+                        <select name="Account_id"
+                                id="Account_id"
+                                class="form-select rounded-lg border-[#dfd1b7]"
+                                required>
+
+                            <option value="">
+                                -- Seleccione una cuenta --
+                            </option>
+
                             @if (ViewBag.Accounts != null)
                             {
-                                foreach (var account in (IEnumerable<SelectListItem>)ViewBag.Accounts)
+                                foreach (
+                                    var account
+                                    in (IEnumerable<SelectListItem>)ViewBag.Accounts
+                                )
                                 {
-                                    <option value="@account.Value">@account.Text</option>
+                                    <option value="@account.Value">
+                                        @account.Text
+                                    </option>
                                 }
                             }
+
                         </select>
+
                     </div>
 
-                    <!-- Tipo de Movimiento -->
+
+                    <!-- TIPO -->
                     <div class="mb-3">
-                        <label for="Movement_type_id" class="form-label fw-bold">Tipo de Movimiento</label>
-                        <select name="Movement_type_id" id="Movement_type_id" class="form-select" required>
-                            <option value="">-- Seleccione el tipo --</option>
+
+                        <label for="Movement_type_id"
+                               class="
+                                    form-label
+                                    mb-2
+                                    text-xs
+                                    font-bold
+                                    text-[#4d3a20]
+                               ">
+
+                            Tipo de Movimiento
+
+                        </label>
+
+
+                        <select name="Movement_type_id"
+                                id="Movement_type_id"
+                                class="form-select rounded-lg border-[#dfd1b7]"
+                                required>
+
+                            <option value="">
+                                -- Seleccione el tipo --
+                            </option>
+
                             @if (ViewBag.Types != null)
                             {
-                                foreach (var type in (IEnumerable<SelectListItem>)ViewBag.Types)
+                                foreach (
+                                    var type
+                                    in (IEnumerable<SelectListItem>)ViewBag.Types
+                                )
                                 {
-                                    <option value="@type.Value" data-name="@type.Text">@type.Text</option>
+                                    <option value="@type.Value"
+                                            data-name="@type.Text">
+
+                                        @type.Text
+
+                                    </option>
                                 }
                             }
+
                         </select>
+
                     </div>
 
-                    <!-- Selector de Meta dentro del Modal de Movimientos -->
-                    <div class="mb-3" id="divGoal" style="display: none;">
-                        <label for="goalId" class="form-label fw-bold">Asignar a Meta (Opcional)</label>
-                        <select name="goalId" id="goalId" class="form-select">
-                            <option value="">-- Sin asignar a una meta --</option>
+
+                    <!-- META -->
+                    <div class="mb-3"
+                         id="divGoal"
+                         style="display: none;">
+
+                        <label for="goalId"
+                               class="
+                                    form-label
+                                    mb-2
+                                    text-xs
+                                    font-bold
+                                    text-[#4d3a20]
+                               ">
+
+                            Asignar a Meta (Opcional)
+
+                        </label>
+
+
+                        <select name="goalId"
+                                id="goalId"
+                                class="form-select rounded-lg border-[#dfd1b7]">
+
+                            <option value="">
+                                -- Sin asignar a una meta --
+                            </option>
+
                             @if (ViewBag.Goals != null)
                             {
-                                foreach (var goal in (IEnumerable<SelectListItem>)ViewBag.Goals)
+                                foreach (
+                                    var goal
+                                    in (IEnumerable<SelectListItem>)ViewBag.Goals
+                                )
                                 {
-                                    <option value="@goal.Value">@goal.Text</option>
+                                    <option value="@goal.Value">
+                                        @goal.Text
+                                    </option>
                                 }
                             }
+
                         </select>
+
                     </div>
 
-                    <!-- Categoría -->
+
+                    <!-- CATEGORIA -->
                     <div class="mb-3">
-                        <label for="Movement_categorie_id" class="form-label fw-bold">Categoría</label>
-                        <select name="Movement_categorie_id" id="Movement_categorie_id" class="form-select" required>
-                            <option value="">-- Seleccione la categoría --</option>
+
+                        <label for="Movement_categorie_id"
+                               class="
+                                    form-label
+                                    mb-2
+                                    text-xs
+                                    font-bold
+                                    text-[#4d3a20]
+                               ">
+
+                            Categoría
+
+                        </label>
+
+
+                        <select name="Movement_categorie_id"
+                                id="Movement_categorie_id"
+                                class="form-select rounded-lg border-[#dfd1b7]"
+                                required>
+
+                            <option value="">
+                                -- Seleccione la categoría --
+                            </option>
+
                             @if (ViewBag.Categories != null)
                             {
-                                foreach (var cat in (IEnumerable<SelectListItem>)ViewBag.Categories)
+                                foreach (
+                                    var cat
+                                    in (IEnumerable<SelectListItem>)ViewBag.Categories
+                                )
                                 {
-                                    <option value="@cat.Value">@cat.Text</option>
+                                    <option value="@cat.Value">
+                                        @cat.Text
+                                    </option>
                                 }
                             }
+
                         </select>
+
                     </div>
 
-                    <!-- Descripción -->
+
+                    <!-- DESCRIPCION -->
                     <div class="mb-3">
-                        <label for="Description" class="form-label fw-bold">Descripción</label>
-                        <input type="text" name="Description" id="Description" class="form-control" placeholder="Ej. Pago de servicios" required />
+
+                        <label for="Description"
+                               class="
+                                    form-label
+                                    mb-2
+                                    text-xs
+                                    font-bold
+                                    text-[#4d3a20]
+                               ">
+
+                            Descripción
+
+                        </label>
+
+
+                        <input type="text"
+                               name="Description"
+                               id="Description"
+                               class="form-control rounded-lg border-[#dfd1b7]"
+                               placeholder="Ej. Pago de servicios"
+                               required />
+
                     </div>
 
-                    <!-- Monto -->
+
+                    <!-- MONTO -->
                     <div class="mb-3">
-                        <label for="Amount" class="form-label fw-bold">Monto ($ USD)</label>
+
+                        <label for="Amount"
+                               class="
+                                    form-label
+                                    mb-2
+                                    text-xs
+                                    font-bold
+                                    text-[#4d3a20]
+                               ">
+
+                            Monto ($ USD)
+
+                        </label>
+
+
                         <div class="input-group">
-                            <span class="input-group-text">$</span>
-                            <input type="number" step="0.01" min="0.01" name="Amount" id="Amount" class="form-control" placeholder="0.00" required />
+
+                            <span class="
+                                input-group-text
+                                border-[#dfd1b7]
+                                bg-[#f3ead7]
+                                text-[#806634]
+                            ">
+                                $
+                            </span>
+
+                            <input type="number"
+                                   step="0.01"
+                                   min="0.01"
+                                   name="Amount"
+                                   id="Amount"
+                                   class="form-control border-[#dfd1b7]"
+                                   placeholder="0.00"
+                                   required />
+
                         </div>
+
                     </div>
 
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success">Guardar Movimiento</button>
+
+
+                <div class="
+                    modal-footer
+                    border-0
+                    bg-[#f8f0df]
+                    px-5
+                    py-4
+                ">
+
+                    <button type="button"
+                            class="
+                                btn
+                                rounded-lg
+                                border-0
+                                bg-[#e5dcc9]
+                                px-4
+                                text-xs
+                                font-semibold
+                                text-[#5a4525]
+                            "
+                            data-bs-dismiss="modal">
+
+                        Cancelar
+
+                    </button>
+
+
+                    <button type="submit"
+                            class="
+                                btn
+                                rounded-lg
+                                border-0
+                                bg-[#c79a3f]
+                                px-4
+                                text-xs
+                                font-semibold
+                                text-white
+                                shadow
+                                transition
+                                hover:bg-[#b38732]
+                            ">
+
+                        <i class="fa-solid fa-check me-1"></i>
+
+                        Guardar Movimiento
+
+                    </button>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
+
 </div>
 
+
 @section Scripts {
+
     <script>
+
         document.addEventListener("DOMContentLoaded", function () {
-            const typeSelect = document.getElementById("Movement_type_id");
-            const divGoal = document.getElementById("divGoal");
-            const goalSelect = document.getElementById("Goal_id");
+
+            const typeSelect =
+                document.getElementById("Movement_type_id");
+
+            const divGoal =
+                document.getElementById("divGoal");
+
+            const goalSelect =
+                document.getElementById("Goal_id");
+
 
             typeSelect.addEventListener("change", function () {
-                const selectedOption = this.options[this.selectedIndex];
-                const typeName = selectedOption.getAttribute("data-name") || selectedOption.text;
 
-                if (typeName.trim().toLowerCase() === "ingreso") {
+                const selectedOption =
+                    this.options[this.selectedIndex];
+
+                const typeName =
+                    selectedOption.getAttribute("data-name")
+                    || selectedOption.text;
+
+
+                if (
+                    typeName.trim().toLowerCase()
+                    === "ingreso"
+                ) {
+
                     divGoal.style.display = "block";
+
                 } else {
+
                     divGoal.style.display = "none";
-                    goalSelect.value = ""; 
+
+                    goalSelect.value = "";
+
                 }
+
             });
+
         });
+
 
         document.addEventListener("DOMContentLoaded", function () {
-            const inputBuscar = document.getElementById("inputBuscar");
-            const filasTabla = document.querySelectorAll("tbody tr");
+
+            const inputBuscar =
+                document.getElementById("inputBuscar");
+
+            const filasTabla =
+                document.querySelectorAll("tbody tr");
+
 
             if (inputBuscar) {
-                inputBuscar.addEventListener("input", function () {
-                    const criterio = this.value.toLowerCase().trim();
 
-                    filasTabla.forEach(fila => {
-                        const textoFila = fila.textContent.toLowerCase();
-                        fila.style.display = textoFila.includes(criterio) ? "" : "none";
-                    });
-                });
+                inputBuscar.addEventListener(
+                    "input",
+                    function () {
+
+                        const criterio =
+                            this.value
+                                .toLowerCase()
+                                .trim();
+
+
+                        filasTabla.forEach(fila => {
+
+                            const textoFila =
+                                fila.textContent
+                                    .toLowerCase();
+
+
+                            fila.style.display =
+                                textoFila.includes(criterio)
+                                    ? ""
+                                    : "none";
+
+                        });
+
+                    }
+                );
+
             }
+
         });
+
     </script>
 }
