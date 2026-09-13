@@ -4,169 +4,815 @@
     ViewData["Title"] = "Administración de categorías de movimientos";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">Mis Categorías</h2>
+<div class="flex h-full min-h-0 w-full flex-col overflow-hidden">
 
-    <div class="d-flex align-items-center gap-3">
-        <div class="input-group" style="max-width: 280px;">
-            <span class="input-group-text bg-white border-end-0">
-                <i class="bi bi-search text-muted"></i>
-            </span>
-            <input type="text" id="inputBuscar" class="form-control border-start-0 ps-0" placeholder="Buscar categoría...">
+    <div class="
+        flex
+        flex-shrink-0
+        flex-col
+        gap-3
+        pb-4
+        lg:flex-row
+        lg:items-center
+        lg:justify-between
+    ">
+
+        <div class="min-w-0">
+
+            <h2 class="
+                m-0
+                text-xl
+                font-bold
+                tracking-tight
+                text-[#f8ebca]
+                sm:text-2xl
+            ">
+                Mis Categorías
+            </h2>
+
+            <p class="
+                mt-1
+                mb-0
+                text-xs
+                text-[#c3b18e]
+            ">
+                Administra las categorías de tus movimientos.
+            </p>
+
         </div>
 
-        @if (User.IsInRole("Usuario Premium"))
-        {
-            <button type="button" class="btn btn-success text-nowrap" data-bs-toggle="modal" data-bs-target="#modalAgregarCategoria">
-                <i class="bi bi-plus-circle me-1"></i> Agregar Categoría
-            </button>
-        }
-    </div>
-</div>
+        <div class="
+            flex
+            w-full
+            flex-col
+            gap-2
+            sm:flex-row
+            lg:w-auto
+        ">
 
-<div class="table-responsive">
-    <table class="table table-striped table-hover align-middle">
-        <thead class="table-dark">
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                @if (User.IsInRole("Usuario Premium"))
-                {
-                    <th>Acciones</th>
-                }
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null && Model.Any())
+            <div class="
+                flex
+                h-10
+                min-w-0
+                w-full
+                items-center
+                rounded-lg
+                border
+                border-white/10
+                bg-white/10
+                px-3
+                sm:w-[280px]
+            ">
+
+                <i class="
+                    fa-solid
+                    fa-magnifying-glass
+                    mr-2
+                    text-xs
+                    text-white/50
+                "></i>
+
+                <input type="text"
+                       id="inputBuscar"
+                       class="
+                            w-full
+                            min-w-0
+                            border-0
+                            bg-transparent
+                            text-xs
+                            text-white
+                            outline-none
+                            placeholder:text-white/50
+                       "
+                       placeholder="Buscar categoría..." />
+
+            </div>
+
+            @if (User.IsInRole("Usuario Premium"))
             {
-                @foreach (var category in Model)
-                {
-                    <tr>
-                        <td>@category.Id</td>
-                        <td>@category.Name</td>
+                <button type="button"
+                        class="
+                            inline-flex
+                            h-10
+                            items-center
+                            justify-center
+                            gap-2
+                            rounded-lg
+                            border
+                            border-[#e0ba5e]/40
+                            bg-[#c79a3f]
+                            px-4
+                            text-xs
+                            font-semibold
+                            text-white
+                            shadow-lg
+                            transition
+                            duration-200
+                            hover:bg-[#b38732]
+                            hover:shadow-xl
+                        "
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalAgregarCategoria">
+
+                    <i class="fa-solid fa-plus text-[11px]"></i>
+
+                    <span>Agregar Categoría</span>
+
+                </button>
+            }
+
+        </div>
+
+    </div>
+
+
+    <div class="
+        min-h-0
+        flex-1
+        overflow-hidden
+        rounded-2xl
+        border
+        border-white/10
+        bg-[#fffaf0]
+        shadow-xl
+    ">
+
+        <div class="
+            h-full
+            w-full
+            overflow-auto
+        ">
+
+            <table class="
+                m-0
+                min-w-[650px]
+                w-full
+                align-middle
+                text-xs
+            ">
+
+                <thead class="
+                    sticky
+                    top-0
+                    z-10
+                    bg-[#ead9ae]
+                ">
+
+                    <tr class="border-b border-[#d7c59f]">
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Id
+                        </th>
+
+                        <th class="
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Nombre
+                        </th>
+
                         @if (User.IsInRole("Usuario Premium"))
                         {
-                            <td>
-                                <button class="btn btn-sm btn-outline-primary me-1"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#editModal-@category.Id">
-                                    Editar
-                                </button>
-
-                                <button class="btn btn-sm btn-outline-danger me-1"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal-@category.Id">
-                                    Eliminar
-                                </button>
-                            </td>
+                            <th class="
+                                whitespace-nowrap
+                                px-4
+                                py-3
+                                text-left
+                                font-bold
+                                text-[#4c381d]
+                            ">
+                                Acciones
+                            </th>
                         }
+
                     </tr>
 
-                    @if (User.IsInRole("Usuario Premium"))
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null && Model.Any())
                     {
-                        <div class="modal fade" id="editModal-@category.Id" tabindex="-1" aria-labelledby="editModalLabel-@category.Id" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form asp-controller="MovementCategory" asp-action="Edit" method="post">
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="categorieId" value="@category.Id" />
-                                        
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel-@category.Id">Editar Categoría</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="mb-3">
-                                                <label for="name-@category.Id" class="form-label">Nombre de la Categoría</label>
-                                                <input type="text" class="form-control" id="name-@category.Id" name="Name" value="@category.Name" required />
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                        @foreach (var category in Model)
+                        {
+                            <tr class="
+                                border-b
+                                border-[#eee3ce]
+                                bg-[#fffaf0]
+                                transition
+                                duration-150
+                                hover:bg-[#f8efd9]
+                            ">
 
-                        <div class="modal fade" id="deleteModal-@category.Id" tabindex="-1" aria-labelledby="deleteModalLabel-@category.Id" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form asp-controller="MovementCategory" asp-action="Delete" method="post">
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="categorieId" value="@category.Id" />
-                                        
-                                        <div class="modal-header bg-danger text-white">
-                                            <h5 class="modal-title" id="deleteModalLabel-@category.Id">Confirmar Eliminación</h5>
-                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    font-medium
+                                    text-[#5a4525]
+                                ">
+                                    @category.Id
+                                </td>
+
+                                <td class="
+                                    max-w-[400px]
+                                    px-4
+                                    py-3
+                                    font-semibold
+                                    text-[#4d3a20]
+                                ">
+                                    <div class="truncate">
+                                        @category.Name
+                                    </div>
+                                </td>
+
+                                @if (User.IsInRole("Usuario Premium"))
+                                {
+                                    <td class="
+                                        whitespace-nowrap
+                                        px-4
+                                        py-3
+                                    ">
+
+                                        <button class="
+                                            mr-1
+                                            inline-flex
+                                            items-center
+                                            gap-1.5
+                                            rounded-lg
+                                            border
+                                            border-[#d7bd83]
+                                            bg-[#f5ead3]
+                                            px-3
+                                            py-2
+                                            text-[10px]
+                                            font-semibold
+                                            text-[#806432]
+                                            transition
+                                            hover:bg-[#ead9ae]
+                                        "
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#editModal-@category.Id">
+
+                                            <i class="fa-solid fa-pen-to-square"></i>
+
+                                            Editar
+
+                                        </button>
+
+                                        <button class="
+                                            inline-flex
+                                            items-center
+                                            gap-1.5
+                                            rounded-lg
+                                            border
+                                            border-red-200
+                                            bg-red-50
+                                            px-3
+                                            py-2
+                                            text-[10px]
+                                            font-semibold
+                                            text-red-600
+                                            transition
+                                            hover:bg-red-100
+                                        "
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal-@category.Id">
+
+                                            <i class="fa-solid fa-trash"></i>
+
+                                            Eliminar
+
+                                        </button>
+
+                                    </td>
+                                }
+
+                            </tr>
+
+                            @if (User.IsInRole("Usuario Premium"))
+                            {
+                                <div class="modal fade"
+                                     id="editModal-@category.Id"
+                                     tabindex="-1"
+                                     aria-labelledby="editModalLabel-@category.Id"
+                                     aria-hidden="true">
+
+                                    <div class="modal-dialog modal-dialog-centered">
+
+                                        <div class="
+                                            modal-content
+                                            overflow-hidden
+                                            rounded-2xl
+                                            border-0
+                                            bg-[#fffaf0]
+                                            shadow-2xl
+                                        ">
+
+                                            <form asp-controller="MovementCategory"
+                                                  asp-action="Edit"
+                                                  method="post">
+
+                                                @Html.AntiForgeryToken()
+
+                                                <input type="hidden"
+                                                       name="categorieId"
+                                                       value="@category.Id" />
+
+                                                <div class="
+                                                    modal-header
+                                                    border-0
+                                                    bg-gradient-to-r
+                                                    from-[#b58934]
+                                                    to-[#d0a74d]
+                                                    px-5
+                                                    py-4
+                                                    text-white
+                                                ">
+
+                                                    <h5 class="
+                                                        modal-title
+                                                        text-base
+                                                        font-bold
+                                                    "
+                                                        id="editModalLabel-@category.Id">
+
+                                                        Editar Categoría
+
+                                                    </h5>
+
+                                                    <button type="button"
+                                                            class="btn-close btn-close-white"
+                                                            data-bs-dismiss="modal"
+                                                            aria-label="Close">
+                                                    </button>
+
+                                                </div>
+
+                                                <div class="modal-body p-5">
+
+                                                    <div class="mb-3">
+
+                                                        <label for="name-@category.Id"
+                                                               class="
+                                                                    form-label
+                                                                    mb-2
+                                                                    text-xs
+                                                                    font-bold
+                                                                    text-[#4d3a20]
+                                                               ">
+
+                                                            Nombre de la Categoría
+
+                                                        </label>
+
+                                                        <input type="text"
+                                                               class="form-control rounded-lg border-[#dfd1b7]"
+                                                               id="name-@category.Id"
+                                                               name="Name"
+                                                               value="@category.Name"
+                                                               required />
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="
+                                                    modal-footer
+                                                    border-0
+                                                    bg-[#f8f0df]
+                                                    px-5
+                                                    py-4
+                                                ">
+
+                                                    <button type="button"
+                                                            class="
+                                                                btn
+                                                                rounded-lg
+                                                                border-0
+                                                                bg-[#e5dcc9]
+                                                                px-4
+                                                                text-xs
+                                                                font-semibold
+                                                                text-[#5a4525]
+                                                            "
+                                                            data-bs-dismiss="modal">
+
+                                                        Cancelar
+
+                                                    </button>
+
+                                                    <button type="submit"
+                                                            class="
+                                                                btn
+                                                                rounded-lg
+                                                                border-0
+                                                                bg-[#c79a3f]
+                                                                px-4
+                                                                text-xs
+                                                                font-semibold
+                                                                text-white
+                                                                shadow
+                                                                transition
+                                                                hover:bg-[#b38732]
+                                                            ">
+
+                                                        <i class="fa-solid fa-check me-1"></i>
+
+                                                        Guardar Cambios
+
+                                                    </button>
+
+                                                </div>
+
+                                            </form>
+
                                         </div>
-                                        <div class="modal-body">
-                                            <p class="mb-0">¿Estás seguro de que deseas eliminar la categoría <strong>@category.Name</strong>?</p>
-                                            <small class="text-muted">Esta acción no se puede deshacer.</small>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                                        </div>
-                                    </form>
+
+                                    </div>
+
                                 </div>
-                            </div>
-                        </div>
+
+
+                                <div class="modal fade"
+                                     id="deleteModal-@category.Id"
+                                     tabindex="-1"
+                                     aria-labelledby="deleteModalLabel-@category.Id"
+                                     aria-hidden="true">
+
+                                    <div class="modal-dialog modal-dialog-centered">
+
+                                        <div class="
+                                            modal-content
+                                            overflow-hidden
+                                            rounded-2xl
+                                            border-0
+                                            bg-[#fffaf0]
+                                            shadow-2xl
+                                        ">
+
+                                            <form asp-controller="MovementCategory"
+                                                  asp-action="Delete"
+                                                  method="post">
+
+                                                @Html.AntiForgeryToken()
+
+                                                <input type="hidden"
+                                                       name="categorieId"
+                                                       value="@category.Id" />
+
+                                                <div class="
+                                                    modal-header
+                                                    border-0
+                                                    bg-gradient-to-r
+                                                    from-[#a63d38]
+                                                    to-[#c75b54]
+                                                    px-5
+                                                    py-4
+                                                    text-white
+                                                ">
+
+                                                    <h5 class="
+                                                        modal-title
+                                                        text-base
+                                                        font-bold
+                                                    "
+                                                        id="deleteModalLabel-@category.Id">
+
+                                                        Confirmar Eliminación
+
+                                                    </h5>
+
+                                                    <button type="button"
+                                                            class="btn-close btn-close-white"
+                                                            data-bs-dismiss="modal"
+                                                            aria-label="Close">
+                                                    </button>
+
+                                                </div>
+
+                                                <div class="modal-body p-5">
+
+                                                    <p class="
+                                                        mb-2
+                                                        text-sm
+                                                        text-[#4d3a20]
+                                                    ">
+
+                                                        ¿Estás seguro de que deseas eliminar la categoría
+                                                        <strong>@category.Name</strong>?
+
+                                                    </p>
+
+                                                    <small class="text-xs text-[#927c59]">
+                                                        Esta acción no se puede deshacer.
+                                                    </small>
+
+                                                </div>
+
+                                                <div class="
+                                                    modal-footer
+                                                    border-0
+                                                    bg-[#f8f0df]
+                                                    px-5
+                                                    py-4
+                                                ">
+
+                                                    <button type="button"
+                                                            class="
+                                                                btn
+                                                                rounded-lg
+                                                                border-0
+                                                                bg-[#e5dcc9]
+                                                                px-4
+                                                                text-xs
+                                                                font-semibold
+                                                                text-[#5a4525]
+                                                            "
+                                                            data-bs-dismiss="modal">
+
+                                                        Cancelar
+
+                                                    </button>
+
+                                                    <button type="submit"
+                                                            class="
+                                                                btn
+                                                                rounded-lg
+                                                                border-0
+                                                                bg-[#b94b45]
+                                                                px-4
+                                                                text-xs
+                                                                font-semibold
+                                                                text-white
+                                                                shadow
+                                                                transition
+                                                                hover:bg-[#9f3d38]
+                                                            ">
+
+                                                        <i class="fa-solid fa-trash me-1"></i>
+
+                                                        Eliminar
+
+                                                    </button>
+
+                                                </div>
+
+                                            </form>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            }
+                        }
                     }
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="@(User.IsInRole("Usuario Premium") ? "3" : "2")" class="text-center text-muted">No hay categorías registradas.</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                    else
+                    {
+                        <tr>
+
+                            <td colspan="@(User.IsInRole("Usuario Premium") ? "3" : "2")"
+                                class="
+                                    px-4
+                                    py-10
+                                    text-center
+                                    text-sm
+                                    text-[#8f7a56]
+                                ">
+
+                                <div class="flex flex-col items-center">
+
+                                    <div class="
+                                        mb-3
+                                        flex
+                                        h-12
+                                        w-12
+                                        items-center
+                                        justify-center
+                                        rounded-full
+                                        bg-[#f2e5c7]
+                                        text-[#ba8c37]
+                                    ">
+
+                                        <i class="fa-solid fa-tags"></i>
+
+                                    </div>
+
+                                    <span class="font-semibold">
+                                        No hay categorías registradas.
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </div>
 
-<div class="modal fade" id="modalAgregarCategoria" tabindex="-1" aria-labelledby="modalAgregarCategoriaLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form asp-controller="MovementCategory" asp-action="Create" method="post">
+
+<div class="modal fade"
+     id="modalAgregarCategoria"
+     tabindex="-1"
+     aria-labelledby="modalAgregarCategoriaLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="
+            modal-content
+            overflow-hidden
+            rounded-2xl
+            border-0
+            bg-[#fffaf0]
+            shadow-2xl
+        ">
+
+            <form asp-controller="MovementCategory"
+                  asp-action="Create"
+                  method="post">
+
                 @Html.AntiForgeryToken()
-                
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalAgregarCategoriaLabel">Nueva Categoría</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                <div class="
+                    modal-header
+                    border-0
+                    bg-gradient-to-r
+                    from-[#b58934]
+                    to-[#d0a74d]
+                    px-5
+                    py-4
+                    text-white
+                ">
+
+                    <h5 class="
+                        modal-title
+                        flex
+                        items-center
+                        gap-2
+                        text-base
+                        font-bold
+                    "
+                        id="modalAgregarCategoriaLabel">
+
+                        <i class="fa-solid fa-tags"></i>
+
+                        Nueva Categoría
+
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close btn-close-white"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                    </button>
+
                 </div>
-                <div class="modal-body">
+
+                <div class="modal-body p-5">
+
                     <div class="mb-3">
-                        <label for="create-name" class="form-label">Nombre de la Categoría</label>
-                        <input type="text" class="form-control" id="create-name" name="Name" placeholder="Ej. Alimentación, Transporte" required />
+
+                        <label for="create-name"
+                               class="
+                                    form-label
+                                    mb-2
+                                    text-xs
+                                    font-bold
+                                    text-[#4d3a20]
+                               ">
+
+                            Nombre de la Categoría
+
+                        </label>
+
+                        <input type="text"
+                               class="form-control rounded-lg border-[#dfd1b7]"
+                               id="create-name"
+                               name="Name"
+                               placeholder="Ej. Alimentación, Transporte"
+                               required />
+
                     </div>
+
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success">Crear Categoría</button>
+
+                <div class="
+                    modal-footer
+                    border-0
+                    bg-[#f8f0df]
+                    px-5
+                    py-4
+                ">
+
+                    <button type="button"
+                            class="
+                                btn
+                                rounded-lg
+                                border-0
+                                bg-[#e5dcc9]
+                                px-4
+                                text-xs
+                                font-semibold
+                                text-[#5a4525]
+                            "
+                            data-bs-dismiss="modal">
+
+                        Cancelar
+
+                    </button>
+
+                    <button type="submit"
+                            class="
+                                btn
+                                rounded-lg
+                                border-0
+                                bg-[#c79a3f]
+                                px-4
+                                text-xs
+                                font-semibold
+                                text-white
+                                shadow
+                                transition
+                                hover:bg-[#b38732]
+                            ">
+
+                        <i class="fa-solid fa-check me-1"></i>
+
+                        Crear Categoría
+
+                    </button>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
+
 </div>
+
 
 @section Scripts {
+
     <script>
+
         document.addEventListener("DOMContentLoaded", function () {
-            const inputBuscar = document.getElementById("inputBuscar");
-            const filasTabla = document.querySelectorAll("tbody tr");
+
+            const inputBuscar =
+                document.getElementById("inputBuscar");
+
+            const filasTabla =
+                document.querySelectorAll("tbody tr");
 
             if (inputBuscar) {
+
                 inputBuscar.addEventListener("input", function () {
-                    const criterio = this.value.toLowerCase().trim();
+
+                    const criterio =
+                        this.value
+                            .toLowerCase()
+                            .trim();
 
                     filasTabla.forEach(fila => {
-                        const textoFila = fila.textContent.toLowerCase();
-                        fila.style.display = textoFila.includes(criterio) ? "" : "none";
+
+                        const textoFila =
+                            fila.textContent.toLowerCase();
+
+                        fila.style.display =
+                            textoFila.includes(criterio)
+                                ? ""
+                                : "none";
+
                     });
+
                 });
+
             }
+
         });
+
     </script>
+
 }
