@@ -1,112 +1,687 @@
 @model midasMVC.Models.ViewModels.DashboardUserViewModel
+
 @{
     ViewData["Title"] = "Panel de Control";
 }
 
-<div class="container py-4">
-    <h2 class="mb-4">Mi Resumen Financiero</h2>
+<div class="
+    flex
+    h-full
+    min-h-0
+    w-full
+    flex-col
+    overflow-hidden
+">
 
-    <!-- Tarjetas con KPIs -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm bg-success text-white">
-                <div class="card-body">
-                    <h6 class="card-title text-uppercase opacity-75">Total Ingresado</h6>
-                    <h3 class="fw-bold mb-0">@Model.TotalIngresado.ToString("C")</h3>
-                </div>
-            </div>
+    <div class="
+        mb-4
+        flex
+        flex-shrink-0
+        items-center
+        justify-between
+    ">
+
+        <div>
+
+            <h2 class="
+                m-0
+                text-xl
+                font-bold
+                tracking-tight
+                text-[#f8ebca]
+                sm:text-2xl
+            ">
+                Mi Resumen Financiero
+            </h2>
+
+            <p class="
+                mt-1
+                mb-0
+                text-xs
+                text-[#c3b18e]
+            ">
+                Consulta el estado general de tus finanzas.
+            </p>
+
         </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm bg-danger text-white">
-                <div class="card-body">
-                    <h6 class="card-title text-uppercase opacity-75">Total Gastado</h6>
-                    <h3 class="fw-bold mb-0">@Model.TotalGastado.ToString("C")</h3>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm bg-warning text-dark">
-                <div class="card-body">
-                    <h6 class="card-title text-uppercase opacity-75">Categoría con Mayor Gasto</h6>
-                    <h3 class="fw-bold mb-0">@Model.CategoriaMasGastada</h3>
-                    <small>@Model.MontoCategoriaMasGastada.ToString("C") acumulados</small>
-                </div>
-            </div>
-        </div>
+
     </div>
 
-    <!-- Canvas para Gráficos -->
-    <div class="row g-4">
-        <div class="col-md-7">
-            <div class="card border-0 shadow-sm p-3">
-                <h5 class="card-title mb-3">Flujo de Ingresos vs Gastos</h5>
-                <canvas id="chartMensual" style="max-height: 320px;"></canvas>
+    <div class="
+        grid
+        flex-shrink-0
+        grid-cols-1
+        gap-3
+        md:grid-cols-3
+    ">
+
+        <div class="
+            relative
+            overflow-hidden
+            rounded-2xl
+            border
+            border-emerald-300/20
+            bg-gradient-to-br
+            from-[#fffaf0]
+            to-[#f5f1e8]
+            p-4
+            shadow-lg
+        ">
+            <div class="
+                absolute
+                -right-8
+                -top-8
+                h-24
+                w-24
+                rounded-full
+                bg-emerald-500/10
+            "></div>
+
+
+            <div class="
+                relative
+                flex
+                items-start
+                justify-between
+                gap-3
+            ">
+
+                <div>
+
+                    <p class="
+                        m-0
+                        text-[10px]
+                        font-bold
+                        uppercase
+                        tracking-wider
+                        text-[#92794b]
+                    ">
+                        Total Ingresado
+                    </p>
+
+                    <h3 class="
+                        mt-2
+                        mb-0
+                        text-2xl
+                        font-bold
+                        text-[#3d301d]
+                        sm:text-3xl
+                    ">
+                        @Model.TotalIngresado.ToString("C")
+                    </h3>
+
+                    <p class="
+                        mt-1
+                        mb-0
+                        text-[10px]
+                        text-[#9a8968]
+                    ">
+                        Ingresos acumulados
+                    </p>
+
+                </div>
+
+
+                <div class="
+                    flex
+                    h-11
+                    w-11
+                    flex-shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-emerald-100
+                    text-emerald-600
+                ">
+
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+
+                </div>
+
             </div>
+
         </div>
-        <div class="col-md-5">
-            <div class="card border-0 shadow-sm p-3">
-                <h5 class="card-title mb-3">Gastos por Categoría</h5>
-                <canvas id="chartCategorias" style="max-height: 320px;"></canvas>
+
+        <div class="
+            relative
+            overflow-hidden
+            rounded-2xl
+            border
+            border-red-300/20
+            bg-gradient-to-br
+            from-[#fffaf0]
+            to-[#f5f1e8]
+            p-4
+            shadow-lg
+        ">
+
+            <div class="
+                absolute
+                -right-8
+                -top-8
+                h-24
+                w-24
+                rounded-full
+                bg-red-500/10
+            "></div>
+
+
+            <div class="
+                relative
+                flex
+                items-start
+                justify-between
+                gap-3
+            ">
+
+                <div>
+
+                    <p class="
+                        m-0
+                        text-[10px]
+                        font-bold
+                        uppercase
+                        tracking-wider
+                        text-[#92794b]
+                    ">
+                        Total Gastado
+                    </p>
+
+                    <h3 class="
+                        mt-2
+                        mb-0
+                        text-2xl
+                        font-bold
+                        text-[#3d301d]
+                        sm:text-3xl
+                    ">
+                        @Model.TotalGastado.ToString("C")
+                    </h3>
+
+                    <p class="
+                        mt-1
+                        mb-0
+                        text-[10px]
+                        text-[#9a8968]
+                    ">
+                        Gastos acumulados
+                    </p>
+
+                </div>
+
+
+                <div class="
+                    flex
+                    h-11
+                    w-11
+                    flex-shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-red-100
+                    text-red-600
+                ">
+
+                    <i class="fa-solid fa-arrow-trend-down"></i>
+
+                </div>
+
             </div>
+
         </div>
+
+        <div class="
+            relative
+            overflow-hidden
+            rounded-2xl
+            border
+            border-[#d8bb78]/30
+            bg-gradient-to-br
+            from-[#fffaf0]
+            to-[#f5f1e8]
+            p-4
+            shadow-lg
+        ">
+
+            <div class="
+                absolute
+                -right-8
+                -top-8
+                h-24
+                w-24
+                rounded-full
+                bg-[#c99e42]/10
+            "></div>
+
+
+            <div class="
+                relative
+                flex
+                items-start
+                justify-between
+                gap-3
+            ">
+
+                <div class="min-w-0">
+
+                    <p class="
+                        m-0
+                        text-[10px]
+                        font-bold
+                        uppercase
+                        tracking-wider
+                        text-[#92794b]
+                    ">
+                        Categoría con Mayor Gasto
+                    </p>
+
+                    <h3 class="
+                        mt-2
+                        mb-0
+                        truncate
+                        text-xl
+                        font-bold
+                        text-[#3d301d]
+                    ">
+                        @Model.CategoriaMasGastada
+                    </h3>
+
+                    <p class="
+                        mt-1
+                        mb-0
+                        text-xs
+                        font-semibold
+                        text-[#b28531]
+                    ">
+                        @Model.MontoCategoriaMasGastada.ToString("C")
+                        acumulados
+                    </p>
+
+                </div>
+
+
+                <div class="
+                    flex
+                    h-11
+                    w-11
+                    flex-shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-[#f4e5bd]
+                    text-[#b88a32]
+                ">
+
+                    <i class="fa-solid fa-chart-pie"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
+
+    <div class="
+        mt-4
+        grid
+        min-h-0
+        flex-1
+        grid-cols-1
+        gap-4
+        lg:grid-cols-7
+    ">
+
+        <div class="
+            flex
+            min-h-0
+            flex-col
+            overflow-hidden
+            rounded-2xl
+            border
+            border-white/10
+            bg-[#fffaf0]
+            p-4
+            shadow-xl
+            lg:col-span-4
+        ">
+            <div class="
+                mb-3
+                flex
+                flex-shrink-0
+                items-center
+                justify-between
+            ">
+
+                <div>
+
+                    <h5 class="
+                        m-0
+                        text-sm
+                        font-bold
+                        text-[#4a371c]
+                        sm:text-base
+                    ">
+                        Flujo de Ingresos vs Gastos
+                    </h5>
+
+                    <p class="
+                        mt-1
+                        mb-0
+                        text-[10px]
+                        text-[#9d8965]
+                    ">
+                        Comportamiento mensual
+                    </p>
+
+                </div>
+
+
+                <div class="
+                    flex
+                    items-center
+                    gap-3
+                    text-[10px]
+                ">
+
+                    <div class="flex items-center gap-1">
+
+                        <span class="
+                            h-2
+                            w-2
+                            rounded-full
+                            bg-[#b98c35]
+                        "></span>
+
+                        <span class="text-[#806c4c]">
+                            Ingresos
+                        </span>
+
+                    </div>
+
+
+                    <div class="flex items-center gap-1">
+
+                        <span class="
+                            h-2
+                            w-2
+                            rounded-full
+                            bg-[#b94b45]
+                        "></span>
+
+                        <span class="text-[#806c4c]">
+                            Gastos
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="
+                relative
+                min-h-0
+                flex-1
+            ">
+
+                <canvas id="chartMensual"
+                        class="h-full w-full">
+                </canvas>
+
+            </div>
+
+        </div>
+
+        <div class="
+            flex
+            min-h-0
+            flex-col
+            overflow-hidden
+            rounded-2xl
+            border
+            border-white/10
+            bg-[#fffaf0]
+            p-4
+            shadow-xl
+            lg:col-span-3
+        ">
+            <div class="
+                mb-3
+                flex-shrink-0
+            ">
+
+                <h5 class="
+                    m-0
+                    text-sm
+                    font-bold
+                    text-[#4a371c]
+                    sm:text-base
+                ">
+                    Gastos por Categoría
+                </h5>
+
+                <p class="
+                    mt-1
+                    mb-0
+                    text-[10px]
+                    text-[#9d8965]
+                ">
+                    Distribución de tus gastos
+                </p>
+
+            </div>
+
+            <div class="
+                relative
+                min-h-0
+                flex-1
+            ">
+
+                <canvas id="chartCategorias"
+                        class="h-full w-full">
+                </canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
+
 @section Scripts {
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
-        // Datos del ViewModel
-        const catLabels = @Html.Raw(Json.Serialize(Model.CategoriasNombres));
-        const catData = @Html.Raw(Json.Serialize(Model.CategoriasGastos));
 
-        const mesLabels = @Html.Raw(Json.Serialize(Model.MesesNombres));
-        const mesIngresos = @Html.Raw(Json.Serialize(Model.MensualIngresos));
-        const mesGastos = @Html.Raw(Json.Serialize(Model.MensualGastos));
+        const catLabels =
+            @Html.Raw(Json.Serialize(Model.CategoriasNombres));
 
-        // 1. Gráfico de Dona: Categorías
-        new Chart(document.getElementById('chartCategorias'), {
-            type: 'doughnut',
-            data: {
-                labels: catLabels,
-                datasets: [{
-                    data: catData,
-                    backgroundColor: [
-                        '#0d6efd', '#dc3545', '#ffc107', '#198754', '#0dcaf0', '#6c757d'
+        const catData =
+            @Html.Raw(Json.Serialize(Model.CategoriasGastos));
+
+        const mesLabels =
+            @Html.Raw(Json.Serialize(Model.MesesNombres));
+
+        const mesIngresos =
+            @Html.Raw(Json.Serialize(Model.MensualIngresos));
+
+        const mesGastos =
+            @Html.Raw(Json.Serialize(Model.MensualGastos));
+
+
+        new Chart(
+            document.getElementById('chartCategorias'),
+            {
+                type: 'doughnut',
+
+                data: {
+
+                    labels: catLabels,
+
+                    datasets: [
+                        {
+                            data: catData,
+
+                            backgroundColor: [
+                                '#c99e42',
+                                '#b94b45',
+                                '#8e7137',
+                                '#719b70',
+                                '#7ca5ad',
+                                '#8d8170'
+                            ],
+
+                            borderColor: '#fffaf0',
+
+                            borderWidth: 3,
+
+                            hoverOffset: 5
+                        }
                     ]
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: 'bottom' }
-                }
-            }
-        });
+                },
 
-        // 2. Gráfico de Barras: Mensual
-        new Chart(document.getElementById('chartMensual'), {
-            type: 'bar',
-            data: {
-                labels: mesLabels,
-                datasets: [
-                    {
-                        label: 'Ingresos',
-                        data: mesIngresos,
-                        backgroundColor: '#198754'
-                    },
-                    {
-                        label: 'Gastos',
-                        data: mesGastos,
-                        backgroundColor: '#dc3545'
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    cutout: '68%',
+
+                    plugins: {
+
+                        legend: {
+
+                            position: 'bottom',
+
+                            labels: {
+
+                                color: '#665337',
+
+                                usePointStyle: true,
+
+                                pointStyle: 'circle',
+
+                                padding: 14,
+
+                                font: {
+                                    size: 10
+                                }
+
+                            }
+                        }
                     }
-                ]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: { beginAtZero: true }
                 }
             }
-        });
+        );
+
+
+        new Chart(
+            document.getElementById('chartMensual'),
+            {
+                type: 'bar',
+
+                data: {
+
+                    labels: mesLabels,
+
+                    datasets: [
+
+                        {
+                            label: 'Ingresos',
+
+                            data: mesIngresos,
+
+                            backgroundColor: '#b98c35',
+
+                            borderRadius: 6,
+
+                            borderSkipped: false
+                        },
+
+                        {
+                            label: 'Gastos',
+
+                            data: mesGastos,
+
+                            backgroundColor: '#b94b45',
+
+                            borderRadius: 6,
+
+                            borderSkipped: false
+                        }
+
+                    ]
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+
+                    plugins: {
+
+                        legend: {
+                            display: false
+                        }
+
+                    },
+
+                    scales: {
+
+                        x: {
+
+                            grid: {
+                                display: false
+                            },
+
+                            ticks: {
+
+                                color: '#8c7858',
+
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        },
+
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            grid: {
+
+                                color: 'rgba(125, 104, 68, 0.12)'
+                            },
+
+                            border: {
+                                display: false
+                            },
+
+                            ticks: {
+
+                                color: '#8c7858',
+
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        );
+
     </script>
 }
