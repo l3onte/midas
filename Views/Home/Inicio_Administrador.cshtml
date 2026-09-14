@@ -1,60 +1,822 @@
 @model midasMVC.Models.ViewModels.UserStatsViewModel
 
 @{
-    ViewData["Title"] = "Panel de Inicio";
+ViewData["Title"] = "Panel de Inicio";
 }
 
-<div class="container py-4">
-    <h2 class="mb-4">Panel de Inicio - Administrador</h2>
-    <div class="row g-3 mb-4">
-        <div class="col-md-4">
-            <div class="card bg-primary text-white shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Total Usuarios</h5>
-                    <p class="display-6 fw-bold mb-0">@Model.TotalUsuarios</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card bg-success text-white shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Usuarios Activos</h5>
-                    <p class="display-6 fw-bold mb-0">@Model.TotalActivos</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card bg-danger text-white shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Usuarios Inactivos</h5>
-                    <p class="display-6 fw-bold mb-0">@Model.TotalInactivos</p>
-                </div>
-            </div>
-        </div>
+<div class="
+    flex
+    h-full
+    min-h-0
+    w-full
+    flex-col
+    overflow-hidden
+">
+
+
+<div class="
+    mb-4
+    flex
+    flex-shrink-0
+    items-center
+    justify-between
+">
+
+    <div>
+
+        <h2 class="
+            m-0
+            text-xl
+            font-bold
+            tracking-tight
+            text-[#f8ebca]
+            sm:text-2xl
+        ">
+            Panel de Inicio
+        </h2>
+
+        <p class="
+            mt-1
+            mb-0
+            text-xs
+            text-[#c3b18e]
+        ">
+            Resumen general de usuarios y actividad de la plataforma.
+        </p>
+
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-header bg-light">
-            <h5 class="mb-0">Distribución de Roles</h5>
-        </div>
-        <div class="card-body">
-            <div class="row text-center">
-                <div class="col-md-4 border-end">
-                    <h6>Administradores</h6>
-                    <p class="fs-4 mb-1">@Model.TotalAdmin</p>
-                    <span class="badge bg-dark">@Model.PorcentajeAdmin %</span>
-                </div>
-                <div class="col-md-4 border-end">
-                    <h6>Usuarios Free</h6>
-                    <p class="fs-4 mb-1">@Model.TotalFree</p>
-                    <span class="badge bg-secondary">@Model.PorcentajeFree %</span>
-                </div>
-                <div class="col-md-4">
-                    <h6>Usuarios Premium</h6>
-                    <p class="fs-4 mb-1">@Model.TotalPremium</p>
-                    <span class="badge bg-warning text-dark">@Model.PorcentajePremium %</span>
-                </div>
+</div>
+
+
+<div class="
+    grid
+    flex-shrink-0
+    grid-cols-1
+    gap-3
+    md:grid-cols-3
+">
+
+    <div class="
+        relative
+        overflow-hidden
+        rounded-2xl
+        border
+        border-[#d8bb78]/30
+        bg-gradient-to-br
+        from-[#fffaf0]
+        to-[#f5f1e8]
+        p-4
+        shadow-lg
+    ">
+
+        <div class="
+            absolute
+            -right-8
+            -top-8
+            h-24
+            w-24
+            rounded-full
+            bg-[#c99e42]/10
+        "></div>
+
+
+        <div class="
+            relative
+            flex
+            items-start
+            justify-between
+            gap-3
+        ">
+
+            <div>
+
+                <p class="
+                    m-0
+                    text-[10px]
+                    font-bold
+                    uppercase
+                    tracking-wider
+                    text-[#92794b]
+                ">
+                    Total Usuarios
+                </p>
+
+                <h3 class="
+                    mt-2
+                    mb-0
+                    text-2xl
+                    font-bold
+                    text-[#3d301d]
+                    sm:text-3xl
+                ">
+                    @Model.TotalUsuarios
+                </h3>
+
+                <p class="
+                    mt-1
+                    mb-0
+                    text-[10px]
+                    text-[#9a8968]
+                ">
+                    Usuarios registrados
+                </p>
+
             </div>
+
+
+            <div class="
+                flex
+                h-11
+                w-11
+                flex-shrink-0
+                items-center
+                justify-center
+                rounded-xl
+                bg-[#f4e5bd]
+                text-[#b88a32]
+            ">
+
+                <i class="fa-solid fa-users"></i>
+
+            </div>
+
         </div>
+
     </div>
+
+
+    <div class="
+        relative
+        overflow-hidden
+        rounded-2xl
+        border
+        border-emerald-300/20
+        bg-gradient-to-br
+        from-[#fffaf0]
+        to-[#f5f1e8]
+        p-4
+        shadow-lg
+    ">
+
+        <div class="
+            absolute
+            -right-8
+            -top-8
+            h-24
+            w-24
+            rounded-full
+            bg-emerald-500/10
+        "></div>
+
+
+        <div class="
+            relative
+            flex
+            items-start
+            justify-between
+            gap-3
+        ">
+
+            <div>
+
+                <p class="
+                    m-0
+                    text-[10px]
+                    font-bold
+                    uppercase
+                    tracking-wider
+                    text-[#92794b]
+                ">
+                    Usuarios Activos
+                </p>
+
+                <h3 class="
+                    mt-2
+                    mb-0
+                    text-2xl
+                    font-bold
+                    text-[#3d301d]
+                    sm:text-3xl
+                ">
+                    @Model.TotalActivos
+                </h3>
+
+                <p class="
+                    mt-1
+                    mb-0
+                    text-[10px]
+                    text-[#9a8968]
+                ">
+                    Cuentas actualmente activas
+                </p>
+
+            </div>
+
+
+            <div class="
+                flex
+                h-11
+                w-11
+                flex-shrink-0
+                items-center
+                justify-center
+                rounded-xl
+                bg-emerald-100
+                text-emerald-600
+            ">
+
+                <i class="fa-solid fa-user-check"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="
+        relative
+        overflow-hidden
+        rounded-2xl
+        border
+        border-red-300/20
+        bg-gradient-to-br
+        from-[#fffaf0]
+        to-[#f5f1e8]
+        p-4
+        shadow-lg
+    ">
+
+        <div class="
+            absolute
+            -right-8
+            -top-8
+            h-24
+            w-24
+            rounded-full
+            bg-red-500/10
+        "></div>
+
+
+        <div class="
+            relative
+            flex
+            items-start
+            justify-between
+            gap-3
+        ">
+
+            <div>
+
+                <p class="
+                    m-0
+                    text-[10px]
+                    font-bold
+                    uppercase
+                    tracking-wider
+                    text-[#92794b]
+                ">
+                    Usuarios Inactivos
+                </p>
+
+                <h3 class="
+                    mt-2
+                    mb-0
+                    text-2xl
+                    font-bold
+                    text-[#3d301d]
+                    sm:text-3xl
+                ">
+                    @Model.TotalInactivos
+                </h3>
+
+                <p class="
+                    mt-1
+                    mb-0
+                    text-[10px]
+                    text-[#9a8968]
+                ">
+                    Cuentas actualmente inactivas
+                </p>
+
+            </div>
+
+
+            <div class="
+                flex
+                h-11
+                w-11
+                flex-shrink-0
+                items-center
+                justify-center
+                rounded-xl
+                bg-red-100
+                text-red-600
+            ">
+
+                <i class="fa-solid fa-user-xmark"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="
+    mt-4
+    min-h-0
+    flex-1
+    overflow-hidden
+    rounded-2xl
+    border
+    border-white/10
+    bg-[#fffaf0]
+    p-4
+    shadow-xl
+">
+
+    <div class="
+        mb-4
+        flex
+        flex-shrink-0
+        items-center
+        justify-between
+    ">
+
+        <div>
+
+            <h5 class="
+                m-0
+                text-sm
+                font-bold
+                text-[#4a371c]
+                sm:text-base
+            ">
+                Distribución de Roles
+            </h5>
+
+            <p class="
+                mt-1
+                mb-0
+                text-[10px]
+                text-[#9d8965]
+            ">
+                Cantidad de usuarios según su tipo de cuenta.
+            </p>
+
+        </div>
+
+
+        <div class="
+            flex
+            h-10
+            w-10
+            items-center
+            justify-center
+            rounded-xl
+            bg-[#f4e5bd]
+            text-[#b88a32]
+        ">
+
+            <i class="fa-solid fa-user-shield"></i>
+
+        </div>
+
+    </div>
+
+    <div class="
+        grid
+        grid-cols-1
+        gap-3
+        md:grid-cols-3
+    ">
+
+        <div class="
+            relative
+            overflow-hidden
+            rounded-xl
+            border
+            border-[#d8bb78]/30
+            bg-[#f8f0df]
+            p-4
+            transition
+            duration-200
+            hover:-translate-y-0.5
+            hover:shadow-md
+        ">
+
+            <div class="
+                flex
+                items-start
+                justify-between
+                gap-3
+            ">
+
+                <div>
+
+                    <p class="
+                        m-0
+                        text-[10px]
+                        font-bold
+                        uppercase
+                        tracking-wider
+                        text-[#92794b]
+                    ">
+                        Administradores
+                    </p>
+
+                    <p class="
+                        mt-2
+                        mb-0
+                        text-2xl
+                        font-bold
+                        text-[#3d301d]
+                    ">
+                        @Model.TotalAdmin
+                    </p>
+
+                    <p class="
+                        mt-1
+                        mb-0
+                        text-[10px]
+                        text-[#9a8968]
+                    ">
+                        Usuarios con acceso administrativo
+                    </p>
+
+                </div>
+
+
+                <div class="
+                    flex
+                    h-10
+                    w-10
+                    flex-shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-[#e9d8a9]
+                    text-[#8c6828]
+                ">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="mt-4">
+
+                <span class="
+                    inline-flex
+                    items-center
+                    rounded-full
+                    bg-[#ead9ae]
+                    px-3
+                    py-1
+                    text-[10px]
+                    font-bold
+                    text-[#6b512b]
+                ">
+
+                    <span class="
+                        mr-1.5
+                        h-1.5
+                        w-1.5
+                        rounded-full
+                        bg-[#c79a3f]
+                    "></span>
+
+                    @Model.PorcentajeAdmin %
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="
+            relative
+            overflow-hidden
+            rounded-xl
+            border
+            border-slate-300/50
+            bg-[#f8f0df]
+            p-4
+            transition
+            duration-200
+            hover:-translate-y-0.5
+            hover:shadow-md
+        ">
+
+            <div class="
+                flex
+                items-start
+                justify-between
+                gap-3
+            ">
+
+                <div>
+
+                    <p class="
+                        m-0
+                        text-[10px]
+                        font-bold
+                        uppercase
+                        tracking-wider
+                        text-[#92794b]
+                    ">
+                        Usuarios Free
+                    </p>
+
+                    <p class="
+                        mt-2
+                        mb-0
+                        text-2xl
+                        font-bold
+                        text-[#3d301d]
+                    ">
+                        @Model.TotalFree
+                    </p>
+
+                    <p class="
+                        mt-1
+                        mb-0
+                        text-[10px]
+                        text-[#9a8968]
+                    ">
+                        Usuarios con cuenta gratuita
+                    </p>
+
+                </div>
+
+
+                <div class="
+                    flex
+                    h-10
+                    w-10
+                    flex-shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-slate-200
+                    text-slate-600
+                ">
+
+                    <i class="fa-solid fa-user"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="mt-4">
+
+                <span class="
+                    inline-flex
+                    items-center
+                    rounded-full
+                    bg-slate-200
+                    px-3
+                    py-1
+                    text-[10px]
+                    font-bold
+                    text-slate-600
+                ">
+
+                    <span class="
+                        mr-1.5
+                        h-1.5
+                        w-1.5
+                        rounded-full
+                        bg-slate-500
+                    "></span>
+
+                    @Model.PorcentajeFree %
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="
+            relative
+            overflow-hidden
+            rounded-xl
+            border
+            border-[#d8bb78]/30
+            bg-[#f8f0df]
+            p-4
+            transition
+            duration-200
+            hover:-translate-y-0.5
+            hover:shadow-md
+        ">
+
+            <div class="
+                flex
+                items-start
+                justify-between
+                gap-3
+            ">
+
+                <div>
+
+                    <p class="
+                        m-0
+                        text-[10px]
+                        font-bold
+                        uppercase
+                        tracking-wider
+                        text-[#92794b]
+                    ">
+                        Usuarios Premium
+                    </p>
+
+                    <p class="
+                        mt-2
+                        mb-0
+                        text-2xl
+                        font-bold
+                        text-[#3d301d]
+                    ">
+                        @Model.TotalPremium
+                    </p>
+
+                    <p class="
+                        mt-1
+                        mb-0
+                        text-[10px]
+                        text-[#9a8968]
+                    ">
+                        Usuarios con cuenta premium
+                    </p>
+
+                </div>
+
+
+                <div class="
+                    flex
+                    h-10
+                    w-10
+                    flex-shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-[#f4e5bd]
+                    text-[#b88a32]
+                ">
+
+                    <i class="fa-solid fa-crown"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="mt-4">
+
+                <span class="
+                    inline-flex
+                    items-center
+                    rounded-full
+                    bg-[#ead9ae]
+                    px-3
+                    py-1
+                    text-[10px]
+                    font-bold
+                    text-[#6b512b]
+                ">
+
+                    <span class="
+                        mr-1.5
+                        h-1.5
+                        w-1.5
+                        rounded-full
+                        bg-[#c79a3f]
+                    "></span>
+
+                    @Model.PorcentajePremium %
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="
+        mt-4
+        rounded-xl
+        border
+        border-[#dfd1b7]
+        bg-[#f8f0df]
+        p-4
+    ">
+
+        <div class="
+            flex
+            flex-col
+            gap-3
+            sm:flex-row
+            sm:items-center
+            sm:justify-between
+        ">
+
+            <div class="flex items-center gap-3">
+
+                <div class="
+                    flex
+                    h-10
+                    w-10
+                    flex-shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-[#ead9ae]
+                    text-[#b88a32]
+                ">
+
+                    <i class="fa-solid fa-chart-simple"></i>
+
+                </div>
+
+
+                <div>
+
+                    <p class="
+                        m-0
+                        text-xs
+                        font-bold
+                        text-[#4a371c]
+                    ">
+                        Resumen de usuarios
+                    </p>
+
+                    <p class="
+                        mt-1
+                        mb-0
+                        text-[10px]
+                        text-[#9d8965]
+                    ">
+                        @Model.TotalActivos de @Model.TotalUsuarios usuarios se encuentran activos.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="
+                flex
+                items-center
+                gap-2
+            ">
+
+                <span class="
+                    text-[10px]
+                    font-semibold
+                    text-[#806c4c]
+                ">
+                    Activos
+                </span>
+
+                <span class="
+                    inline-flex
+                    items-center
+                    rounded-full
+                    bg-emerald-100
+                    px-3
+                    py-1
+                    text-[10px]
+                    font-bold
+                    text-emerald-700
+                ">
+
+                    <span class="
+                        mr-1.5
+                        h-1.5
+                        w-1.5
+                        rounded-full
+                        bg-emerald-500
+                    "></span>
+
+                    @Model.TotalActivos
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 </div>
