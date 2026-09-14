@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("midasMVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+66e1abfd0d9a6d49b47c2ba15298f329dc2705e1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ca48b0f1dff8aeb7c9bb559aedea35141952d4a6")]
 [assembly: System.Reflection.AssemblyProductAttribute("midasMVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("midasMVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -263,7 +263,7 @@ public class MovementRepository
         const string sqlTotales = @"
             SELECT 
                 COALESCE(SUM(CASE WHEN mt.name = 'Ingreso' THEN m.amount ELSE 0 END), 0) AS TotalIngresos,
-                COALESCE(SUM(CASE WHEN mt.name = 'Gasto' THEN m.amount ELSE 0 END), 0) AS TotalGastos
+                COALESCE(SUM(CASE WHEN mt.name = 'Egreso' THEN m.amount ELSE 0 END), 0) AS TotalGastos
             FROM movements m
             JOIN movements_type mt ON mt.id = m.movement_type_id
             WHERE m.user_id = @userId;";
@@ -284,7 +284,7 @@ public class MovementRepository
             FROM movements m
             JOIN movement_categories mc ON mc.id = m.movement_categorie_id
             JOIN movements_type mt ON mt.id = m.movement_type_id
-            WHERE m.user_id = @userId AND LOWER(mt.name) = 'gasto'
+            WHERE m.user_id = @userId AND LOWER(mt.name) = 'Egreso'
             GROUP BY mc.id, mc.name
             ORDER BY Total DESC;";
 
@@ -308,8 +308,8 @@ public class MovementRepository
         const string sqlMensual = @"
             SELECT 
                 MONTH(m.created_at) AS Mes,
-                SUM(CASE WHEN LOWER(mt.name) = 'ingreso' THEN m.amount ELSE 0 END) AS Ingresos,
-                SUM(CASE WHEN LOWER(mt.name) = 'gasto' THEN m.amount ELSE 0 END) AS Gastos
+                SUM(CASE WHEN LOWER(mt.name) = 'Ingreso' THEN m.amount ELSE 0 END) AS Ingresos,
+                SUM(CASE WHEN LOWER(mt.name) = 'Egreso' THEN m.amount ELSE 0 END) AS Gastos
             FROM movements m
             JOIN movements_type mt ON mt.id = m.movement_type_id
             WHERE m.user_id = @userId AND YEAR(m.created_at) = YEAR(CURDATE())
