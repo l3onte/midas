@@ -229,7 +229,7 @@ public class MovementRepository
                 user_id,
                 name
             FROM goals
-            WHERE user_id = @userId
+            WHERE user_id = @userId AND target_amount != current_amount;
         ";
 
         await using var connection = new MySqlConnection(_connectionString);
@@ -240,7 +240,7 @@ public class MovementRepository
 
         await using var reader = await command.ExecuteReaderAsync();
 
-        if (await reader.ReadAsync())
+        while (await reader.ReadAsync())
         {
             list.Add(new Goal()
             {
