@@ -1,171 +1,1157 @@
 @model IEnumerable<midasMVC.Models.User>
 
 @{
-    ViewData["Title"] = "Administración de Usuarios";
+ViewData["Title"] = "Administración de Usuarios";
 }
 
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Gestión de Usuarios</h2>
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">
-            + Agregar Usuario
+<div class="flex h-full min-h-0 w-full flex-col overflow-hidden">
+
+<div class="
+    flex
+    flex-shrink-0
+    flex-col
+    gap-3
+    pb-4
+    lg:flex-row
+    lg:items-center
+    lg:justify-between
+">
+
+    <div class="min-w-0">
+
+        <h2 class="
+            m-0
+            text-xl
+            font-bold
+            tracking-tight
+            text-[#f8ebca]
+            sm:text-2xl
+        ">
+            Gestión de Usuarios
+        </h2>
+
+        <p class="
+            mt-1
+            mb-0
+            text-xs
+            text-[#c3b18e]
+        ">
+            Administra los usuarios, roles y estados de la plataforma.
+        </p>
+
+    </div>
+
+
+    <div class="
+        flex
+        w-full
+        flex-col
+        gap-2
+        sm:flex-row
+        lg:w-auto
+    ">
+        <div class="
+            flex
+            h-10
+            min-w-0
+            w-full
+            items-center
+            rounded-lg
+            border
+            border-white/10
+            bg-white/10
+            px-3
+            sm:w-[280px]
+        ">
+
+            <i class="
+                fa-solid
+                fa-magnifying-glass
+                mr-2
+                text-xs
+                text-white/50
+            "></i>
+
+            <input type="text"
+                   id="inputBuscarUsuario"
+                   class="
+                        w-full
+                        min-w-0
+                        border-0
+                        bg-transparent
+                        text-xs
+                        text-white
+                        outline-none
+                        placeholder:text-white/50
+                   "
+                   placeholder="Buscar usuario..." />
+
+        </div>
+
+        <button type="button"
+                class="
+                    inline-flex
+                    h-10
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-lg
+                    border
+                    border-[#e0ba5e]/40
+                    bg-[#c79a3f]
+                    px-4
+                    text-xs
+                    font-semibold
+                    text-white
+                    shadow-lg
+                    transition
+                    duration-200
+                    hover:bg-[#b38732]
+                    hover:shadow-xl
+                "
+                data-bs-toggle="modal"
+                data-bs-target="#createModal">
+
+            <i class="fa-solid fa-user-plus text-[11px]"></i>
+
+            <span>Agregar Usuario</span>
+
         </button>
+
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body p-0">
-            <table class="table table-striped align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th>Teléfono</th>
-                        <th>Rol</th>
-                        <th>Ingreso</th>
-                        <th>Estado</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model != null && Model.Any())
-                    {
-                        @foreach (var user in Model)
-                        {
-                            <tr>
-                                <td>@user.Id</td>
-                                <td>@user.Name @user.Last_name</td>
-                                <td>@(string.IsNullOrEmpty(user.Phone) ? "N/A" : user.Phone)</td>
-                                <td>@user.Role?.Name</td>
-                                <td>@user.Created_at.ToString("dd/MM/yyyy")</td>
-                                <td>
-                                    @if (user.Status)
-                                    {
-                                        <span class="badge bg-success">Activo</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-danger">Inactivo</span>
-                                    }
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary me-1" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#editModal-@user.Id">
-                                        Editar
-                                    </button>
-                                </td>
-                            </tr>
+</div>
 
-                            <div class="modal fade" id="editModal-@user.Id" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <form asp-controller="User" asp-action="Edit" method="post">
-                                            @Html.AntiForgeryToken()
-                                            <input type="hidden" name="Id" value="@user.Id" />
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Editar Usuario</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Nombre</label>
-                                                    <input type="text" name="Name" class="form-control" value="@user.Name" required />
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Apellido</label>
-                                                    <input type="text" name="Last_name" class="form-control" value="@user.Last_name" required />
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Correo Electrónico</label>
-                                                    <input type="email" name="Email" class="form-control" value="@user.Email" required />
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Teléfono</label>
-                                                    <input type="text" name="Phone" class="form-control" value="@user.Phone" />
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Rol</label>
-                                                    <select name="Role_id" class="form-select">
-                                                        <option value="1" selected="@(user.Role_id == 1)">Administrador</option>
-                                                        <option value="2" selected="@(user.Role_id == 2)">Usuario Free</option>
-                                                        <option value="3" selected="@(user.Role_id == 3)">Usuario Premium</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-check mb-3">
-                                                    <input type="checkbox" name="Status" value="true" class="form-check-input" id="status-@user.Id" @(user.Status ? "checked" : "") />
-                                                    <label class="form-check-label" for="status-@user.Id">Usuario Activo</label>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                                            </div>
-                                        </form>
+<div class="
+    min-h-0
+    flex-1
+    overflow-hidden
+    rounded-2xl
+    border
+    border-white/10
+    bg-[#fffaf0]
+    shadow-xl
+">
+
+    <div class="
+        h-full
+        w-full
+        overflow-auto
+    ">
+
+        <table class="
+            m-0
+            min-w-[1050px]
+            w-full
+            align-middle
+            text-xs
+        ">
+
+            <thead class="
+                sticky
+                top-0
+                z-10
+                bg-[#ead9ae]
+            ">
+
+                <tr class="border-b border-[#d7c59f]">
+
+                    <th class="
+                        whitespace-nowrap
+                        px-4
+                        py-3
+                        text-left
+                        font-bold
+                        text-[#4c381d]
+                    ">
+                        Id
+                    </th>
+
+                    <th class="
+                        whitespace-nowrap
+                        px-4
+                        py-3
+                        text-left
+                        font-bold
+                        text-[#4c381d]
+                    ">
+                        Nombre
+                    </th>
+
+                    <th class="
+                        whitespace-nowrap
+                        px-4
+                        py-3
+                        text-left
+                        font-bold
+                        text-[#4c381d]
+                    ">
+                        Correo
+                    </th>
+
+                    <th class="
+                        whitespace-nowrap
+                        px-4
+                        py-3
+                        text-left
+                        font-bold
+                        text-[#4c381d]
+                    ">
+                        Teléfono
+                    </th>
+
+                    <th class="
+                        whitespace-nowrap
+                        px-4
+                        py-3
+                        text-left
+                        font-bold
+                        text-[#4c381d]
+                    ">
+                        Rol
+                    </th>
+
+                    <th class="
+                        whitespace-nowrap
+                        px-4
+                        py-3
+                        text-left
+                        font-bold
+                        text-[#4c381d]
+                    ">
+                        Ingreso
+                    </th>
+
+                    <th class="
+                        whitespace-nowrap
+                        px-4
+                        py-3
+                        text-left
+                        font-bold
+                        text-[#4c381d]
+                    ">
+                        Estado
+                    </th>
+
+                    <th class="
+                        whitespace-nowrap
+                        px-4
+                        py-3
+                        text-left
+                        font-bold
+                        text-[#4c381d]
+                    ">
+                        Acción
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var user in Model)
+                    {
+                        <tr class="
+                            border-b
+                            border-[#eee3ce]
+                            bg-[#fffaf0]
+                            transition
+                            duration-150
+                            hover:bg-[#f8efd9]
+                        ">
+                            <td class="
+                                whitespace-nowrap
+                                px-4
+                                py-3
+                                font-medium
+                                text-[#5a4525]
+                            ">
+                                @user.Id
+                            </td>
+
+                            <td class="
+                                max-w-[220px]
+                                px-4
+                                py-3
+                                font-semibold
+                                text-[#4d3a20]
+                            ">
+
+                                <div class="flex items-center gap-2">
+
+                                    <div class="
+                                        flex
+                                        h-8
+                                        w-8
+                                        flex-shrink-0
+                                        items-center
+                                        justify-center
+                                        rounded-full
+                                        bg-[#ead9ae]
+                                        text-[#806634]
+                                    ">
+
+                                        <i class="fa-solid fa-user text-xs"></i>
+
                                     </div>
+
+                                    <div class="min-w-0">
+
+                                        <div class="truncate">
+                                            @user.Name @user.Last_name
+                                        </div>
+
+                                    </div>
+
                                 </div>
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="7" class="text-center py-3">No hay usuarios registrados.</td>
+
+                            </td>
+
+                            <td class="
+                                max-w-[230px]
+                                px-4
+                                py-3
+                                text-[#5f4a29]
+                            ">
+
+                                <div class="truncate">
+                                    @(string.IsNullOrEmpty(user.Email)
+                                        ? "N/A"
+                                        : user.Email)
+                                </div>
+
+                            </td>
+
+                            <td class="
+                                whitespace-nowrap
+                                px-4
+                                py-3
+                                text-[#5f4a29]
+                            ">
+
+                                @(string.IsNullOrEmpty(user.Phone)
+                                    ? "N/A"
+                                    : user.Phone)
+
+                            </td>
+
+
+                            <!-- ROL -->
+                            <td class="px-4 py-3">
+
+                                <span class="
+                                    inline-flex
+                                    items-center
+                                    rounded-full
+                                    bg-[#eee3ce]
+                                    px-2.5
+                                    py-1
+                                    text-[10px]
+                                    font-bold
+                                    text-[#6b512b]
+                                ">
+
+                                    <span class="
+                                        mr-1.5
+                                        h-1.5
+                                        w-1.5
+                                        rounded-full
+                                        bg-[#c79a3f]
+                                    "></span>
+
+                                    @(user.Role?.Name ?? "Sin rol")
+
+                                </span>
+
+                            </td>
+
+                            <td class="
+                                whitespace-nowrap
+                                px-4
+                                py-3
+                                text-[#6f5a35]
+                            ">
+
+                                @user.Created_at.ToString("dd/MM/yyyy")
+
+                            </td>
+
+                            <td class="px-4 py-3">
+
+                                @if (user.Status)
+                                {
+                                    <span class="
+                                        inline-flex
+                                        items-center
+                                        rounded-full
+                                        bg-emerald-100
+                                        px-2.5
+                                        py-1
+                                        text-[10px]
+                                        font-bold
+                                        text-emerald-700
+                                    ">
+
+                                        <span class="
+                                            mr-1.5
+                                            h-1.5
+                                            w-1.5
+                                            rounded-full
+                                            bg-emerald-500
+                                        "></span>
+
+                                        Activo
+
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="
+                                        inline-flex
+                                        items-center
+                                        rounded-full
+                                        bg-red-100
+                                        px-2.5
+                                        py-1
+                                        text-[10px]
+                                        font-bold
+                                        text-red-700
+                                    ">
+
+                                        <span class="
+                                            mr-1.5
+                                            h-1.5
+                                            w-1.5
+                                            rounded-full
+                                            bg-red-500
+                                        "></span>
+
+                                        Inactivo
+
+                                    </span>
+                                }
+
+                            </td>
+
+                            <td class="
+                                whitespace-nowrap
+                                px-4
+                                py-3
+                            ">
+
+                                <button type="button"
+                                        class="
+                                            inline-flex
+                                            items-center
+                                            gap-1.5
+                                            rounded-lg
+                                            border
+                                            border-[#d7c59f]
+                                            bg-[#f3ead7]
+                                            px-3
+                                            py-1.5
+                                            text-[10px]
+                                            font-bold
+                                            text-[#6b512b]
+                                            transition
+                                            hover:bg-[#ead9ae]
+                                        "
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editModal-@user.Id">
+
+                                    <i class="fa-solid fa-pen text-[9px]"></i>
+
+                                    Editar
+
+                                </button>
+
+                            </td>
+
                         </tr>
+
+                        <div class="modal fade"
+                             id="editModal-@user.Id"
+                             tabindex="-1"
+                             aria-hidden="true">
+
+                            <div class="modal-dialog modal-dialog-centered">
+
+                                <div class="
+                                    modal-content
+                                    overflow-hidden
+                                    rounded-2xl
+                                    border-0
+                                    bg-[#fffaf0]
+                                    shadow-2xl
+                                ">
+
+                                    <div class="
+                                        modal-header
+                                        border-0
+                                        bg-gradient-to-r
+                                        from-[#b58934]
+                                        to-[#d0a74d]
+                                        px-5
+                                        py-4
+                                        text-white
+                                    ">
+
+                                        <h5 class="
+                                            modal-title
+                                            flex
+                                            items-center
+                                            gap-2
+                                            text-base
+                                            font-bold
+                                        ">
+
+                                            <i class="fa-solid fa-user-pen"></i>
+
+                                            Editar Usuario
+
+                                        </h5>
+
+                                        <button type="button"
+                                                class="btn-close btn-close-white"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close">
+                                        </button>
+
+                                    </div>
+
+
+                                    <form asp-controller="User"
+                                          asp-action="Edit"
+                                          method="post">
+
+                                        @Html.AntiForgeryToken()
+
+                                        <input type="hidden"
+                                               name="Id"
+                                               value="@user.Id" />
+
+
+                                        <div class="modal-body p-5">
+
+                                            <!-- NOMBRE -->
+                                            <div class="mb-3">
+
+                                                <label class="
+                                                    form-label
+                                                    mb-2
+                                                    text-xs
+                                                    font-bold
+                                                    text-[#4d3a20]
+                                                ">
+                                                    Nombre
+                                                </label>
+
+                                                <input type="text"
+                                                       name="Name"
+                                                       class="
+                                                           form-control
+                                                           rounded-lg
+                                                           border-[#dfd1b7]
+                                                       "
+                                                       value="@user.Name"
+                                                       required />
+
+                                            </div>
+
+
+                                            <!-- APELLIDO -->
+                                            <div class="mb-3">
+
+                                                <label class="
+                                                    form-label
+                                                    mb-2
+                                                    text-xs
+                                                    font-bold
+                                                    text-[#4d3a20]
+                                                ">
+                                                    Apellido
+                                                </label>
+
+                                                <input type="text"
+                                                       name="Last_name"
+                                                       class="
+                                                           form-control
+                                                           rounded-lg
+                                                           border-[#dfd1b7]
+                                                       "
+                                                       value="@user.Last_name"
+                                                       required />
+
+                                            </div>
+
+
+                                            <!-- EMAIL -->
+                                            <div class="mb-3">
+
+                                                <label class="
+                                                    form-label
+                                                    mb-2
+                                                    text-xs
+                                                    font-bold
+                                                    text-[#4d3a20]
+                                                ">
+                                                    Correo Electrónico
+                                                </label>
+
+                                                <input type="email"
+                                                       name="Email"
+                                                       class="
+                                                           form-control
+                                                           rounded-lg
+                                                           border-[#dfd1b7]
+                                                       "
+                                                       value="@user.Email"
+                                                       required />
+
+                                            </div>
+
+
+                                            <!-- TELÉFONO -->
+                                            <div class="mb-3">
+
+                                                <label class="
+                                                    form-label
+                                                    mb-2
+                                                    text-xs
+                                                    font-bold
+                                                    text-[#4d3a20]
+                                                ">
+                                                    Teléfono
+                                                </label>
+
+                                                <input type="text"
+                                                       name="Phone"
+                                                       class="
+                                                           form-control
+                                                           rounded-lg
+                                                           border-[#dfd1b7]
+                                                       "
+                                                       value="@user.Phone" />
+
+                                            </div>
+
+
+                                            <!-- ROL -->
+                                            <div class="mb-3">
+
+                                                <label class="
+                                                    form-label
+                                                    mb-2
+                                                    text-xs
+                                                    font-bold
+                                                    text-[#4d3a20]
+                                                ">
+                                                    Rol
+                                                </label>
+
+                                                <select name="Role_id"
+                                                        class="
+                                                            form-select
+                                                            rounded-lg
+                                                            border-[#dfd1b7]
+                                                        ">
+
+                                                    <option value="1"
+                                                            selected="@(user.Role_id == 1)">
+                                                        Administrador
+                                                    </option>
+
+                                                    <option value="2"
+                                                            selected="@(user.Role_id == 2)">
+                                                        Usuario Free
+                                                    </option>
+
+                                                    <option value="3"
+                                                            selected="@(user.Role_id == 3)">
+                                                        Usuario Premium
+                                                    </option>
+
+                                                </select>
+
+                                            </div>
+
+
+                                            <!-- ESTADO -->
+                                            <div class="form-check mb-3">
+
+                                                <input type="checkbox"
+                                                       name="Status"
+                                                       value="true"
+                                                       class="form-check-input"
+                                                       id="status-@user.Id"
+                                                       @(user.Status ? "checked" : "") />
+
+                                                <label class="
+                                                    form-check-label
+                                                    text-xs
+                                                    font-semibold
+                                                    text-[#5a4525]
+                                                "
+                                                       for="status-@user.Id">
+
+                                                    Usuario Activo
+
+                                                </label>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="
+                                            modal-footer
+                                            border-0
+                                            bg-[#f8f0df]
+                                            px-5
+                                            py-4
+                                        ">
+
+                                            <button type="button"
+                                                    class="
+                                                        btn
+                                                        rounded-lg
+                                                        border-0
+                                                        bg-[#e5dcc9]
+                                                        px-4
+                                                        text-xs
+                                                        font-semibold
+                                                        text-[#5a4525]
+                                                    "
+                                                    data-bs-dismiss="modal">
+
+                                                Cancelar
+
+                                            </button>
+
+
+                                            <button type="submit"
+                                                    class="
+                                                        btn
+                                                        rounded-lg
+                                                        border-0
+                                                        bg-[#c79a3f]
+                                                        px-4
+                                                        text-xs
+                                                        font-semibold
+                                                        text-white
+                                                        shadow
+                                                        transition
+                                                        hover:bg-[#b38732]
+                                                    ">
+
+                                                <i class="fa-solid fa-check me-1"></i>
+
+                                                Guardar Cambios
+
+                                            </button>
+
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
                     }
-                </tbody>
-            </table>
-        </div>
+                }
+                else
+                {
+                    <tr>
+
+                        <td colspan="8"
+                            class="
+                                px-4
+                                py-8
+                                text-center
+                                text-xs
+                                text-[#806c49]
+                            ">
+
+                            <div class="
+                                flex
+                                flex-col
+                                items-center
+                                justify-center
+                                gap-2
+                            ">
+
+                                <i class="
+                                    fa-solid
+                                    fa-users
+                                    text-2xl
+                                    text-[#c79a3f]
+                                "></i>
+
+                                <span>
+                                    No hay usuarios registrados.
+                                </span>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
     </div>
+
 </div>
 
-<div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form asp-controller="User" asp-action="Create" method="post">
-                @Html.AntiForgeryToken()
-                <div class="modal-header">
-                    <h5 class="modal-title">Agregar Usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Nombre</label>
-                        <input type="text" name="Name" class="form-control" required />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Apellido</label>
-                        <input type="text" name="Last_name" class="form-control" required />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Correo Electrónico</label>
-                        <input type="email" name="Email" class="form-control" required />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Contraseña</label>
-                        <input type="password" name="Password" class="form-control" required />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Teléfono</label>
-                        <input type="text" name="Phone" class="form-control" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Rol</label>
-                        <select name="Role_id" class="form-select" required>
-                            <option value="1">Administrador</option>
-                            <option value="2" selected>Usuario Free</option>
-                            <option value="3">Usuario Premium</option>
-                        </select>
-                    </div>
-                    <div class="form-check mb-3">
-                        <input type="checkbox" name="Status" value="true" class="form-check-input" id="createStatus" checked />
-                        <label class="form-check-label" for="createStatus">Activo</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success">Guardar</button>
-                </div>
-            </form>
-        </div>
-    </div>
 </div>
+
+
+<div class="modal fade"
+     id="createModal"
+     tabindex="-1"
+     aria-labelledby="createModalLabel"
+     aria-hidden="true">
+
+<div class="modal-dialog modal-dialog-centered">
+
+    <div class="
+        modal-content
+        overflow-hidden
+        rounded-2xl
+        border-0
+        bg-[#fffaf0]
+        shadow-2xl
+    ">
+
+        <div class="
+            modal-header
+            border-0
+            bg-gradient-to-r
+            from-[#b58934]
+            to-[#d0a74d]
+            px-5
+            py-4
+            text-white
+        ">
+
+            <h5 class="
+                modal-title
+                flex
+                items-center
+                gap-2
+                text-base
+                font-bold
+            "
+                id="createModalLabel">
+
+                <i class="fa-solid fa-user-plus"></i>
+
+                Agregar Usuario
+
+            </h5>
+
+
+            <button type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                    aria-label="Close">
+            </button>
+
+        </div>
+
+        <form asp-controller="User"
+              asp-action="Create"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+
+            <div class="modal-body p-5">
+                <div class="mb-3">
+
+                    <label class="
+                        form-label
+                        mb-2
+                        text-xs
+                        font-bold
+                        text-[#4d3a20]
+                    ">
+                        Nombre
+                    </label>
+
+                    <input type="text"
+                           name="Name"
+                           class="
+                               form-control
+                               rounded-lg
+                               border-[#dfd1b7]
+                           "
+                           required />
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="
+                        form-label
+                        mb-2
+                        text-xs
+                        font-bold
+                        text-[#4d3a20]
+                    ">
+                        Apellido
+                    </label>
+
+                    <input type="text"
+                           name="Last_name"
+                           class="
+                               form-control
+                               rounded-lg
+                               border-[#dfd1b7]
+                           "
+                           required />
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="
+                        form-label
+                        mb-2
+                        text-xs
+                        font-bold
+                        text-[#4d3a20]
+                    ">
+                        Correo Electrónico
+                    </label>
+
+                    <input type="email"
+                           name="Email"
+                           class="
+                               form-control
+                               rounded-lg
+                               border-[#dfd1b7]
+                           "
+                           required />
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="
+                        form-label
+                        mb-2
+                        text-xs
+                        font-bold
+                        text-[#4d3a20]
+                    ">
+                        Contraseña
+                    </label>
+
+                    <input type="password"
+                           name="Password"
+                           class="
+                               form-control
+                               rounded-lg
+                               border-[#dfd1b7]
+                           "
+                           required />
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="
+                        form-label
+                        mb-2
+                        text-xs
+                        font-bold
+                        text-[#4d3a20]
+                    ">
+                        Teléfono
+                    </label>
+
+                    <input type="text"
+                           name="Phone"
+                           class="
+                               form-control
+                               rounded-lg
+                               border-[#dfd1b7]
+                           " />
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="
+                        form-label
+                        mb-2
+                        text-xs
+                        font-bold
+                        text-[#4d3a20]
+                    ">
+                        Rol
+                    </label>
+
+                    <select name="Role_id"
+                            class="
+                                form-select
+                                rounded-lg
+                                border-[#dfd1b7]
+                            "
+                            required>
+
+                        <option value="1">
+                            Administrador
+                        </option>
+
+                        <option value="2" selected>
+                            Usuario Free
+                        </option>
+
+                        <option value="3">
+                            Usuario Premium
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-check mb-3">
+
+                    <input type="checkbox"
+                           name="Status"
+                           value="true"
+                           class="form-check-input"
+                           id="createStatus"
+                           checked />
+
+                    <label class="
+                        form-check-label
+                        text-xs
+                        font-semibold
+                        text-[#5a4525]
+                    "
+                           for="createStatus">
+
+                        Usuario Activo
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="
+                modal-footer
+                border-0
+                bg-[#f8f0df]
+                px-5
+                py-4
+            ">
+
+                <button type="button"
+                        class="
+                            btn
+                            rounded-lg
+                            border-0
+                            bg-[#e5dcc9]
+                            px-4
+                            text-xs
+                            font-semibold
+                            text-[#5a4525]
+                        "
+                        data-bs-dismiss="modal">
+
+                    Cancelar
+
+                </button>
+
+
+                <button type="submit"
+                        class="
+                            btn
+                            rounded-lg
+                            border-0
+                            bg-[#c79a3f]
+                            px-4
+                            text-xs
+                            font-semibold
+                            text-white
+                            shadow
+                            transition
+                            hover:bg-[#b38732]
+                        ">
+
+                    <i class="fa-solid fa-check me-1"></i>
+
+                    Guardar Usuario
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</div>
+
+@section Scripts {
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const inputBuscar =
+            document.getElementById("inputBuscarUsuario");
+
+        const filasTabla =
+            document.querySelectorAll("tbody tr");
+
+
+        if (inputBuscar) {
+
+            inputBuscar.addEventListener(
+                "input",
+                function () {
+
+                    const criterio =
+                        this.value
+                            .toLowerCase()
+                            .trim();
+
+
+                    filasTabla.forEach(fila => {
+
+                        const textoFila =
+                            fila.textContent
+                                .toLowerCase();
+
+
+                        fila.style.display =
+                            textoFila.includes(criterio)
+                                ? ""
+                                : "none";
+
+                    });
+
+                }
+            );
+
+        }
+
+    });
+
+</script>
+}
