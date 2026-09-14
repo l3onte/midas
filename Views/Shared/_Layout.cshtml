@@ -64,7 +64,6 @@
                     rounded-[24px]
                     sm:rounded-[30px]
                     md:rounded-[40px]
-                    border border-[#d5ad58]/40
                     bg-gradient-to-br
                     from-[#6c542b]
                     via-[#4a3a20]
@@ -93,35 +92,28 @@
                         shadow-xl
                     ">
 
-                        <!-- PARTE SUPERIOR -->
                         <div>
-
-                            <!-- LOGO -->
                             <div class="mb-7 flex flex-col items-center">
 
                                 <a asp-controller="Home"
                                 asp-action="Index"
                                 class="group">
 
-                                    <div class="
-                                        flex
-                                        h-14
-                                        w-14
-                                        items-center
-                                        justify-center
-                                        rounded-full
-                                        bg-[#fffaf0]
-                                        text-2xl
-                                        text-[#bb8628]
-                                        shadow-lg
-                                        transition
-                                        duration-200
-                                        group-hover:scale-105
-                                    ">
-
-                                        <i class="fa-solid fa-coins"></i>
-
-                                    </div>
+                                <div class="
+                                    h-14
+                                    w-14
+                                    overflow-hidden
+                                    rounded-full
+                                    bg-[#fffaf0]
+                                    shadow-lg
+                                    transition
+                                    duration-200
+                                    group-hover:scale-105
+                                ">
+                                    <img src="~/images/MIDAS_Logo.png"
+                                        alt="Logo Midas"
+                                        class="h-full w-full object-cover" />
+                                </div>
 
                                 </a>
 
@@ -137,10 +129,8 @@
                             </div>
 
 
-                            <!-- MENU -->
                             <nav class="space-y-2">
 
-                                <!-- INICIO -->
                                 <a asp-controller="Home"
                                 asp-action="Index"
                                 class="
@@ -173,7 +163,6 @@
                                 @if (User.IsInRole("Usuario Free") ||
                                     User.IsInRole("Usuario Premium"))
                                 {
-                                    <!-- MIS CUENTAS -->
                                     <a asp-controller="Home"
                                     asp-action="MyAccounts"
                                     class="
@@ -202,8 +191,6 @@
 
                                     </a>
 
-
-                                    <!-- MOVIMIENTOS -->
                                     <a asp-controller="Home"
                                     asp-action="Movimientos"
                                     class="
@@ -232,8 +219,6 @@
 
                                     </a>
 
-
-                                    <!-- CATEGORIAS -->
                                     <a asp-controller="Home"
                                     asp-action="MovementCategories"
                                     class="
@@ -266,7 +251,6 @@
 
                                 @if (User.IsInRole("Administrador"))
                                 {
-                                    <!-- ADMINISTRACIÓN -->
                                     <a asp-controller="Home"
                                     asp-action="Administracion"
                                     class="
@@ -299,7 +283,6 @@
 
                                 @if (User.IsInRole("Usuario Premium"))
                                 {
-                                    <!-- METAS -->
                                     <a asp-controller="Home"
                                     asp-action="MyGoals"
                                     class="
@@ -358,8 +341,6 @@
                                 )?.Value
                             </p>
 
-
-                            <!-- LOGOUT -->
                             <form asp-controller="Cuenta"
                                 asp-action="Logout"
                                 method="post"
@@ -644,7 +625,6 @@
                             xl:justify-between
                         ">
 
-                            <!-- TITULO -->
                             <div class="min-w-0">
 
                                 <h1 class="
@@ -670,7 +650,6 @@
                             </div>
 
 
-                            <!-- HEADER RIGHT -->
                             <div class="
                                 flex
                                 min-w-0
@@ -678,7 +657,6 @@
                                 gap-2
                             ">
 
-                                <!-- BUSCADOR -->
                                 <div class="
                                     flex
                                     min-w-0
@@ -718,7 +696,6 @@
                                 </div>
 
 
-                                <!-- NOTIFICACIONES -->
                                 <button type="button"
                                         class="
                                             relative
@@ -747,8 +724,6 @@
 
                                 </button>
 
-
-                                <!-- PERFIL -->
                                 <div class="
                                     hidden
                                     items-center
