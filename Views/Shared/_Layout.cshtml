@@ -1,7 +1,11 @@
 ﻿<!DOCTYPE html>
+
 <html lang="es">
+
 <head>
+
     <meta charset="utf-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>@ViewData["Title"] - Midas</title>
@@ -14,14 +18,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
+
         tailwind.config = {
+
             corePlugins: {
                 preflight: false
             },
+
             theme: {
+
                 extend: {
+
                     colors: {
+
                         midas: {
+
                             50: "#fffaf0",
                             100: "#f8f0df",
                             200: "#ead9ae",
@@ -32,11 +43,17 @@
                             700: "#8d6a28",
                             800: "#6e5425",
                             900: "#4f3d1d"
+
                         }
+
                     }
+
                 }
+
             }
+
         };
+
     </script>
 
     <link rel="stylesheet"
@@ -49,57 +66,60 @@
     <link rel="stylesheet"
           href="~/midasMVC.styles.css"
           asp-append-version="true" />
+
 </head>
 
 
-    <body class="h-screen w-screen overflow-hidden bg-[#171817]">
+<body class="h-screen w-screen overflow-hidden bg-[#171817]">
 
-        @if (User.Identity?.IsAuthenticated == true)
-        {
+    @if (User.Identity?.IsAuthenticated == true)
 
-            <div class="h-screen w-screen overflow-hidden p-2 sm:p-3 md:p-4">
+    {
 
-                <div class="
-                    flex h-full w-full
-                    flex-col md:flex-row
+        <div class="h-screen w-screen overflow-hidden p-2 sm:p-3 md:p-4">
+
+            <div class="
+                flex h-full w-full
+                flex-col md:flex-row
+                overflow-hidden
+                rounded-[24px]
+                sm:rounded-[30px]
+                md:rounded-[40px]
+                bg-gradient-to-br
+                from-[#6c542b]
+                via-[#4a3a20]
+                to-[#29251f]
+                shadow-2xl
+            ">
+
+                <aside class="
+                    hidden
+                    md:flex
+                    h-[calc(100%-32px)]
+                    w-[172px]
+                    lg:w-[180px]
+                    flex-shrink-0
+                    flex-col
+                    justify-between
                     overflow-hidden
-                    rounded-[24px]
-                    sm:rounded-[30px]
-                    md:rounded-[40px]
-                    bg-gradient-to-br
-                    from-[#6c542b]
-                    via-[#4a3a20]
-                    to-[#29251f]
-                    shadow-2xl
+                    rounded-[21px]
+                    bg-gradient-to-b
+                    from-[#bb913c]
+                    via-[#916d2c]
+                    to-[#60481f]
+                    m-4
+                    px-3
+                    py-5
+                    shadow-xl
                 ">
 
-                    <aside class="
-                        hidden
-                        md:flex
-                        h-[calc(100%-32px)]
-                        w-[172px]
-                        lg:w-[180px]
-                        flex-shrink-0
-                        flex-col
-                        justify-between
-                        overflow-hidden
-                        rounded-[21px]
-                        bg-gradient-to-b
-                        from-[#bb913c]
-                        via-[#916d2c]
-                        to-[#60481f]
-                        m-4
-                        px-3
-                        py-5
-                        shadow-xl
-                    ">
+                    <div>
 
-                        <div>
-                            <div class="mb-7 flex flex-col items-center">
+                        <div class="mb-7 flex flex-col items-center">
 
-                                <a asp-controller="Home"
-                                asp-action="Index"
-                                class="group">
+                            <a asp-controller="Home"
+                               asp-action="Index"
+                               class="group">
 
                                 <div class="
                                     h-14
@@ -112,30 +132,66 @@
                                     duration-200
                                     group-hover:scale-105
                                 ">
+
                                     <img src="~/images/MIDAS_Logo.png"
-                                        alt="Logo Midas"
-                                        class="h-full w-full object-cover" />
+                                         alt="Logo Midas"
+                                         class="h-full w-full object-cover" />
+
                                 </div>
 
-                                </a>
+                            </a>
 
-                                <span class="
-                                    mt-2
+                            <span class="
+                                mt-2
+                                text-xs
+                                font-bold
+                                text-[#21180b]
+                            ">
+                                Midas
+                            </span>
+
+                        </div>
+
+
+                        <nav class="space-y-2">
+
+                            <a asp-controller="Home"
+                               asp-action="Index"
+                               class="
+                                    flex
+                                    items-center
+                                    gap-3
+                                    rounded-lg
+                                    px-3
+                                    py-3
                                     text-xs
-                                    font-bold
-                                    text-[#21180b]
-                                ">
-                                    Midas
-                                </span>
+                                    font-semibold
+                                    text-white
+                                    transition
+                                    duration-200
+                                    hover:bg-white/10
+                                    no-underline
+                               ">
 
-                            </div>
+                                <i class="
+                                    fa-solid
+                                    fa-house
+                                    w-4
+                                    text-center
+                                "></i>
+
+                                <span>Inicio</span>
+
+                            </a>
 
 
-                            <nav class="space-y-2">
+                            @if (User.IsInRole("Usuario Free") ||
+                                User.IsInRole("Usuario Premium"))
+                            {
 
                                 <a asp-controller="Home"
-                                asp-action="Index"
-                                class="
+                                   asp-action="MyAccounts"
+                                   class="
                                         flex
                                         items-center
                                         gap-3
@@ -149,186 +205,161 @@
                                         duration-200
                                         hover:bg-white/10
                                         no-underline
-                                ">
+                                   ">
 
                                     <i class="
                                         fa-solid
-                                        fa-house
+                                        fa-wallet
                                         w-4
                                         text-center
                                     "></i>
 
-                                    <span>Inicio</span>
+                                    <span>Mis Cuentas</span>
 
                                 </a>
 
 
-                                @if (User.IsInRole("Usuario Free") ||
-                                    User.IsInRole("Usuario Premium"))
-                                {
-                                    <a asp-controller="Home"
-                                    asp-action="MyAccounts"
-                                    class="
-                                            flex
-                                            items-center
-                                            gap-3
-                                            rounded-lg
-                                            px-3
-                                            py-3
-                                            text-xs
-                                            font-semibold
-                                            text-white
-                                            transition
-                                            duration-200
-                                            hover:bg-white/10
-                                            no-underline
-                                    ">
+                                <a asp-controller="Home"
+                                   asp-action="Movimientos"
+                                   class="
+                                        flex
+                                        items-center
+                                        gap-3
+                                        rounded-lg
+                                        px-3
+                                        py-3
+                                        text-xs
+                                        font-semibold
+                                        text-white
+                                        transition
+                                        duration-200
+                                        hover:bg-white/10
+                                        no-underline
+                                   ">
 
-                                        <i class="
-                                            fa-solid
-                                            fa-wallet
-                                            w-4
-                                            text-center
-                                        "></i>
+                                    <i class="
+                                        fa-solid
+                                        fa-arrow-right-arrow-left
+                                        w-4
+                                        text-center
+                                    "></i>
 
-                                        <span>Mis Cuentas</span>
+                                    <span>Movimientos</span>
 
-                                    </a>
-
-                                    <a asp-controller="Home"
-                                    asp-action="Movimientos"
-                                    class="
-                                            flex
-                                            items-center
-                                            gap-3
-                                            rounded-lg
-                                            px-3
-                                            py-3
-                                            text-xs
-                                            font-semibold
-                                            text-white
-                                            transition
-                                            duration-200
-                                            hover:bg-white/10
-                                            no-underline
-                                    ">
-
-                                        <i class="
-                                            fa-solid
-                                            fa-arrow-right-arrow-left
-                                            w-4
-                                            text-center
-                                        "></i>
-
-                                        <span>Movimientos</span>
-
-                                    </a>
-
-                                    <a asp-controller="Home"
-                                    asp-action="MovementCategories"
-                                    class="
-                                            flex
-                                            items-center
-                                            gap-3
-                                            rounded-lg
-                                            px-3
-                                            py-3
-                                            text-xs
-                                            font-semibold
-                                            text-white
-                                            transition
-                                            duration-200
-                                            hover:bg-white/10
-                                            no-underline
-                                    ">
-
-                                        <i class="
-                                            fa-solid
-                                            fa-tags
-                                            w-4
-                                            text-center
-                                        "></i>
-
-                                        <span>Categorías</span>
-
-                                    </a>
-                                }
+                                </a>
 
 
-                                @if (User.IsInRole("Administrador"))
-                                {
-                                    <a asp-controller="Home"
-                                    asp-action="Administracion"
-                                    class="
-                                            flex
-                                            items-center
-                                            gap-3
-                                            rounded-lg
-                                            px-3
-                                            py-3
-                                            text-xs
-                                            font-semibold
-                                            text-white
-                                            transition
-                                            duration-200
-                                            hover:bg-white/10
-                                            no-underline
-                                    ">
+                                <a asp-controller="Home"
+                                   asp-action="MovementCategories"
+                                   class="
+                                        flex
+                                        items-center
+                                        gap-3
+                                        rounded-lg
+                                        px-3
+                                        py-3
+                                        text-xs
+                                        font-semibold
+                                        text-white
+                                        transition
+                                        duration-200
+                                        hover:bg-white/10
+                                        no-underline
+                                   ">
 
-                                        <i class="
-                                            fa-solid
-                                            fa-users
-                                            w-4
-                                            text-center
-                                        "></i>
+                                    <i class="
+                                        fa-solid
+                                        fa-tags
+                                        w-4
+                                        text-center
+                                    "></i>
 
-                                        <span>Usuarios</span>
+                                    <span>Categorías</span>
 
-                                    </a>
-                                }
+                                </a>
+
+                            }
 
 
-                                @if (User.IsInRole("Usuario Premium"))
-                                {
-                                    <a asp-controller="Home"
-                                    asp-action="MyGoals"
-                                    class="
-                                            flex
-                                            items-center
-                                            gap-3
-                                            rounded-lg
-                                            px-3
-                                            py-3
-                                            text-xs
-                                            font-semibold
-                                            text-white
-                                            transition
-                                            duration-200
-                                            hover:bg-white/10
-                                            no-underline
-                                    ">
+                            @if (User.IsInRole("Administrador"))
+                            {
 
-                                        <i class="
-                                            fa-solid
-                                            fa-bullseye
-                                            w-4
-                                            text-center
-                                        "></i>
+                                <a asp-controller="Home"
+                                   asp-action="Administracion"
+                                   class="
+                                        flex
+                                        items-center
+                                        gap-3
+                                        rounded-lg
+                                        px-3
+                                        py-3
+                                        text-xs
+                                        font-semibold
+                                        text-white
+                                        transition
+                                        duration-200
+                                        hover:bg-white/10
+                                        no-underline
+                                   ">
 
-                                        <span>Metas</span>
+                                    <i class="
+                                        fa-solid
+                                        fa-users
+                                        w-4
+                                        text-center
+                                    "></i>
 
-                                    </a>
-                                }
+                                    <span>Usuarios</span>
 
-                            </nav>
+                                </a>
 
-                        </div>
+                            }
 
-                        <div class="
-                            border-t
-                            border-white/15
-                            pt-4
-                        ">
+
+                            @if (User.IsInRole("Usuario Premium"))
+                            {
+
+                                <a asp-controller="Home"
+                                   asp-action="MyGoals"
+                                   class="
+                                        flex
+                                        items-center
+                                        gap-3
+                                        rounded-lg
+                                        px-3
+                                        py-3
+                                        text-xs
+                                        font-semibold
+                                        text-white
+                                        transition
+                                        duration-200
+                                        hover:bg-white/10
+                                        no-underline
+                                   ">
+
+                                    <i class="
+                                        fa-solid
+                                        fa-bullseye
+                                        w-4
+                                        text-center
+                                    "></i>
+
+                                    <span>Metas</span>
+
+                                </a>
+
+                            }
+
+                        </nav>
+
+                    </div>
+
+                    <div class="
+                        border-t
+                        border-white/15
+                        pt-4
+                    ">
+                        <div class="mb-3 px-1">
 
                             <p class="
                                 truncate
@@ -336,7 +367,9 @@
                                 font-bold
                                 text-white
                             ">
+
                                 @User.Identity.Name
+
                             </p>
 
                             <p class="
@@ -344,42 +377,364 @@
                                 text-[10px]
                                 text-white/65
                             ">
+
                                 @User.FindFirst(
                                     System.Security.Claims.ClaimTypes.Role
                                 )?.Value
+
                             </p>
 
+                        </div>
+
+
+                        <div class="mb-2">
+
+                            <button type="button"
+                                    id="settingsToggle"
+                                    class="
+                                        flex
+                                        w-full
+                                        items-center
+                                        justify-between
+                                        rounded-lg
+                                        px-3
+                                        py-2.5
+                                        text-[11px]
+                                        font-semibold
+                                        text-white
+                                        transition
+                                        duration-200
+                                        bg-white/5
+                                        hover:bg-white/50
+                                    ">
+
+                                <span class="flex items-center gap-3">
+
+                                    <i class="
+                                        fa-solid
+                                        fa-gear
+                                        w-4
+                                        text-center
+                                    "></i>
+
+                                    <span>Opciones</span>
+
+                                </span>
+
+                                <i id="settingsArrow"
+                                   class="
+                                        fa-solid
+                                        fa-chevron-down
+                                        text-[9px]
+                                        transition-transform
+                                        duration-200
+                                   ">
+                                </i>
+
+                            </button>
+
+                            <div id="settingsMenu"
+                                 class="
+                                    mt-1
+                                    hidden
+                                    overflow-hidden
+                                    rounded-lg
+                                    bg-black/15
+                                    py-1
+                                 ">
+
+                                <a asp-controller="Home"
+                                   asp-action="Settings"
+                                   class="
+                                        flex
+                                        items-center
+                                        gap-3
+                                        rounded-md
+                                        px-3
+                                        py-2
+                                        text-[10px]
+                                        font-medium
+                                        text-white/85
+                                        no-underline
+                                        transition
+                                        duration-200
+                                        hover:bg-white/10
+                                        hover:text-white
+                                   ">
+
+                                    <i class="
+                                        fa-solid
+                                        fa-user
+                                        w-4
+                                        text-center
+                                    "></i>
+
+                                    <span>Mi perfil</span>
+
+                                </a>
+
+                                <a asp-controller="Home"
+                                   asp-action="Settings"
+                                   class="
+                                        flex
+                                        items-center
+                                        gap-3
+                                        rounded-md
+                                        px-3
+                                        py-2
+                                        text-[10px]
+                                        font-medium
+                                        text-white/85
+                                        no-underline
+                                        transition
+                                        duration-200
+                                        hover:bg-white/10
+                                        hover:text-white
+                                   ">
+
+                                    <i class="
+                                        fa-solid
+                                        fa-sliders
+                                        w-4
+                                        text-center
+                                    "></i>
+
+                                    <span>Configuración</span>
+
+                                </a>
+
+
+                                @if (User.IsInRole("Usuario Free"))
+                                {
+
+                                    <a asp-controller="Home"
+                                       asp-action="Settings"
+                                       class="
+                                            flex
+                                            items-center
+                                            gap-3
+                                            rounded-md
+                                            px-3
+                                            py-2
+                                            text-[10px]
+                                            font-medium
+                                            text-white/85
+                                            no-underline
+                                            transition
+                                            duration-200
+                                            hover:bg-white/10
+                                            hover:text-white
+                                       ">
+
+                                        <i class="
+                                            fa-solid
+                                            fa-crown
+                                            w-4
+                                            text-center
+                                        "></i>
+
+                                        <span>Pasar a Premium</span>
+
+                                    </a>
+
+                                }
+
+                                @if (User.IsInRole("Usuario Premium"))
+                                {
+
+                                    <a asp-controller="Home"
+                                       asp-action="Settings"
+                                       class="
+                                            flex
+                                            items-center
+                                            gap-3
+                                            rounded-md
+                                            px-3
+                                            py-2
+                                            text-[10px]
+                                            font-medium
+                                            text-white/85
+                                            no-underline
+                                            transition
+                                            duration-200
+                                            hover:bg-white/10
+                                            hover:text-white
+                                       ">
+
+                                        <i class="
+                                            fa-solid
+                                            fa-crown
+                                            w-4
+                                            text-center
+                                        "></i>
+
+                                        <span>Mi plan Premium</span>
+
+                                    </a>
+
+                                }
+
+                                <a asp-controller="Home"
+                                   asp-action="Settings"
+                                   class="
+                                        flex
+                                        items-center
+                                        gap-3
+                                        rounded-md
+                                        px-3
+                                        py-2
+                                        text-[10px]
+                                        font-medium
+                                        text-white/85
+                                        no-underline
+                                        transition
+                                        duration-200
+                                        hover:bg-white/10
+                                        hover:text-white
+                                   ">
+
+                                    <i class="
+                                        fa-solid
+                                        fa-lock
+                                        w-4
+                                        text-center
+                                    "></i>
+
+                                    <span>Seguridad</span>
+
+                                </a>
+
+
+                            </div>
+
+                        </div>
+
+                        <form asp-controller="Cuenta"
+                              asp-action="Logout"
+                              method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit"
+                                    class="
+                                        flex
+                                        w-full
+                                        items-center
+                                        justify-center
+                                        gap-2
+                                        rounded-lg
+                                        border
+                                        border-white/20
+                                        bg-black/10
+                                        px-3
+                                        py-2
+                                        text-[11px]
+                                        font-semibold
+                                        text-white
+                                        transition
+                                        duration-200
+                                        hover:bg-red-600
+                                    ">
+
+                                <i class="fa-solid fa-right-from-bracket"></i>
+
+                                Cerrar sesión
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </aside>
+
+
+                <div class="
+                    flex
+                    min-h-0
+                    min-w-0
+                    flex-1
+                    flex-col
+                    overflow-hidden
+                ">
+
+                    <div class="
+                        flex
+                        flex-shrink-0
+                        items-center
+                        justify-between
+                        px-4
+                        py-3
+                        md:hidden
+                    ">
+
+                        <div class="flex items-center gap-2">
+
+                            <div class="
+                                flex
+                                h-10
+                                w-10
+                                items-center
+                                justify-center
+                                rounded-full
+                                bg-[#fffaf0]
+                                text-[#bb8628]
+                            ">
+
+                                <i class="fa-solid fa-coins"></i>
+
+                            </div>
+
+                            <span class="
+                                text-sm
+                                font-bold
+                                text-[#fff5dc]
+                            ">
+
+                                Midas
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="flex items-center gap-2">
+
+                            <div class="
+                                flex
+                                h-9
+                                w-9
+                                items-center
+                                justify-center
+                                rounded-full
+                                bg-black/25
+                                text-white
+                            ">
+
+                                <i class="fa-solid fa-user"></i>
+
+                            </div>
+
+
                             <form asp-controller="Cuenta"
-                                asp-action="Logout"
-                                method="post"
-                                class="mt-3">
+                                  asp-action="Logout"
+                                  method="post">
 
                                 @Html.AntiForgeryToken()
 
                                 <button type="submit"
                                         class="
                                             flex
-                                            w-full
+                                            h-9
+                                            w-9
                                             items-center
                                             justify-center
-                                            gap-2
                                             rounded-lg
-                                            border
-                                            border-white/20
-                                            bg-black/10
-                                            px-3
-                                            py-2
-                                            text-[11px]
-                                            font-semibold
-                                            text-white
-                                            transition
-                                            duration-200
-                                            hover:bg-red-600
+                                            bg-red-500/20
+                                            text-red-200
                                         ">
 
                                     <i class="fa-solid fa-right-from-bracket"></i>
-
-                                    Cerrar sesión
 
                                 </button>
 
@@ -387,113 +742,43 @@
 
                         </div>
 
-                    </aside>
+                    </div>
 
                     <div class="
                         flex
-                        min-h-0
-                        min-w-0
-                        flex-1
-                        flex-col
-                        overflow-hidden
+                        flex-shrink-0
+                        gap-1
+                        px-3
+                        pb-2
+                        md:hidden
                     ">
 
-                        <div class="
-                            flex
-                            flex-shrink-0
-                            items-center
-                            justify-between
-                            px-4
-                            py-3
-                            md:hidden
-                        ">
+                        <a asp-controller="Home"
+                           asp-action="Index"
+                           class="
+                                flex
+                                flex-1
+                                items-center
+                                justify-center
+                                rounded-lg
+                                bg-white/10
+                                py-2
+                                text-xs
+                                text-white
+                           ">
 
-                            <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-house"></i>
 
-                                <div class="
-                                    flex
-                                    h-10
-                                    w-10
-                                    items-center
-                                    justify-center
-                                    rounded-full
-                                    bg-[#fffaf0]
-                                    text-[#bb8628]
-                                ">
-
-                                    <i class="fa-solid fa-coins"></i>
-
-                                </div>
-
-                                <span class="
-                                    text-sm
-                                    font-bold
-                                    text-[#fff5dc]
-                                ">
-                                    Midas
-                                </span>
-
-                            </div>
+                        </a>
 
 
-                            <div class="flex items-center gap-2">
-
-                                <div class="
-                                    flex
-                                    h-9
-                                    w-9
-                                    items-center
-                                    justify-center
-                                    rounded-full
-                                    bg-black/25
-                                    text-white
-                                ">
-
-                                    <i class="fa-solid fa-user"></i>
-
-                                </div>
-
-
-                                <form asp-controller="Cuenta"
-                                    asp-action="Logout"
-                                    method="post">
-
-                                    @Html.AntiForgeryToken()
-
-                                    <button type="submit"
-                                            class="
-                                                flex
-                                                h-9
-                                                w-9
-                                                items-center
-                                                justify-center
-                                                rounded-lg
-                                                bg-red-500/20
-                                                text-red-200
-                                            ">
-
-                                        <i class="fa-solid fa-right-from-bracket"></i>
-
-                                    </button>
-
-                                </form>
-
-                            </div>
-
-                        </div>
-
-                        <div class="
-                            flex
-                            flex-shrink-0
-                            gap-1
-                            px-3
-                            pb-2
-                            md:hidden
-                        ">
+                        @if (User.IsInRole("Usuario Free") ||
+                            User.IsInRole("Usuario Premium"))
+                        {
 
                             <a asp-controller="Home"
-                            asp-action="Index"
-                            class="
+                               asp-action="MyAccounts"
+                               class="
                                     flex
                                     flex-1
                                     items-center
@@ -503,322 +788,275 @@
                                     py-2
                                     text-xs
                                     text-white
-                            ">
+                               ">
 
-                                <i class="fa-solid fa-house"></i>
+                                <i class="fa-solid fa-wallet"></i>
 
                             </a>
 
 
-                            @if (User.IsInRole("Usuario Free") ||
-                                User.IsInRole("Usuario Premium"))
-                            {
-                                <a asp-controller="Home"
-                                asp-action="MyAccounts"
-                                class="
-                                        flex
-                                        flex-1
-                                        items-center
-                                        justify-center
-                                        rounded-lg
-                                        bg-white/10
-                                        py-2
-                                        text-xs
-                                        text-white
-                                ">
+                            <a asp-controller="Home"
+                               asp-action="Movimientos"
+                               class="
+                                    flex
+                                    flex-1
+                                    items-center
+                                    justify-center
+                                    rounded-lg
+                                    bg-white/10
+                                    py-2
+                                    text-xs
+                                    text-white
+                               ">
 
-                                    <i class="fa-solid fa-wallet"></i>
+                                <i class="fa-solid fa-arrow-right-arrow-left"></i>
 
-                                </a>
+                            </a>
 
 
-                                <a asp-controller="Home"
-                                asp-action="Movimientos"
-                                class="
-                                        flex
-                                        flex-1
-                                        items-center
-                                        justify-center
-                                        rounded-lg
-                                        bg-white/10
-                                        py-2
-                                        text-xs
-                                        text-white
-                                ">
+                            <a asp-controller="Home"
+                               asp-action="MovementCategories"
+                               class="
+                                    flex
+                                    flex-1
+                                    items-center
+                                    justify-center
+                                    rounded-lg
+                                    bg-white/10
+                                    py-2
+                                    text-xs
+                                    text-white
+                               ">
 
-                                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                <i class="fa-solid fa-tags"></i>
 
-                                </a>
+                            </a>
 
-
-                                <a asp-controller="Home"
-                                asp-action="MovementCategories"
-                                class="
-                                        flex
-                                        flex-1
-                                        items-center
-                                        justify-center
-                                        rounded-lg
-                                        bg-white/10
-                                        py-2
-                                        text-xs
-                                        text-white
-                                ">
-
-                                    <i class="fa-solid fa-tags"></i>
-
-                                </a>
-                            }
+                        }
 
 
-                            @if (User.IsInRole("Administrador"))
-                            {
-                                <a asp-controller="Home"
-                                asp-action="Administracion"
-                                class="
-                                        flex
-                                        flex-1
-                                        items-center
-                                        justify-center
-                                        rounded-lg
-                                        bg-white/10
-                                        py-2
-                                        text-xs
-                                        text-white
-                                ">
+                        @if (User.IsInRole("Administrador"))
+                        {
 
-                                    <i class="fa-solid fa-users"></i>
+                            <a asp-controller="Home"
+                               asp-action="Administracion"
+                               class="
+                                    flex
+                                    flex-1
+                                    items-center
+                                    justify-center
+                                    rounded-lg
+                                    bg-white/10
+                                    py-2
+                                    text-xs
+                                    text-white
+                               ">
 
-                                </a>
-                            }
+                                <i class="fa-solid fa-users"></i>
+
+                            </a>
+
+                        }
 
 
-                            @if (User.IsInRole("Usuario Premium"))
-                            {
-                                <a asp-controller="Home"
-                                asp-action="MyGoals"
-                                class="
-                                        flex
-                                        flex-1
-                                        items-center
-                                        justify-center
-                                        rounded-lg
-                                        bg-white/10
-                                        py-2
-                                        text-xs
-                                        text-white
-                                ">
+                        @if (User.IsInRole("Usuario Premium"))
+                        {
 
-                                    <i class="fa-solid fa-bullseye"></i>
+                            <a asp-controller="Home"
+                               asp-action="MyGoals"
+                               class="
+                                    flex
+                                    flex-1
+                                    items-center
+                                    justify-center
+                                    rounded-lg
+                                    bg-white/10
+                                    py-2
+                                    text-xs
+                                    text-white
+                               ">
 
-                                </a>
-                            }
+                                <i class="fa-solid fa-bullseye"></i>
+
+                            </a>
+
+                        }
+
+                    </div>
+
+                    <header class="
+                        flex
+                        flex-shrink-0
+                        flex-col
+                        gap-4
+                        px-5
+                        pt-4
+                        sm:px-6
+                        md:px-7
+                        md:pt-5
+                        lg:px-8
+                        lg:pt-6
+                        xl:flex-row
+                        xl:items-center
+                        xl:justify-between
+                    ">
+
+                        <div class="min-w-0">
+
+                            <h1 class="
+                                truncate
+                                text-2xl
+                                font-bold
+                                tracking-tight
+                                text-[#f9edcf]
+                                sm:text-3xl
+                            ">
+
+                                Bienvenido @User.Identity.Name!
+
+                            </h1>
+
+                            <p class="
+                                mt-1
+                                text-xs
+                                text-[#c4b18d]
+                                sm:text-sm
+                            ">
+
+                                Tu Resumen Financiero.
+
+                            </p>
 
                         </div>
 
-                        <header class="
-                            flex
-                            flex-shrink-0
-                            flex-col
-                            gap-4
-                            px-5
-                            pt-4
-                            sm:px-6
-                            md:px-7
-                            md:pt-5
-                            lg:px-8
-                            lg:pt-6
-                            xl:flex-row
-                            xl:items-center
-                            xl:justify-between
-                        ">
+                    </header>
 
-                            <div class="min-w-0">
+                    <main class="
+                        min-h-0
+                        min-w-0
+                        flex-1
+                        overflow-hidden
+                        px-5
+                        pb-3
+                        pt-4
+                        sm:px-6
+                        md:px-7
+                        md:pt-5
+                        lg:px-8
+                    ">
 
-                                <h1 class="
-                                    truncate
-                                    text-2xl
-                                    font-bold
-                                    tracking-tight
-                                    text-[#f9edcf]
-                                    sm:text-3xl
-                                ">
-                                    Bienvenido @User.Identity.Name!
-                                </h1>
+                        <div class="h-full w-full">
 
-                                <p class="
-                                    mt-1
-                                    text-xs
-                                    text-[#c4b18d]
-                                    sm:text-sm
-                                ">
-                                    Tu Resumen Financiero.
-                                </p>
+                            @RenderBody()
 
-                            </div>
+                        </div>
 
+                    </main>
 
-                            <div class="
-                                flex
-                                min-w-0
-                                items-center
-                                gap-2
-                            ">
+                    <footer class="
+                        hidden
+                        flex-shrink-0
+                        items-center
+                        justify-between
+                        border-t
+                        border-white/10
+                        px-5
+                        py-2
+                        text-[10px]
+                        text-white/40
+                        sm:flex
+                        md:px-7
+                        lg:px-8
+                    ">
 
-                                <button type="button"
-                                        class="
-                                            relative
-                                            flex
-                                            h-9
-                                            w-9
-                                            flex-shrink-0
-                                            items-center
-                                            justify-center
-                                            rounded-lg
-                                            bg-white/10
-                                            text-white
-                                        ">
+                        <span>
 
-                                    <i class="fa-regular fa-bell text-sm"></i>
+                            © 2026 - Midas
 
-                                    <span class="
-                                        absolute
-                                        right-1.5
-                                        top-1
-                                        h-2
-                                        w-2
-                                        rounded-full
-                                        bg-green-400
-                                    "></span>
+                        </span>
 
-                                </button>
+                        <a asp-controller="Home"
+                           asp-action="Privacy"
+                           class="
+                                transition
+                                hover:text-[#dfbd67]
+                           ">
 
-                                <div class="
-                                    hidden
-                                    items-center
-                                    gap-2
-                                    sm:flex
-                                ">
+                            Privacidad
 
-                                    <div class="
-                                        flex
-                                        h-9
-                                        w-9
-                                        items-center
-                                        justify-center
-                                        rounded-full
-                                        border
-                                        border-white/20
-                                        bg-black/30
-                                        text-sm
-                                        text-white
-                                    ">
+                        </a>
 
-                                        <i class="fa-solid fa-user"></i>
-
-                                    </div>
-
-                                    <i class="
-                                        fa-solid
-                                        fa-chevron-down
-                                        text-[10px]
-                                        text-white/70
-                                    "></i>
-
-                                </div>
-
-                            </div>
-
-                        </header>
-
-                        <main class="
-                            min-h-0
-                            min-w-0
-                            flex-1
-                            overflow-hidden
-                            px-5
-                            pb-3
-                            pt-4
-                            sm:px-6
-                            md:px-7
-                            md:pt-5
-                            lg:px-8
-                        ">
-
-                            <div class="h-full w-full">
-
-                                @RenderBody()
-
-                            </div>
-
-                        </main>
-
-
-                        <footer class="
-                            hidden
-                            flex-shrink-0
-                            items-center
-                            justify-between
-                            border-t
-                            border-white/10
-                            px-5
-                            py-2
-                            text-[10px]
-                            text-white/40
-                            sm:flex
-                            md:px-7
-                            lg:px-8
-                        ">
-
-                            <span>
-                                © 2026 - Midas
-                            </span>
-
-                            <a asp-controller="Home"
-                            asp-action="Privacy"
-                            class="
-                                    transition
-                                    hover:text-[#dfbd67]
-                            ">
-
-                                Privacidad
-
-                            </a>
-
-                        </footer>
-
-                    </div>
+                    </footer>
 
                 </div>
 
             </div>
-        }
-        else
-        {
 
-            <main class="h-screen w-screen overflow-hidden">
+        </div>
 
-                @RenderBody()
+    }
 
-            </main>
-        }
+    else
 
+    {
 
+        <main class="h-screen w-screen overflow-hidden">
 
-        @if (User.Identity?.IsAuthenticated == true)
-        {
-            <script src="~/js/idle-timeout.js"
-                    asp-append-version="true"></script>
-        }
+            @RenderBody()
 
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        </main>
 
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    }
 
-        <script src="~/js/site.js"
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+
+        <script src="~/js/idle-timeout.js"
                 asp-append-version="true"></script>
 
-        @await RenderSectionAsync("Scripts", required: false)
+    }
 
-    </body>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const settingsToggle =
+                document.getElementById("settingsToggle");
+
+            const settingsMenu =
+                document.getElementById("settingsMenu");
+
+            const settingsArrow =
+                document.getElementById("settingsArrow");
+
+
+            if (settingsToggle && settingsMenu && settingsArrow) {
+
+                settingsToggle.addEventListener("click", function () {
+
+                    settingsMenu.classList.toggle("hidden");
+
+                    settingsArrow.classList.toggle("rotate-180");
+
+                });
+
+            }
+
+        });
+
+    </script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
 </html>
