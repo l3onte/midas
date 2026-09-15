@@ -16,16 +16,13 @@ public class SettingsController : Controller
         _userRepository = userRepository;
     }
 
-    // GET: /Settings
     public IActionResult Index()
     {
         return View();
     }
 
-    // GET: /Settings/Perfil
     public async Task<IActionResult> Perfil()
     {
-        // Obtener el ID del usuario actualmente autenticado
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         if (string.IsNullOrEmpty(userIdClaim) ||
@@ -34,7 +31,6 @@ public class SettingsController : Controller
             return RedirectToAction("Login", "Account");
         }
 
-        // Buscar el usuario en la base de datos
         var user = await _userRepository.GetUserByIdAsync(userId);
 
         if (user == null)
@@ -44,4 +40,16 @@ public class SettingsController : Controller
 
         return View(user);
     }
+
+    public async Task<IActionResult> Configuration()
+    {
+        return View();
+    }
+
+    [Authorize(Roles = "Usuario Free")]
+    public async Task<IActionResult> GoToPremium()
+    {
+        return View();
+    }
+
 }

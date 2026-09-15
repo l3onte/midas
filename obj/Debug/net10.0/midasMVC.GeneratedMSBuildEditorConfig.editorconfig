@@ -75,6 +75,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/xampp/htdocs/midas/Views/Settings/Configuration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ3NcQ29uZmlndXJhdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/xampp/htdocs/midas/Views/Settings/GoToPremium.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ3NcR29Ub1ByZW1pdW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/xampp/htdocs/midas/Views/Settings/Perfil.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ3NcUGVyZmlsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
