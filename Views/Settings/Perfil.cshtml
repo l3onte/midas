@@ -1,0 +1,351 @@
+@model midasMVC.Models.User
+
+@{
+ViewData["Title"] = "Mi Perfil";
+
+
+var nombreCompleto = $"{Model.Name} {Model.Last_name}".Trim();
+
+var iniciales = "";
+
+if (!string.IsNullOrWhiteSpace(Model.Name))
+    iniciales += Model.Name[0];
+
+if (!string.IsNullOrWhiteSpace(Model.Last_name))
+    iniciales += Model.Last_name[0];
+
+iniciales = iniciales.ToUpper();
+
+var rol = Model.Role?.Name ?? "Usuario";
+var descripcionRol = Model.Role?.Description ?? "Cuenta Midas";
+
+
+}
+
+<div class="flex h-full w-full flex-col overflow-hidden">
+
+<div class="mb-4 flex shrink-0 items-center justify-between">
+
+    <div>
+        <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[#dfbd67]">
+            <i class="fa-solid fa-user"></i>
+            <span>Mi cuenta</span>
+        </div>
+
+        <h1 class="mt-1 text-2xl font-bold tracking-tight text-[#f9edcf]">
+            Mi perfil
+        </h1>
+
+        <p class="text-xs text-[#a99a7d]">
+            Información de tu cuenta Midas
+        </p>
+    </div>
+
+    <a asp-controller="Home"
+       asp-action="Index"
+       class="flex h-9 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 text-xs font-semibold text-[#ead9ae] no-underline transition hover:bg-white/10 hover:text-white">
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        <span class="hidden sm:inline">
+            Inicio
+        </span>
+
+    </a>
+
+</div>
+
+<div class="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-[280px_minmax(0,1fr)]">
+
+    <section class="relative flex min-h-0 flex-col overflow-hidden rounded-[24px] border border-white/10 bg-gradient-to-b from-[#6c542b] to-[#29251f] shadow-xl">
+
+        <div class="absolute -right-16 -top-16 h-40 w-40 rounded-full border-[20px] border-white/5"></div>
+
+        <div class="absolute -bottom-20 -left-20 h-48 w-48 rounded-full border-[25px] border-white/5"></div>
+
+        <div class="relative flex h-full flex-col items-center justify-center px-6">
+
+            <div class="flex h-24 w-24 shrink-0 items-center justify-center rounded-full border-4 border-[#dfbd67]/40 bg-gradient-to-br from-[#dfbd67] to-[#8d6a28] text-3xl font-bold text-[#30230f] shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
+                @iniciales
+            </div>
+
+            <h2 class="mt-4 max-w-full truncate text-center text-xl font-bold leading-tight text-[#fff5dc]">
+                @nombreCompleto
+            </h2>
+
+            <p class="mt-1 max-w-full truncate text-center text-xs text-[#d6c39b]">
+                @Model.Email
+            </p>
+
+            <div class="mt-4 flex items-center justify-center gap-2 rounded-full border border-[#dfbd67]/20 bg-black/15 px-3 py-1.5">
+
+                <i class="fa-solid fa-shield-halved text-[10px] text-[#dfbd67]"></i>
+
+                <span class="text-[10px] font-bold uppercase tracking-wide text-[#ead9ae]">
+                    @rol
+                </span>
+
+            </div>
+
+            <div class="mt-5 flex items-center justify-center gap-2">
+
+                @if (Model.Status)
+                {
+                    <span class="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.6)]"></span>
+
+                    <span class="text-xs font-semibold text-emerald-300">
+                        Cuenta activa
+                    </span>
+                }
+                else
+                {
+                    <span class="h-2 w-2 rounded-full bg-red-400"></span>
+
+                    <span class="text-xs font-semibold text-red-300">
+                        Cuenta inactiva
+                    </span>
+                }
+
+            </div>
+
+            <div class="my-5 h-px w-full bg-white/10"></div>
+
+            <div class="w-full space-y-3">
+
+                <div class="flex items-center justify-between rounded-xl bg-black/10 px-3 py-2.5">
+
+                    <span class="text-[11px] text-[#a99a7d]">
+                        ID de usuario
+                    </span>
+
+                    <span class="text-[11px] font-bold text-[#ead9ae]">
+                        #@Model.Id
+                    </span>
+
+                </div>
+
+                <div class="flex items-center justify-between rounded-xl bg-black/10 px-3 py-2.5">
+
+                    <span class="text-[11px] text-[#a99a7d]">
+                        Miembro desde
+                    </span>
+
+                    <span class="text-[11px] font-bold text-[#ead9ae]">
+                        @Model.Created_at.ToString("dd/MM/yyyy")
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="flex min-h-0 flex-col overflow-hidden rounded-[24px] border border-white/10 bg-[#211e19]/90 shadow-xl">
+
+        <div class="flex shrink-0 items-center justify-between border-b border-white/10 px-6 py-4">
+
+            <div class="min-w-0">
+
+                <div class="flex items-center gap-2">
+
+                    <h2 class="text-base font-bold text-[#f9edcf]">
+                        Información personal
+                    </h2>
+
+                    <span class="rounded-full border border-[#dfbd67]/20 bg-[#dfbd67]/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-[#dfbd67]">
+                        Perfil
+                    </span>
+
+                </div>
+
+                <p class="mt-1 text-[11px] text-[#91846d]">
+                    Datos asociados a tu cuenta Midas
+                </p>
+
+            </div>
+
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#dfbd67]/10 text-[#dfbd67]">
+
+                <i class="fa-solid fa-id-card"></i>
+
+            </div>
+
+        </div>
+
+        <div class="min-h-0 flex-1 overflow-hidden px-6 py-5">
+
+            <div class="flex h-full w-full items-center justify-center">
+
+                <div class="grid w-full max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2">
+
+                    <div class="flex min-h-[86px] items-center rounded-2xl border border-white/10 bg-white/[0.035] px-4 transition duration-200 hover:border-[#dfbd67]/25 hover:bg-white/[0.05]">
+
+                        <div class="flex w-full items-center gap-4">
+
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#dfbd67]/10 text-[#dfbd67]">
+                                <i class="fa-solid fa-user text-xs"></i>
+                            </div>
+
+                            <div class="min-w-0 flex-1">
+                                <p class="text-[9px] font-bold uppercase tracking-[0.12em] text-[#81745e]">
+                                    Nombre
+                                </p>
+
+                                <p class="mt-1 truncate text-sm font-semibold text-[#f5ead1]">
+                                    @Model.Name
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex min-h-[86px] items-center rounded-2xl border border-white/10 bg-white/[0.035] px-4 transition duration-200 hover:border-[#dfbd67]/25 hover:bg-white/[0.05]">
+
+                        <div class="flex w-full items-center gap-4">
+
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#dfbd67]/10 text-[#dfbd67]">
+                                <i class="fa-solid fa-signature text-xs"></i>
+                            </div>
+
+                            <div class="min-w-0 flex-1">
+                                <p class="text-[9px] font-bold uppercase tracking-[0.12em] text-[#81745e]">
+                                    Apellido
+                                </p>
+
+                                <p class="mt-1 truncate text-sm font-semibold text-[#f5ead1]">
+                                    @Model.Last_name
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex min-h-[86px] items-center rounded-2xl border border-white/10 bg-white/[0.035] px-4 transition duration-200 hover:border-[#dfbd67]/25 hover:bg-white/[0.05]">
+
+                        <div class="flex w-full items-center gap-4">
+
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#dfbd67]/10 text-[#dfbd67]">
+                                <i class="fa-solid fa-envelope text-xs"></i>
+                            </div>
+
+                            <div class="min-w-0 flex-1">
+                                <p class="text-[9px] font-bold uppercase tracking-[0.12em] text-[#81745e]">
+                                    Correo electrónico
+                                </p>
+
+                                <p class="mt-1 truncate text-sm font-semibold text-[#f5ead1]">
+                                    @Model.Email
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex min-h-[86px] items-center rounded-2xl border border-white/10 bg-white/[0.035] px-4 transition duration-200 hover:border-[#dfbd67]/25 hover:bg-white/[0.05]">
+
+                        <div class="flex w-full items-center gap-4">
+
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#dfbd67]/10 text-[#dfbd67]">
+                                <i class="fa-solid fa-phone text-xs"></i>
+                            </div>
+
+                            <div class="min-w-0 flex-1">
+                                <p class="text-[9px] font-bold uppercase tracking-[0.12em] text-[#81745e]">
+                                    Teléfono
+                                </p>
+
+                                <p class="mt-1 truncate text-sm font-semibold text-[#f5ead1]">
+                                    @(string.IsNullOrWhiteSpace(Model.Phone) ? "No registrado" : Model.Phone)
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex min-h-[86px] items-center rounded-2xl border border-white/10 bg-white/[0.035] px-4 transition duration-200 hover:border-[#dfbd67]/25 hover:bg-white/[0.05]">
+
+                        <div class="flex w-full items-center gap-4">
+
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#dfbd67]/10 text-[#dfbd67]">
+                                <i class="fa-solid fa-shield-halved text-xs"></i>
+                            </div>
+
+                            <div class="min-w-0 flex-1">
+                                <p class="text-[9px] font-bold uppercase tracking-[0.12em] text-[#81745e]">
+                                    Rol
+                                </p>
+
+                                <p class="mt-1 truncate text-sm font-semibold text-[#f5ead1]">
+                                    @rol
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex min-h-[86px] items-center rounded-2xl border border-white/10 bg-white/[0.035] px-4 transition duration-200 hover:border-[#dfbd67]/25 hover:bg-white/[0.05]">
+
+                        <div class="flex w-full items-center gap-4">
+
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#dfbd67]/10 text-[#dfbd67]">
+                                <i class="fa-solid fa-circle-check text-xs"></i>
+                            </div>
+
+                            <div class="min-w-0 flex-1">
+
+                                <p class="text-[9px] font-bold uppercase tracking-[0.12em] text-[#81745e]">
+                                    Estado
+                                </p>
+
+                                <p class="mt-1 text-sm font-semibold @(Model.Status ? "text-emerald-300" : "text-red-300")">
+                                    @(Model.Status ? "Activo" : "Inactivo")
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="flex shrink-0 items-center justify-between border-t border-white/10 px-6 py-3">
+
+            <div class="flex min-w-0 items-center gap-2">
+
+                <i class="fa-solid fa-circle-info shrink-0 text-[10px] text-[#dfbd67]"></i>
+
+                <span class="truncate text-[10px] text-[#81745e]">
+                    @descripcionRol
+                </span>
+
+            </div>
+
+            <a asp-controller="Home"
+               asp-action="Settings"
+               class="ml-4 inline-flex shrink-0 items-center gap-2 rounded-xl bg-gradient-to-r from-[#c99e42] to-[#8d6a28] px-4 py-2 text-[11px] font-bold text-[#21180b] no-underline shadow-md transition duration-200 hover:scale-[1.02] hover:shadow-lg">
+
+                <i class="fa-solid fa-gear"></i>
+
+                Configuración
+
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+
+</div>
