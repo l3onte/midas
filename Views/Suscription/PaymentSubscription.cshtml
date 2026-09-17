@@ -1,0 +1,484 @@
+@model midasMVC.Models.PaymentMethod
+
+@{
+    ViewData["Title"] = "Método de pago";
+
+    var subscriptionId = (int)ViewBag.SubscriptionId;
+
+    var planName = subscriptionId == 2
+        ? "Premium Mensual"
+        : "Premium Anual";
+
+    var price = subscriptionId == 2
+        ? "$9.99"
+        : "$79.99";
+
+    var period = subscriptionId == 2
+        ? "/mes"
+        : "/año";
+}
+
+<div class="relative h-full min-h-0 w-full overflow-hidden text-white">
+
+    <div class="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[#dfbd67]/[0.05] blur-[100px]"></div>
+    <div class="pointer-events-none absolute -bottom-24 right-10 h-72 w-72 rounded-full bg-[#c99e42]/[0.04] blur-[100px]"></div>
+
+    <div class="relative z-10 mx-auto flex h-full min-h-0 w-full max-w-6xl flex-col px-4 py-2 sm:px-5 md:px-6">
+
+        <div class="mb-3 flex shrink-0 items-center justify-between">
+
+            <div class="min-w-0">
+
+                <div class="mb-0.5 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.25em] text-[#e8c978]">
+                    <i class="fa-solid fa-lock text-[8px]"></i>
+                    <span>Pago seguro</span>
+                </div>
+
+                <h1 class="text-xl font-bold tracking-tight text-[#fffaf0] sm:text-2xl">
+                    Completa tu suscripción
+                </h1>
+
+                <p class="mt-0.5 text-[10px] text-[#b7aa91]">
+                    Activa tu plan Premium con tu método de pago.
+                </p>
+
+            </div>
+
+            <div class="hidden shrink-0 items-center gap-2 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2 md:flex">
+
+                <i class="fa-solid fa-shield-halved text-[9px] text-[#e8c978]"></i>
+
+                <span class="text-[9px] text-[#b8aa91]">
+                    Pago protegido
+                </span>
+
+            </div>
+
+        </div>
+
+        <form asp-controller="Suscription"
+              asp-action="PaymentSubscription"
+              method="post"
+              class="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_280px]">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   name="subscriptionId"
+                   value="@subscriptionId" />
+
+            <section class="min-h-0 overflow-hidden rounded-[20px] border border-white/[0.09] bg-white/[0.035] shadow-[0_18px_50px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+
+                <div class="flex h-full min-h-0 flex-col p-4 sm:p-5">
+
+                    <div class="flex shrink-0 items-center justify-between">
+
+                        <div>
+
+                            <h2 class="text-sm font-semibold text-[#fffaf0]">
+                                Información de pago
+                            </h2>
+
+                            <p class="mt-0.5 text-[9px] text-[#a99d87]">
+                                Los datos deben coincidir con los de tu tarjeta.
+                            </p>
+
+                        </div>
+
+                        <div class="flex h-8 w-8 items-center justify-center rounded-lg border border-[#dfbd67]/20 bg-[#dfbd67]/[0.06]">
+
+                            <i class="fa-solid fa-credit-card text-[10px] text-[#e8c978]"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="relative mt-3 h-[108px] shrink-0 overflow-hidden rounded-[16px] border border-[#dfbd67]/25 bg-gradient-to-br from-[#302717] via-[#1c1811] to-[#110f0b] p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.28)]">
+
+                        <div class="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-[#dfbd67]/10 blur-2xl"></div>
+                        <div class="pointer-events-none absolute -bottom-12 -left-12 h-24 w-24 rounded-full bg-[#c99e42]/[0.07] blur-2xl"></div>
+
+                        <div class="relative flex h-full flex-col justify-between">
+
+                            <div class="flex items-center justify-between">
+
+                                <div class="flex items-center gap-2">
+
+                                    <div class="flex h-6 w-6 items-center justify-center rounded-md bg-[#dfbd67]/10">
+
+                                        <i class="fa-solid fa-crown text-[8px] text-[#e8c978]"></i>
+
+                                    </div>
+
+                                    <span class="text-[8px] font-bold uppercase tracking-[0.2em] text-[#e8c978]">
+                                        MIDAS
+                                    </span>
+
+                                </div>
+
+                                <i class="fa-solid fa-wifi rotate-90 text-sm text-white/40"></i>
+
+                            </div>
+
+                            <div>
+
+                                <div class="mb-1.5 text-[12px] tracking-[0.19em] text-white/85">
+                                    •••• •••• •••• ••••
+                                </div>
+
+                                <div class="flex items-end justify-between">
+
+                                    <div class="min-w-0">
+
+                                        <span class="block text-[6px] uppercase tracking-[0.18em] text-[#a99d87]">
+                                            Titular
+                                        </span>
+
+                                        <span class="block max-w-[220px] truncate text-[8px] uppercase tracking-wider text-[#eee5d4]">
+                                            @if (!string.IsNullOrWhiteSpace(Model.OwnerName))
+                                            {
+                                                @($"{Model.OwnerName} {Model.OwnerLastName}")
+                                            }
+                                            else
+                                            {
+                                                @("NOMBRE DEL TITULAR")
+                                            }
+                                        </span>
+
+                                    </div>
+
+                                    <div class="text-right">
+
+                                        <span class="block text-[6px] uppercase tracking-[0.18em] text-[#a99d87]">
+                                            Expira
+                                        </span>
+
+                                        <span class="block text-[8px] text-[#eee5d4]">
+                                            MM / YY
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="mt-2 min-h-0 shrink-0 rounded-lg border border-red-400/20 bg-red-400/[0.04] px-3 py-1.5 text-[8px] text-red-300">
+                    </div>
+
+                    <div class="mt-2.5 shrink-0">
+
+                        <div class="grid grid-cols-2 gap-3">
+
+                            <div>
+
+                                <label asp-for="OwnerName"
+                                       class="mb-1 block text-[9px] font-medium text-[#c8bba4]">
+                                    Nombre del titular
+                                </label>
+
+                                <input asp-for="OwnerName"
+                                       autocomplete="cc-given-name"
+                                       placeholder="Nombre"
+                                       class="h-9 w-full rounded-lg border border-white/[0.08] bg-black/15 px-2.5 text-[10px] text-[#fffaf0] outline-none transition placeholder:text-[#857963] focus:border-[#dfbd67]/45 focus:bg-white/[0.04] focus:ring-1 focus:ring-[#dfbd67]/10" />
+
+                                <span asp-validation-for="OwnerName"
+                                      class="mt-0.5 block text-[7px] text-red-300">
+                                </span>
+
+                            </div>
+
+                            <div>
+
+                                <label asp-for="OwnerLastName"
+                                       class="mb-1 block text-[9px] font-medium text-[#c8bba4]">
+                                    Apellido del titular
+                                </label>
+
+                                <input asp-for="OwnerLastName"
+                                       autocomplete="cc-family-name"
+                                       placeholder="Apellido"
+                                       class="h-9 w-full rounded-lg border border-white/[0.08] bg-black/15 px-2.5 text-[10px] text-[#fffaf0] outline-none transition placeholder:text-[#857963] focus:border-[#dfbd67]/45 focus:bg-white/[0.04] focus:ring-1 focus:ring-[#dfbd67]/10" />
+
+                                <span asp-validation-for="OwnerLastName"
+                                      class="mt-0.5 block text-[7px] text-red-300">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mt-2">
+
+                            <label asp-for="CardNumber"
+                                   class="mb-1 block text-[9px] font-medium text-[#c8bba4]">
+                                Número de tarjeta
+                            </label>
+
+                            <input asp-for="CardNumber"
+                                   autocomplete="cc-number"
+                                   inputmode="numeric"
+                                   placeholder="1234 5678 9012 3456"
+                                   class="h-9 w-full rounded-lg border border-white/[0.08] bg-black/15 px-2.5 text-[10px] tracking-wider text-[#fffaf0] outline-none transition placeholder:text-[#857963] focus:border-[#dfbd67]/45 focus:bg-white/[0.04] focus:ring-1 focus:ring-[#dfbd67]/10" />
+
+                            <span asp-validation-for="CardNumber"
+                                  class="mt-0.5 block text-[7px] text-red-300">
+                            </span>
+
+                        </div>
+
+                        <div class="mt-2 grid grid-cols-2 gap-3">
+
+                            <div>
+
+                                <label asp-for="ExpirationDate"
+                                       class="mb-1 block text-[9px] font-medium text-[#c8bba4]">
+                                    Fecha de expiración
+                                </label>
+
+                                <input asp-for="ExpirationDate"
+                                       type="date"
+                                       autocomplete="cc-exp"
+                                       class="h-9 w-full rounded-lg border border-white/[0.08] bg-black/15 px-2.5 text-[10px] text-[#fffaf0] outline-none transition focus:border-[#dfbd67]/45 focus:bg-white/[0.04] focus:ring-1 focus:ring-[#dfbd67]/10" />
+
+                                <span asp-validation-for="ExpirationDate"
+                                      class="mt-0.5 block text-[7px] text-red-300">
+                                </span>
+
+                            </div>
+
+                            <div>
+
+                                <label asp-for="CvCode"
+                                       class="mb-1 block text-[9px] font-medium text-[#c8bba4]">
+                                    Código de seguridad
+                                </label>
+
+                                <input asp-for="CvCode"
+                                       autocomplete="cc-csc"
+                                       inputmode="numeric"
+                                       maxlength="4"
+                                       placeholder="CVV"
+                                       class="h-9 w-full rounded-lg border border-white/[0.08] bg-black/15 px-2.5 text-[10px] tracking-widest text-[#fffaf0] outline-none transition placeholder:text-[#857963] focus:border-[#dfbd67]/45 focus:bg-white/[0.04] focus:ring-1 focus:ring-[#dfbd67]/10" />
+
+                                <span asp-validation-for="CvCode"
+                                      class="mt-0.5 block text-[7px] text-red-300">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-auto pt-3">
+
+                        <div class="mb-2 flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.02] px-2.5 py-1.5">
+
+                            <i class="fa-solid fa-shield-halved shrink-0 text-[8px] text-[#e8c978]"></i>
+
+                            <span class="text-[8px] text-[#a99d87]">
+                                Tus datos se utilizan únicamente para procesar tu suscripción.
+                            </span>
+
+                        </div>
+
+                        <button type="submit"
+                                class="group flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#b4872f] via-[#dfbd67] to-[#f0c967] text-[9px] font-bold text-[#17130b] shadow-[0_8px_20px_rgba(223,189,103,0.14)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_26px_rgba(223,189,103,0.25)]">
+
+                            <i class="fa-solid fa-lock text-[8px]"></i>
+
+                            <span>
+                                Confirmar suscripción
+                            </span>
+
+                            <i class="fa-solid fa-arrow-right text-[8px] transition-transform duration-300 group-hover:translate-x-1"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <aside class="flex min-h-0 flex-col gap-3">
+
+                <div class="rounded-[18px] border border-[#dfbd67]/25 bg-[#dfbd67]/[0.055] p-3.5 shadow-[0_15px_40px_rgba(0,0,0,0.18)]">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#dfbd67]/10 text-[#e8c978]">
+
+                            <i class="fa-solid fa-crown text-xs"></i>
+
+                        </div>
+
+                        <div class="min-w-0">
+
+                            <p class="text-[7px] font-bold uppercase tracking-[0.22em] text-[#e8c978]">
+                                Tu plan
+                            </p>
+
+                            <h2 class="mt-0.5 truncate text-sm font-semibold text-[#fffaf0]">
+                                @planName
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3 flex items-end justify-between">
+
+                        <div class="flex items-end gap-1">
+
+                            <span class="text-2xl font-bold tracking-tight text-[#fffaf0]">
+                                @price
+                            </span>
+
+                            <span class="mb-0.5 text-[8px] text-[#a99d87]">
+                                @period
+                            </span>
+
+                        </div>
+
+                        @if (subscriptionId == 3)
+                        {
+                            <span class="rounded-full border border-[#dfbd67]/25 bg-[#dfbd67]/10 px-2 py-0.5 text-[7px] font-bold text-[#e8c978]">
+                                Ahorras 33%
+                            </span>
+                        }
+
+                    </div>
+
+                </div>
+
+                <div class="rounded-[18px] border border-white/[0.08] bg-white/[0.025] p-3.5">
+
+                    <div class="mb-2.5 flex items-center justify-between">
+
+                        <p class="text-[7px] font-bold uppercase tracking-[0.22em] text-[#9d9079]">
+                            Incluye
+                        </p>
+
+                        <i class="fa-solid fa-gem text-[8px] text-[#dfbd67]/80"></i>
+
+                    </div>
+
+                    <div class="space-y-2.5">
+
+                        <div class="flex items-center gap-2.5">
+
+                            <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[#dfbd67]/10">
+
+                                <i class="fa-solid fa-chart-line text-[7px] text-[#e8c978]"></i>
+
+                            </div>
+
+                            <span class="text-[8px] text-[#c5b9a3]">
+                                Control completo de tus finanzas
+                            </span>
+
+                        </div>
+
+                        <div class="flex items-center gap-2.5">
+
+                            <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[#dfbd67]/10">
+
+                                <i class="fa-solid fa-bullseye text-[7px] text-[#e8c978]"></i>
+
+                            </div>
+
+                            <span class="text-[8px] text-[#c5b9a3]">
+                                Metas financieras ilimitadas
+                            </span>
+
+                        </div>
+
+                        <div class="flex items-center gap-2.5">
+
+                            <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[#dfbd67]/10">
+
+                                <i class="fa-solid fa-wallet text-[7px] text-[#e8c978]"></i>
+
+                            </div>
+
+                            <span class="text-[8px] text-[#c5b9a3]">
+                                Seguimiento de movimientos
+                            </span>
+
+                        </div>
+
+                        <div class="flex items-center gap-2.5">
+
+                            <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[#dfbd67]/10">
+
+                                <i class="fa-solid fa-chart-pie text-[7px] text-[#e8c978]"></i>
+
+                            </div>
+
+                            <span class="text-[8px] text-[#c5b9a3]">
+                                Estadísticas y análisis avanzados
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="rounded-[18px] border border-[#dfbd67]/20 bg-[#dfbd67]/[0.045] p-3.5">
+
+                    <div class="flex items-center justify-between">
+
+                        <div>
+
+                            <p class="text-[8px] text-[#a99d87]">
+                                Total a pagar
+                            </p>
+
+                            <p class="mt-0.5 text-[7px] text-[#81745f]">
+                                Impuestos incluidos
+                            </p>
+
+                        </div>
+
+                        <span class="text-xl font-semibold text-[#fffaf0]">
+                            @price
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="mt-auto px-1">
+
+                    <div class="flex items-start gap-2">
+
+                        <i class="fa-solid fa-shield-halved mt-0.5 text-[8px] text-[#dfbd67]"></i>
+
+                        <p class="text-[7px] leading-relaxed text-[#948873]">
+                            Al confirmar, aceptas los términos de la suscripción.
+                            Tu plan se activará después de completar el pago.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

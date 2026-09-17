@@ -118,16 +118,19 @@ ViewData["Title"] = "Pasar a Premium";
 
                     </div>
 
-                    <button type="button"
-                            class="group mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-[#dfbd67]/30 bg-[#dfbd67]/10 px-4 py-2.5 text-[10px] font-bold text-[#f1d48b] backdrop-blur-xl transition-all duration-300 hover:border-[#dfbd67]/60 hover:bg-[#dfbd67]/20 hover:shadow-[0_8px_25px_rgba(223,189,103,0.15)]">
-
+                    <a
+                        asp-controller="Suscription"
+                        asp-action="PaymentSubscription"
+                        asp-route-subscriptionId="2"
+                        type="button"
+                        class="group no-underline mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-[#dfbd67]/30 bg-[#dfbd67]/10 px-4 py-2.5 text-[10px] font-bold text-[#f1d48b] backdrop-blur-xl transition-all duration-300 hover:border-[#dfbd67]/60 hover:bg-[#dfbd67]/20 hover:shadow-[0_8px_25px_rgba(223,189,103,0.15)]"
+                    >
                         <span>
                             Seleccionar plan
                         </span>
 
                         <i class="fa-solid fa-arrow-right text-[8px] transition-transform duration-300 group-hover:translate-x-1"></i>
-
-                    </button>
+                    </a>
 
                 </div>
 
@@ -235,8 +238,10 @@ ViewData["Title"] = "Pasar a Premium";
 
                     </div>
 
-                    <button type="button"
-                            class="group mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#e5b94f] via-[#d2a64c] to-[#b4872f] px-4 py-2.5 text-[10px] font-extrabold text-[#251b0b] shadow-[0_8px_25px_rgba(223,189,103,0.25)] transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_10px_30px_rgba(223,189,103,0.4)]">
+                    <a asp-controller="Suscription"
+                        asp-action="PaymentSubscription"
+                        asp-route-subscriptionId="3"
+                        class="group no-underline mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#e5b94f] via-[#d2a64c] to-[#b4872f] px-4 py-2.5 text-[10px] font-extrabold text-[#251b0b] shadow-[0_8px_25px_rgba(223,189,103,0.25)] transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_10px_30px_rgba(223,189,103,0.4)]">
 
                         <span>
                             Seleccionar plan
@@ -244,7 +249,7 @@ ViewData["Title"] = "Pasar a Premium";
 
                         <i class="fa-solid fa-arrow-right text-[8px] transition-transform duration-300 group-hover:translate-x-1"></i>
 
-                    </button>
+                    </a>
 
                 </div>
 

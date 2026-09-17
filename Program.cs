@@ -11,6 +11,7 @@ builder.Services.AddScoped<MovementRepository>();
 builder.Services.AddScoped<MovementCategoryRepository>();
 builder.Services.AddScoped<CuentasRepository>();
 builder.Services.AddScoped<MetasRepository>();
+builder.Services.AddScoped<SubscriptionRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
