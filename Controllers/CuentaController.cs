@@ -6,23 +6,28 @@ using Microsoft.AspNetCore.Mvc;
 using midasMVC.Data;
 using midasMVC.Models;
 using midasMVC.Models.ViewModels;
+using midasMVC.Services;
 
 namespace MyApp.Namespace
 {
     public class CuentaController : Controller
     {
         private readonly UserRepository _userRepository;
+        private readonly JwtService _jwtService;
 
-        public CuentaController(UserRepository userRepository)
+        public CuentaController(
+            UserRepository userRepository,
+            JwtService jwtService)
         {
             _userRepository = userRepository;
+            _jwtService = jwtService;
         }
 
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
         {
-            if (User.Identity?.IsAuthenticated == true) 
+            if (User.Identity?.IsAuthenticated == true)
                 return RedirectToAction("Index", "Home");
 
             return View(new LoginViewModel());
@@ -43,7 +48,11 @@ namespace MyApp.Namespace
 
             if (user is null || !user.Status)
             {
-                ModelState.AddModelError("", "Correo o contraseña incorrectos.");
+                ModelState.AddModelError(
+                    "",
+                    "Correo o contraseña incorrectos."
+                );
+
                 return View(model);
             }
 
@@ -51,7 +60,10 @@ namespace MyApp.Namespace
 
             try
             {
-                passwordOk = BCrypt.Net.BCrypt.Verify(cleanPassword, user.Password.Trim());
+                passwordOk = BCrypt.Net.BCrypt.Verify(
+                    cleanPassword,
+                    user.Password.Trim()
+                );
             }
             catch
             {
@@ -62,11 +74,22 @@ namespace MyApp.Namespace
             {
                 try
                 {
-                    var hasher = new Microsoft.AspNetCore.Identity.PasswordHasher<User>();
-                    var result = hasher.VerifyHashedPassword(user, user.Password.Trim(), cleanPassword);
+                    var hasher =
+                        new Microsoft.AspNetCore.Identity.PasswordHasher<User>();
 
-                    if (result == Microsoft.AspNetCore.Identity.PasswordVerificationResult.Success || 
-                        result == Microsoft.AspNetCore.Identity.PasswordVerificationResult.SuccessRehashNeeded)
+                    var result = hasher.VerifyHashedPassword(
+                        user,
+                        user.Password.Trim(),
+                        cleanPassword
+                    );
+
+                    if (
+                        result ==
+                        Microsoft.AspNetCore.Identity.PasswordVerificationResult.Success
+                        ||
+                        result ==
+                        Microsoft.AspNetCore.Identity.PasswordVerificationResult.SuccessRehashNeeded
+                    )
                     {
                         passwordOk = true;
                     }
@@ -84,54 +107,123 @@ namespace MyApp.Namespace
 
             if (!passwordOk)
             {
-                ModelState.AddModelError("", "Correo o contraseña incorrectos.");
+                ModelState.AddModelError(
+                    "",
+                    "Correo o contraseña incorrectos."
+                );
+
                 return View(model);
             }
 
             if (!user.Password.Trim().StartsWith("$2"))
             {
-                string newBcryptHash = BCrypt.Net.BCrypt.HashPassword(cleanPassword);
-                await _userRepository.UpdatePasswordAsync(user.Id, newBcryptHash);
+                string newBcryptHash =
+                    BCrypt.Net.BCrypt.HashPassword(cleanPassword);
+
+                await _userRepository.UpdatePasswordAsync(
+                    user.Id,
+                    newBcryptHash
+                );
             }
 
-            string roleName = user.Role?.Name ?? "Usuario Free";
+            string roleName =
+                user.Role?.Name ?? "Usuario Free";
+
             var claims = new List<Claim>
             {
-                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new(ClaimTypes.Name, user.Name),
-                new(ClaimTypes.Email, user.Email),
-                new(ClaimTypes.Role, roleName)
+                new(
+                    ClaimTypes.NameIdentifier,
+                    user.Id.ToString()
+                ),
+
+                new(
+                    ClaimTypes.Name,
+                    user.Name
+                ),
+
+                new(
+                    ClaimTypes.Email,
+                    user.Email
+                ),
+
+                new(
+                    ClaimTypes.Role,
+                    roleName
+                )
             };
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
-            var properties = new AuthenticationProperties { IsPersistent = model.RememberMe, AllowRefresh = true };
+            var identity = new ClaimsIdentity(
+                claims,
+                CookieAuthenticationDefaults.AuthenticationScheme
+            );
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, properties);
+            var principal = new ClaimsPrincipal(identity);
+
+            var properties = new AuthenticationProperties
+            {
+                IsPersistent = model.RememberMe,
+                AllowRefresh = true
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                principal,
+                properties
+            );
+
+            var jwtToken = _jwtService.GenerateToken(user);
+
+            Response.Cookies.Append(
+                "midas_db.Jwt",
+                jwtToken,
+                new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = Request.IsHttps,
+                    SameSite = SameSiteMode.Lax,
+                    Expires = DateTimeOffset.UtcNow.AddMinutes(60)
+                }
+            );
 
             return RedirectToAction("Index", "Home");
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult Ping() => NoContent();
+        public IActionResult Ping()
+        {
+            return NoContent();
+        }
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult AccesoDenegado() => View();
+        public IActionResult AccesoDenegado()
+        {
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme
+            );
+
+            Response.Cookies.Delete("midas_db.Jwt");
+
             return RedirectToAction("Login", "Cuenta");
         }
 
         [HttpGet]
         public async Task<IActionResult> LogoutGet()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme
+            );
+
+            Response.Cookies.Delete("midas_db.Jwt");
+
             return RedirectToAction("Login", "Cuenta");
         }
     }
