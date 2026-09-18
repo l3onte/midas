@@ -1,8 +1,8 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using midasMVC.Data;
 using midasMVC.Models;
 
@@ -122,5 +122,25 @@ namespace MyApp.Namespace
         {
             return View();
         }
+
+        public async Task<IActionResult> MiPlanPremium()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (userIdClaim == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var SubscriptionPlan = await _subscriptionRepository.GetSubscriptionInfoByUserIdAsync(userId);
+
+            return View(SubscriptionPlan);
+        }
+
     }
 }

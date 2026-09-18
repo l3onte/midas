@@ -182,4 +182,93 @@ public class SubscriptionRepository
         return rowsAffected > 0;
     }
 
+
+    public async Task<List<Suscription>> GetSubscriptionInfoByUserIdAsync(int userId)
+    {
+        const string sql = @"
+            SELECT
+                ps.id,
+                ps.payment_method_id,
+                ps.user_id,
+                ps.plan_id,
+                ps.start_date,
+                ps.end_date,
+                ps.status,
+
+                pm.id,
+                pm.owner_name,
+                pm.owner_last_name,
+                pm.card_number,
+
+                u.id,
+                u.name,
+                u.last_name,
+                u.email,
+
+                p.id,
+                p.name
+            FROM user_plan_subscription ps
+            LEFT JOIN payment_method pm ON pm.id = ps.payment_method_id
+            LEFT JOIN users u ON u.id = ps.user_id
+            LEFT JOIN plans p ON p.id = ps.plan_id
+            WHERE ps.user_id = @userId;
+        ";
+
+        var subscriptions = new List<Suscription>();
+
+        await using var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@userId", userId);
+
+        await using var reader = await command.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync())
+        {
+            var subscription = new Suscription
+            {
+                Id = reader.GetInt32(0),
+                PaymentMethodId = reader.GetInt32(1),
+                UserId = reader.GetInt32(2),
+                PlanId = reader.GetInt32(3),
+                StartDate = reader.GetDateTime(4),
+                EndDate = reader.GetDateTime(5),
+                Status = reader.GetBoolean(6),
+
+                PaymentMethod = reader.IsDBNull(7)
+                    ? null
+                    : new PaymentMethod
+                    {
+                        Id = reader.GetInt32(7),
+                        OwnerName = reader.IsDBNull(8) ? "" : reader.GetString(8),
+                        OwnerLastName = reader.IsDBNull(9) ? "" : reader.GetString(9),
+                        CardNumber = reader.IsDBNull(10) ? "" : reader.GetString(10)
+                    },
+
+                User = reader.IsDBNull(11)
+                    ? null
+                    : new User
+                    {
+                        Id = reader.GetInt32(11),
+                        Name = reader.IsDBNull(12) ? "" : reader.GetString(12),
+                        Last_name = reader.IsDBNull(13) ? "" : reader.GetString(13),
+                        Email = reader.IsDBNull(14) ? "" : reader.GetString(14)
+                    },
+
+                Plan = reader.IsDBNull(15)
+                    ? null
+                    : new SubscriptionPlan
+                    {
+                        Id = reader.GetInt32(15),
+                        Name = reader.IsDBNull(16) ? "" : reader.GetString(16)
+                    }
+            };
+
+            subscriptions.Add(subscription);
+        }
+
+        return subscriptions;
+    }
+
 }

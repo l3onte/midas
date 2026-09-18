@@ -1,0 +1,435 @@
+@model IEnumerable<midasMVC.Models.Suscription>
+
+@{
+    ViewData["Title"] = "Mi Plan Premium";
+
+    var subscription = Model.FirstOrDefault();
+
+    var hasSubscription = subscription != null;
+
+    var planName = subscription?.Plan?.Name ?? "Premium";
+    var startDate = subscription?.StartDate.ToString("dd/MM/yyyy") ?? "-";
+    var endDate = subscription?.EndDate.ToString("dd/MM/yyyy") ?? "-";
+
+    var isActive = subscription?.Status == true;
+
+    var cardNumber = subscription?.PaymentMethod?.CardNumber ?? "";
+    var lastFourDigits = cardNumber.Length >= 4
+        ? cardNumber.Substring(cardNumber.Length - 4)
+        : "----";
+
+    var ownerName = subscription?.PaymentMethod?.OwnerName ?? "-";
+    var ownerLastName = subscription?.PaymentMethod?.OwnerLastName ?? "-";
+}
+
+<div class="relative h-full min-h-0 w-full overflow-hidden text-white">
+
+    <div class="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[#dfbd67]/[0.04] blur-[90px]"></div>
+    <div class="pointer-events-none absolute -bottom-24 right-0 h-64 w-64 rounded-full bg-[#c99e42]/[0.035] blur-[90px]"></div>
+
+    <div class="relative z-10 mx-auto flex h-full min-h-0 w-full max-w-7xl flex-col">
+
+        <div class="flex shrink-0 items-center justify-between pb-4">
+
+            <div>
+                <div class="mb-1 flex items-center gap-2">
+                    <i class="fa-solid fa-crown text-[9px] text-[#dfbd67]"></i>
+
+                    <span class="text-[9px] font-bold uppercase tracking-[0.28em] text-[#dfbd67]">
+                        Premium
+                    </span>
+                </div>
+
+                <h1 class="text-[24px] font-bold tracking-tight text-[#fff8e8] sm:text-[26px]">
+                    Mi Plan Premium
+                </h1>
+
+                <p class="mt-0.5 text-[10px] text-[#95876d]">
+                    Consulta el estado y los detalles de tu suscripción.
+                </p>
+            </div>
+
+            @if (hasSubscription)
+            {
+                <div class="hidden items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.025] px-3 py-2 md:flex">
+                    <i class="fa-solid fa-shield-halved text-[9px] text-[#dfbd67]"></i>
+
+                    <span class="text-[9px] font-medium text-[#9c8e75]">
+                        Suscripción segura
+                    </span>
+                </div>
+            }
+
+        </div>
+
+
+        @if (!hasSubscription)
+        {
+            <div class="flex min-h-0 flex-1 items-center justify-center">
+
+                <div class="w-full max-w-md rounded-[22px] border border-white/[0.08] bg-white/[0.035] p-7 text-center shadow-xl backdrop-blur-xl">
+
+                    <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-[#dfbd67]/20 bg-[#dfbd67]/[0.07]">
+                        <i class="fa-solid fa-crown text-lg text-[#dfbd67]"></i>
+                    </div>
+
+                    <h2 class="mt-4 text-lg font-semibold text-[#fff8e8]">
+                        No tienes una suscripción activa
+                    </h2>
+
+                    <p class="mx-auto mt-2 max-w-sm text-[10px] leading-relaxed text-[#81755f]">
+                        Actualmente no tienes un plan Premium asociado a tu cuenta.
+                    </p>
+
+                    <a asp-controller="Suscription"
+                       asp-action="Index"
+                       class="mt-5 inline-flex h-10 items-center gap-2 rounded-xl bg-gradient-to-r from-[#b4872f] via-[#dfbd67] to-[#f0c967] px-5 text-[10px] font-bold text-[#17130b] shadow-lg transition duration-300 hover:-translate-y-0.5">
+
+                        <i class="fa-solid fa-crown text-[9px]"></i>
+                        Ver planes Premium
+
+                    </a>
+
+                </div>
+
+            </div>
+        }
+        else
+        {
+            <div class="grid min-h-0 flex-1 grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_280px]">
+                <section class="min-h-0 overflow-hidden rounded-[22px] border border-white/[0.09] bg-white/[0.028] shadow-[0_18px_45px_rgba(0,0,0,0.18)] backdrop-blur-xl">
+                    <div class="flex h-full min-h-0 flex-col p-4 sm:p-5">
+                        <div class="flex shrink-0 items-center justify-between">
+
+                            <div class="flex items-center gap-3">
+
+                                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#dfbd67]/20 bg-[#dfbd67]/[0.07]">
+                                    <i class="fa-solid fa-crown text-sm text-[#dfbd67]"></i>
+                                </div>
+
+                                <div>
+                                    <p class="text-[8px] font-bold uppercase tracking-[0.22em] text-[#dfbd67]">
+                                        Plan actual
+                                    </p>
+
+                                    <h2 class="mt-0.5 text-base font-semibold text-[#fff8e8]">
+                                        @planName
+                                    </h2>
+                                </div>
+
+                            </div>
+
+                            @if (isActive)
+                            {
+                                <span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/[0.06] px-2.5 py-1.5 text-[8px] font-semibold text-emerald-300">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+                                    Activo
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="inline-flex items-center gap-1.5 rounded-full border border-red-400/20 bg-red-400/[0.06] px-2.5 py-1.5 text-[8px] font-semibold text-red-300">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-red-400"></span>
+                                    Inactivo
+                                </span>
+                            }
+
+                        </div>
+
+                        <div class="mt-4 grid shrink-0 grid-cols-2 gap-3">
+                            <div class="rounded-xl border border-white/[0.07] bg-white/[0.025] px-3.5 py-3">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#dfbd67]/[0.07]">
+                                        <i class="fa-regular fa-calendar text-[10px] text-[#dfbd67]"></i>
+                                    </div>
+
+                                    <div class="min-w-0">
+                                        <p class="text-[8px] text-[#706652]">
+                                            Fecha de inicio
+                                        </p>
+
+                                        <p class="mt-0.5 text-[11px] font-semibold text-[#e8dfce]">
+                                            @startDate
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="rounded-xl border border-white/[0.07] bg-white/[0.025] px-3.5 py-3">
+
+                                <div class="flex items-center gap-2.5">
+
+                                    <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#dfbd67]/[0.07]">
+                                        <i class="fa-regular fa-calendar-check text-[10px] text-[#dfbd67]"></i>
+                                    </div>
+
+                                    <div class="min-w-0">
+                                        <p class="text-[8px] text-[#706652]">
+                                            Fecha de vencimiento
+                                        </p>
+
+                                        <p class="mt-0.5 text-[11px] font-semibold text-[#e8dfce]">
+                                            @endDate
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mt-4 flex shrink-0 items-center justify-between border-t border-white/[0.06] pt-4">
+
+                            <div>
+                                <h3 class="text-[13px] font-semibold text-[#fff8e8]">
+                                    Método de pago
+                                </h3>
+
+                                <p class="mt-0.5 text-[9px] text-[#716754]">
+                                    Tarjeta asociada a tu suscripción.
+                                </p>
+                            </div>
+
+                            <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#dfbd67]/[0.06]">
+                                <i class="fa-solid fa-credit-card text-[10px] text-[#dfbd67]"></i>
+                            </div>
+
+                        </div>
+
+                        <div class="relative mt-3 min-h-[138px] shrink-0 overflow-hidden rounded-[17px] border border-[#dfbd67]/20 bg-gradient-to-br from-[#594522] via-[#3b2f1c] to-[#302719] p-4">
+                            <div class="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#dfbd67]/10 blur-3xl"></div>
+                            <div class="pointer-events-none absolute -bottom-16 left-10 h-28 w-28 rounded-full bg-[#dfbd67]/[0.05] blur-3xl"></div>
+                            <div class="relative flex h-full min-h-[106px] flex-col justify-between">
+
+                                <div class="flex items-center justify-between">
+
+                                    <div class="flex items-center gap-2">
+
+                                        <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-[#dfbd67]/10">
+                                            <i class="fa-solid fa-crown text-[8px] text-[#dfbd67]"></i>
+                                        </div>
+
+                                        <span class="text-[8px] font-bold uppercase tracking-[0.22em] text-[#dfbd67]">
+                                            MIDAS
+                                        </span>
+
+                                    </div>
+
+                                    <i class="fa-solid fa-wifi rotate-90 text-xs text-white/30"></i>
+
+                                </div>
+
+
+                                <div class="mt-3 text-[13px] tracking-[0.2em] text-white/80">
+                                    •••• •••• •••• @lastFourDigits
+                                </div>
+
+
+                                <div class="mt-3 flex items-end justify-between">
+
+                                    <div>
+                                        <p class="text-[6px] uppercase tracking-[0.2em] text-white/35">
+                                            Titular
+                                        </p>
+
+                                        <p class="mt-0.5 max-w-[220px] truncate text-[9px] font-medium uppercase tracking-wide text-white/80">
+                                            @ownerName @ownerLastName
+                                        </p>
+                                    </div>
+
+                                    <div class="text-right">
+                                        <p class="text-[6px] uppercase tracking-[0.2em] text-white/35">
+                                            Estado
+                                        </p>
+
+                                        <p class="mt-0.5 text-[8px] text-white/75">
+                                            @(isActive ? "Activa" : "Inactiva")
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mt-auto shrink-0 pt-3">
+
+                            <div class="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.018] px-3 py-2">
+
+                                <i class="fa-solid fa-shield-halved text-[9px] text-[#dfbd67]"></i>
+
+                                <p class="text-[8px] text-[#746a58]">
+                                    Tu información de pago está asociada únicamente a tu cuenta.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <aside class="grid min-h-0 grid-rows-[auto_auto_1fr] gap-3">
+                    <div class="rounded-[19px] border border-[#dfbd67]/20 bg-[#dfbd67]/[0.045] p-4">
+                        <p class="text-[7px] font-bold uppercase tracking-[0.24em] text-[#dfbd67]">
+                            Estado de suscripción
+                        </p>
+
+                        <div class="mt-3 flex items-center gap-3">
+
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#dfbd67]/10">
+
+                                @if (isActive)
+                                {
+                                    <i class="fa-solid fa-check text-sm text-[#dfbd67]"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa-solid fa-xmark text-sm text-red-300"></i>
+                                }
+
+                            </div>
+
+                            <div class="min-w-0">
+
+                                <p class="text-[12px] font-semibold text-[#fff8e8]">
+                                    @(isActive ? "Plan activo" : "Plan inactivo")
+                                </p>
+
+                                <p class="mt-0.5 truncate text-[8px] text-[#81745f]">
+                                    @planName
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="rounded-[19px] border border-white/[0.08] bg-white/[0.025] p-4">
+                        <div class="flex items-center justify-between">
+
+                            <p class="text-[7px] font-bold uppercase tracking-[0.24em] text-[#756a57]">
+                                Periodo
+                            </p>
+
+                            <i class="fa-solid fa-clock text-[9px] text-[#dfbd67]/60"></i>
+
+                        </div>
+
+                        <div class="mt-3 space-y-3">
+
+                            <div class="flex items-center justify-between">
+
+                                <span class="text-[8px] text-[#81755f]">
+                                    Inicio
+                                </span>
+
+                                <span class="text-[9px] font-semibold text-[#d9cfbc]">
+                                    @startDate
+                                </span>
+
+                            </div>
+
+                            <div class="h-px bg-white/[0.06]"></div>
+
+                            <div class="flex items-center justify-between">
+
+                                <span class="text-[8px] text-[#81755f]">
+                                    Vencimiento
+                                </span>
+
+                                <span class="text-[9px] font-semibold text-[#d9cfbc]">
+                                    @endDate
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="min-h-0 overflow-hidden rounded-[19px] border border-white/[0.08] bg-white/[0.025] p-4">
+
+                        <div class="flex items-center justify-between">
+
+                            <p class="text-[7px] font-bold uppercase tracking-[0.24em] text-[#756a57]">
+                                Beneficios
+                            </p>
+
+                            <i class="fa-solid fa-gem text-[8px] text-[#dfbd67]/60"></i>
+
+                        </div>
+
+
+                        <div class="mt-4 space-y-3">
+
+                            <div class="flex items-center gap-2.5">
+
+                                <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#dfbd67]/10">
+                                    <i class="fa-solid fa-chart-line text-[8px] text-[#dfbd67]"></i>
+                                </div>
+
+                                <span class="text-[8px] leading-tight text-[#b7aa93]">
+                                    Control completo de tus finanzas
+                                </span>
+
+                            </div>
+
+
+                            <div class="flex items-center gap-2.5">
+
+                                <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#dfbd67]/10">
+                                    <i class="fa-solid fa-bullseye text-[8px] text-[#dfbd67]"></i>
+                                </div>
+
+                                <span class="text-[8px] leading-tight text-[#b7aa93]">
+                                    Metas financieras ilimitadas
+                                </span>
+
+                            </div>
+
+
+                            <div class="flex items-center gap-2.5">
+
+                                <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#dfbd67]/10">
+                                    <i class="fa-solid fa-chart-pie text-[8px] text-[#dfbd67]"></i>
+                                </div>
+
+                                <span class="text-[8px] leading-tight text-[#b7aa93]">
+                                    Estadísticas y análisis avanzados
+                                </span>
+
+                            </div>
+
+
+                            <div class="flex items-center gap-2.5">
+
+                                <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#dfbd67]/10">
+                                    <i class="fa-solid fa-lock text-[8px] text-[#dfbd67]"></i>
+                                </div>
+
+                                <span class="text-[8px] leading-tight text-[#b7aa93]">
+                                    Experiencia Premium sin límites
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+        }
+
+    </div>
+
+</div>

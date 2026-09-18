@@ -472,7 +472,7 @@
                                     <span>Mi perfil</span>
 
                                 </a>
-
+                                <!--
                                 <a asp-controller="Settings"
                                    asp-action="Configuration"
                                    class="
@@ -502,7 +502,7 @@
                                     <span>Configuración</span>
 
                                 </a>
-
+                                -->
 
                                 @if (User.IsInRole("Usuario Free"))
                                 {
@@ -542,8 +542,8 @@
                                 @if (User.IsInRole("Usuario Premium"))
                                 {
 
-                                    <a asp-controller="Home"
-                                       asp-action="Settings"
+                                    <a asp-controller="Suscription"
+                                       asp-action="MiPlanPremium"
                                        class="
                                             flex
                                             items-center
@@ -574,6 +574,7 @@
 
                                 }
 
+                                <!--
                                 <a asp-controller="Home"
                                    asp-action="Settings"
                                    class="
@@ -603,7 +604,7 @@
                                     <span>Seguridad</span>
 
                                 </a>
-
+                                -->
 
                             </div>
 
