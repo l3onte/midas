@@ -94,4 +94,36 @@ public class BudgetRepository
         int rowsAffected = await command.ExecuteNonQueryAsync();
         return rowsAffected > 0;
     }
+
+    public async Task<bool> UpdateBudgetAsync(int budgetId, int userId, Budget budget)
+    {
+        const string sql = @"
+            UPDATE budgets
+            SET
+                category_id = @categoryId,
+                amount = @amount,
+                start_date = @startDate,
+                end_date = @endDate,
+                status = @status
+            WHERE id = @budgetId
+            AND user_id = @userId;
+        ";
+
+        await using var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        await using var command = new MySqlCommand(sql, connection);
+
+        command.Parameters.AddWithValue("@budgetId", budgetId);
+        command.Parameters.AddWithValue("@userId", userId);
+        command.Parameters.AddWithValue("@categoryId", budget.CategoryId);
+        command.Parameters.AddWithValue("@amount", budget.Amount);
+        command.Parameters.AddWithValue("@startDate", budget.StartDate);
+        command.Parameters.AddWithValue("@endDate", budget.EndDate);
+        command.Parameters.AddWithValue("@status", budget.Status);
+
+        int rowsAffected = await command.ExecuteNonQueryAsync();
+
+        return rowsAffected > 0;
+    }
 }

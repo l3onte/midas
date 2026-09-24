@@ -57,5 +57,28 @@ namespace MyApp.Namespace
 
             return RedirectToAction("Index", "Budget");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Usuario Premium")]
+        public async Task<IActionResult> Update(int budgetId, Budget budget)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (!int.TryParse(userIdClaim, out int userId))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            budget.UserId = userId;
+            budget.Status = true;
+
+            if (ModelState.IsValid)
+            {
+                await _budgetRepository.UpdateBudgetAsync(budgetId, userId, budget);
+            }
+
+            return RedirectToAction("Index", "Budget");
+        }
     }
 }
