@@ -1,0 +1,568 @@
+@model IEnumerable<midasMVC.Models.Budget>
+
+@{
+    ViewData["Title"] = "Administración de Presupuestos";
+}
+
+<div class="flex h-full min-h-0 w-full flex-col overflow-hidden">
+
+    <div class="
+        flex
+        flex-shrink-0
+        flex-col
+        gap-3
+        pb-4
+        lg:flex-row
+        lg:items-center
+        lg:justify-between
+    ">
+
+        <div class="min-w-0">
+
+            <h2 class="
+                m-0
+                text-xl
+                font-bold
+                tracking-tight
+                text-[#f8ebca]
+                sm:text-2xl
+            ">
+                Administración de Presupuestos
+            </h2>
+
+            <p class="
+                mt-1
+                mb-0
+                text-xs
+                text-[#c3b18e]
+            ">
+                Consulta y administra tus presupuestos financieros.
+            </p>
+
+        </div>
+
+        <div class="
+            flex
+            w-full
+            flex-col
+            gap-2
+            sm:flex-row
+            lg:w-auto
+        ">
+
+            <div class="
+                flex
+                h-10
+                min-w-0
+                w-full
+                items-center
+                rounded-lg
+                border
+                border-white/10
+                bg-white/10
+                px-3
+                sm:w-[280px]
+            ">
+
+                <i class="
+                    fa-solid
+                    fa-magnifying-glass
+                    mr-2
+                    text-xs
+                    text-white/50
+                "></i>
+
+                <input
+                    type="text"
+                    id="inputBuscar"
+                    class="
+                        w-full
+                        min-w-0
+                        border-0
+                        bg-transparent
+                        text-xs
+                        text-white
+                        outline-none
+                        placeholder:text-white/50
+                    "
+                    placeholder="Buscar presupuesto..." />
+
+            </div>
+
+            <button
+                type="button"
+                class="
+                    inline-flex
+                    h-10
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-lg
+                    border
+                    border-[#e0ba5e]/40
+                    bg-[#c79a3f]
+                    px-4
+                    text-xs
+                    font-semibold
+                    text-white
+                    shadow-lg
+                    transition
+                    duration-200
+                    hover:bg-[#b38732]
+                    hover:shadow-xl
+                "
+                data-bs-toggle="modal"
+                data-bs-target="#modalAgregarPresupuesto">
+
+                <i class="fa-solid fa-plus text-[11px]"></i>
+
+                <span>Agregar Presupuesto</span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="
+        min-h-0
+        flex-1
+        overflow-hidden
+        rounded-2xl
+        border
+        border-white/10
+        bg-[#fffaf0]
+        shadow-xl
+    ">
+
+        <div class="h-full w-full overflow-auto">
+
+            <table class="
+                m-0
+                min-w-[900px]
+                w-full
+                align-middle
+                text-xs
+            ">
+
+                <thead class="
+                    sticky
+                    top-0
+                    z-10
+                    bg-[#ead9ae]
+                ">
+
+                    <tr class="border-b border-[#d7c59f]">
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Id
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Categoría
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Presupuesto
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Fecha Inicial
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Fecha Final
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Estado
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-center
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Acciones
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var budget in Model)
+                        {
+                            <tr class="
+                                border-b
+                                border-[#eee3ce]
+                                bg-[#fffaf0]
+                                transition
+                                duration-150
+                                hover:bg-[#f8efd9]
+                            ">
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    font-medium
+                                    text-[#5a4525]
+                                ">
+                                    @budget.Id
+                                </td>
+
+
+                                <td class="
+                                    max-w-[220px]
+                                    px-4
+                                    py-3
+                                    text-[#4d3a20]
+                                ">
+
+                                    <div class="truncate font-medium">
+                                        @(budget.MovementCategory?.Name ?? "N/A")
+                                    </div>
+
+                                </td>
+
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    font-bold
+                                    text-[#4c381d]
+                                ">
+
+                                    $
+                                    @budget.Amount.ToString(
+                                        "N2",
+                                        new System.Globalization.CultureInfo("en-US")
+                                    )
+
+                                    <span class="
+                                        text-[10px]
+                                        font-medium
+                                        text-[#977d4e]
+                                    ">
+                                        USD
+                                    </span>
+
+                                </td>
+
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    text-[#6f5a35]
+                                ">
+                                    @budget.StartDate.ToString("dd/MM/yyyy")
+                                </td>
+
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    text-[#6f5a35]
+                                ">
+                                    @budget.EndDate.ToString("dd/MM/yyyy")
+                                </td>
+
+
+                                <td class="px-4 py-3">
+
+                                    @if (budget.Status)
+                                    {
+                                        <span class="
+                                            inline-flex
+                                            items-center
+                                            rounded-full
+                                            bg-emerald-100
+                                            px-2.5
+                                            py-1
+                                            text-[10px]
+                                            font-bold
+                                            text-emerald-700
+                                        ">
+
+                                            <span class="
+                                                mr-1.5
+                                                h-1.5
+                                                w-1.5
+                                                rounded-full
+                                                bg-emerald-500
+                                            "></span>
+
+                                            Activo
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="
+                                            inline-flex
+                                            items-center
+                                            rounded-full
+                                            bg-red-100
+                                            px-2.5
+                                            py-1
+                                            text-[10px]
+                                            font-bold
+                                            text-red-700
+                                        ">
+
+                                            <span class="
+                                                mr-1.5
+                                                h-1.5
+                                                w-1.5
+                                                rounded-full
+                                                bg-red-500
+                                            "></span>
+
+                                            Inactivo
+
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <td class="px-4 py-3">
+
+                                    <div class="
+                                        flex
+                                        items-center
+                                        justify-center
+                                        gap-1
+                                    ">
+
+                                        <button
+                                            type="button"
+                                            title="Ver presupuesto"
+                                            class="
+                                                h-8
+                                                w-8
+                                                rounded-md
+                                                text-[#806634]
+                                                transition
+                                                hover:bg-[#f3ead7]
+                                                hover:text-[#b38732]
+                                            ">
+
+                                            <i class="fa-solid fa-eye text-xs"></i>
+
+                                        </button>
+
+
+                                        <button
+                                            type="button"
+                                            title="Editar presupuesto"
+                                            class="
+                                                h-8
+                                                w-8
+                                                rounded-md
+                                                text-[#806634]
+                                                transition
+                                                hover:bg-[#f3ead7]
+                                                hover:text-[#b38732]
+                                            ">
+
+                                            <i class="fa-solid fa-pen text-xs"></i>
+
+                                        </button>
+
+
+                                        <button
+                                            type="button"
+                                            title="Eliminar presupuesto"
+                                            class="
+                                                h-8
+                                                w-8
+                                                rounded-md
+                                                text-[#806634]
+                                                transition
+                                                hover:bg-red-50
+                                                hover:text-red-600
+                                            ">
+
+                                            <i class="fa-solid fa-trash text-xs"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="
+                                    px-6
+                                    py-14
+                                    text-center
+                                ">
+
+                                <div class="
+                                    flex
+                                    flex-col
+                                    items-center
+                                    justify-center
+                                ">
+
+                                    <div class="
+                                        mb-4
+                                        flex
+                                        h-14
+                                        w-14
+                                        items-center
+                                        justify-center
+                                        rounded-full
+                                        bg-[#f3ead7]
+                                        text-[#977d4e]
+                                    ">
+
+                                        <i class="
+                                            fa-solid
+                                            fa-wallet
+                                            text-xl
+                                        "></i>
+
+                                    </div>
+
+                                    <h4 class="
+                                        text-sm
+                                        font-semibold
+                                        text-[#5a4525]
+                                    ">
+                                        No hay presupuestos registrados
+                                    </h4>
+
+                                    <p class="
+                                        mt-1
+                                        max-w-sm
+                                        text-xs
+                                        text-[#977d4e]
+                                    ">
+                                        Todavía no tienes presupuestos disponibles.
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const inputBuscar =
+                document.getElementById("inputBuscar");
+
+            const filasTabla =
+                document.querySelectorAll("tbody tr");
+
+            if (inputBuscar) {
+
+                inputBuscar.addEventListener(
+                    "input",
+                    function () {
+
+                        const criterio =
+                            this.value
+                                .toLowerCase()
+                                .trim();
+
+                        filasTabla.forEach(fila => {
+
+                            const textoFila =
+                                fila.textContent
+                                    .toLowerCase();
+
+                            fila.style.display =
+                                textoFila.includes(criterio)
+                                    ? ""
+                                    : "none";
+
+                        });
+
+                    }
+                );
+
+            }
+
+        });
+    </script>
+
+}

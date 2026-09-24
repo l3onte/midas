@@ -18,6 +18,7 @@ builder.Services.AddScoped<CuentasRepository>();
 builder.Services.AddScoped<MetasRepository>();
 builder.Services.AddScoped<SubscriptionRepository>();
 builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<BudgetRepository>();
 
 var jwtKey = builder.Configuration["Jwt:Key"];
 
