@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using midasMVC.Data;
 using midasMVC.Models;
@@ -8,10 +9,12 @@ namespace MyApp.Namespace
     public class BudgetController : Controller
     {
         private readonly BudgetRepository _budgetRepository;
+        private readonly MovementCategoryRepository _movementCategoryRepository;
 
-        public BudgetController(BudgetRepository budgetRepository)
+        public BudgetController(BudgetRepository budgetRepository, MovementCategoryRepository movementCategoryRepository)
         {
             _budgetRepository = budgetRepository;
+            _movementCategoryRepository = movementCategoryRepository;
         }
 
         [HttpGet]
@@ -25,8 +28,34 @@ namespace MyApp.Namespace
             }
 
             var budgets = await _budgetRepository.GetBudgetsByUserIdAsync(userId);
+            var categories = await _movementCategoryRepository.GetMovementCategoriesByUserIdAsync(userId);
+
+            ViewBag.Categories = categories;
+
             return View(budgets);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Usuario Premium")]
+        public async Task<IActionResult> Create(Budget budget)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (!int.TryParse(userIdClaim, out int userId))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            budget.UserId = userId;
+            budget.Status = true;
+
+            if (ModelState.IsValid)
+            {
+                await _budgetRepository.CreateBudgetAsync(budget);
+            }
+
+            return RedirectToAction("Index", "Budget");
+        }
     }
 }

@@ -72,4 +72,26 @@ public class BudgetRepository
 
         return budgets;
     }
+
+    public async Task<bool> CreateBudgetAsync(Budget budget)
+    {
+        const string sql = @"
+            INSERT INTO budgets (user_id, category_id, amount, start_date, end_date, status)
+            VALUES (@userId, @categoryId, @amount, @startDate, @endDate, @status);
+        ";
+
+        await using var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@userId", budget.UserId);
+        command.Parameters.AddWithValue("@categoryId", budget.CategoryId);
+        command.Parameters.AddWithValue("@amount", budget.Amount);
+        command.Parameters.AddWithValue("@startDate", budget.StartDate);
+        command.Parameters.AddWithValue("@endDate", budget.EndDate);
+        command.Parameters.AddWithValue("@status", budget.Status);
+
+        int rowsAffected = await command.ExecuteNonQueryAsync();
+        return rowsAffected > 0;
+    }
 }
