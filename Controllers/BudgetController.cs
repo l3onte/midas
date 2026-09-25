@@ -80,5 +80,22 @@ namespace MyApp.Namespace
 
             return RedirectToAction("Index", "Budget");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Usuario Premium")]
+        public async Task<IActionResult> Delete(int budgetId)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (!int.TryParse(userIdClaim, out int userId))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            await _budgetRepository.DeleteBudgetAsync(budgetId, userId);
+
+            return RedirectToAction("Index", "Budget");
+        }
     }
 }

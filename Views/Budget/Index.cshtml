@@ -407,8 +407,8 @@
                                         </button>
 
 
-                                        <button 
-                                            type="button" 
+                                        <button
+                                            type="button"
                                             title="Editar presupuesto"
                                             data-bs-toggle="modal"
                                             data-bs-target="#modalEditarPresupuesto"
@@ -426,26 +426,46 @@
                                                 hover:bg-[#f3ead7]
                                                 hover:text-[#b38732]
                                             ">
+
                                             <i class="fa-solid fa-pen text-xs"></i>
-                                        </button>
-
-
-                                        <button
-                                            type="button"
-                                            title="Eliminar presupuesto"
-                                            class="
-                                                h-8
-                                                w-8
-                                                rounded-md
-                                                text-[#806634]
-                                                transition
-                                                hover:bg-red-50
-                                                hover:text-red-600
-                                            ">
-
-                                            <i class="fa-solid fa-trash text-xs"></i>
 
                                         </button>
+
+
+                                        <form
+                                            asp-controller="Budget"
+                                            asp-action="Delete"
+                                            method="post"
+                                            class="inline"
+                                        >
+
+                                            @Html.AntiForgeryToken()
+
+                                            <input
+                                                type="hidden"
+                                                name="budgetId"
+                                                value="@budget.Id"
+                                            />
+
+                                            <button
+                                                type="submit"
+                                                title="Eliminar presupuesto"
+                                                onclick="return confirm('¿Estás seguro de que deseas eliminar este presupuesto?');"
+                                                class="
+                                                    h-8
+                                                    w-8
+                                                    rounded-md
+                                                    text-[#806634]
+                                                    transition
+                                                    hover:bg-red-50
+                                                    hover:text-red-600
+                                                ">
+
+                                                <i class="fa-solid fa-trash text-xs"></i>
+
+                                            </button>
+
+                                        </form>
 
                                     </div>
 
@@ -527,14 +547,16 @@
 
 </div>
 
-<div 
-    class="modal fade" 
-    id="modalAgregarPresupuesto" 
-    tabindex="-1" 
-    aria-labelledby="modalAgregarPresupuestoLabel" 
+<div
+    class="modal fade"
+    id="modalAgregarPresupuesto"
+    tabindex="-1"
+    aria-labelledby="modalAgregarPresupuestoLabel"
     aria-hidden="true"
 >
+
     <div class="modal-dialog modal-dialog-centered">
+
         <div class="modal-content overflow-hidden rounded-2xl border-0 shadow-2xl">
 
             <div class="bg-[#4a3a20] px-6 py-5">
@@ -542,7 +564,8 @@
                 <div class="flex items-center justify-between">
 
                     <div>
-                        <h5 
+
+                        <h5
                             class="m-0 text-lg font-bold text-[#f8ebca]"
                             id="modalAgregarPresupuestoLabel"
                         >
@@ -552,6 +575,7 @@
                         <p class="mt-1 mb-0 text-xs text-[#c3b18e]">
                             Define un límite de gasto para una categoría.
                         </p>
+
                     </div>
 
                     <button
@@ -568,9 +592,9 @@
             </div>
 
 
-            <form 
-                asp-controller="Budget" 
-                asp-action="Create" 
+            <form
+                asp-controller="Budget"
+                asp-action="Create"
                 method="post"
             >
 
@@ -579,7 +603,8 @@
                 <div class="space-y-4 bg-[#fffaf0] px-6 py-6">
 
                     <div>
-                        <label 
+
+                        <label
                             for="CategoryId"
                             class="mb-1.5 block text-xs font-semibold text-[#5a4525]"
                         >
@@ -607,6 +632,7 @@
                                 focus:ring-[#c79a3f]/20
                             "
                         >
+
                             <option value="">
                                 Selecciona una categoría
                             </option>
@@ -617,12 +643,15 @@
                                     @category.Name
                                 </option>
                             }
+
                         </select>
+
                     </div>
 
 
                     <div>
-                        <label 
+
+                        <label
                             for="Amount"
                             class="mb-1.5 block text-xs font-semibold text-[#5a4525]"
                         >
@@ -631,17 +660,15 @@
 
                         <div class="relative">
 
-                            <span 
-                                class="
-                                    absolute
-                                    left-3
-                                    top-1/2
-                                    -translate-y-1/2
-                                    text-xs
-                                    font-semibold
-                                    text-[#977d4e]
-                                "
-                            >
+                            <span class="
+                                absolute
+                                left-3
+                                top-1/2
+                                -translate-y-1/2
+                                text-xs
+                                font-semibold
+                                text-[#977d4e]
+                            ">
                                 $
                             </span>
 
@@ -673,13 +700,15 @@
                             />
 
                         </div>
+
                     </div>
 
 
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 
                         <div>
-                            <label 
+
+                            <label
                                 for="StartDate"
                                 class="mb-1.5 block text-xs font-semibold text-[#5a4525]"
                             >
@@ -708,11 +737,13 @@
                                     focus:ring-[#c79a3f]/20
                                 "
                             />
+
                         </div>
 
 
                         <div>
-                            <label 
+
+                            <label
                                 for="EndDate"
                                 class="mb-1.5 block text-xs font-semibold text-[#5a4525]"
                             >
@@ -741,58 +772,60 @@
                                     focus:ring-[#c79a3f]/20
                                 "
                             />
+
                         </div>
 
                     </div>
 
 
-                    <div 
-                        class="
-                            rounded-lg
-                            border
-                            border-[#e5d7b9]
-                            bg-[#f8efd9]
-                            px-3
-                            py-2.5
-                        "
-                    >
+                    <div class="
+                        rounded-lg
+                        border
+                        border-[#e5d7b9]
+                        bg-[#f8efd9]
+                        px-3
+                        py-2.5
+                    ">
+
                         <div class="flex items-start gap-2">
 
-                            <i 
-                                class="
-                                    fa-solid
-                                    fa-circle-info
-                                    mt-0.5
-                                    text-xs
-                                    text-[#b38732]
-                                "
-                            ></i>
+                            <i class="
+                                fa-solid
+                                fa-circle-info
+                                mt-0.5
+                                text-xs
+                                text-[#b38732]
+                            "></i>
 
-                            <p class="m-0 text-[11px] leading-relaxed text-[#806634]">
+                            <p class="
+                                m-0
+                                text-[11px]
+                                leading-relaxed
+                                text-[#806634]
+                            ">
                                 El presupuesto se aplicará únicamente durante el
                                 período seleccionado y sobre los gastos de la
                                 categoría indicada.
                             </p>
 
                         </div>
+
                     </div>
 
                 </div>
 
 
-                <div 
-                    class="
-                        flex
-                        items-center
-                        justify-end
-                        gap-2
-                        border-t
-                        border-[#eee3ce]
-                        bg-[#fffaf0]
-                        px-6
-                        py-4
-                    "
-                >
+                <div class="
+                    flex
+                    items-center
+                    justify-end
+                    gap-2
+                    border-t
+                    border-[#eee3ce]
+                    bg-[#fffaf0]
+                    px-6
+                    py-4
+                ">
 
                     <button
                         type="button"
@@ -834,8 +867,11 @@
                             hover:bg-[#b38732]
                         "
                     >
+
                         <i class="fa-solid fa-plus text-[10px]"></i>
+
                         Crear presupuesto
+
                     </button>
 
                 </div>
@@ -843,17 +879,21 @@
             </form>
 
         </div>
+
     </div>
+
 </div>
 
-<div 
-    class="modal fade" 
-    id="modalEditarPresupuesto" 
-    tabindex="-1" 
-    aria-labelledby="modalEditarPresupuestoLabel" 
+<div
+    class="modal fade"
+    id="modalEditarPresupuesto"
+    tabindex="-1"
+    aria-labelledby="modalEditarPresupuestoLabel"
     aria-hidden="true"
 >
+
     <div class="modal-dialog modal-dialog-centered">
+
         <div class="modal-content overflow-hidden rounded-2xl border-0 shadow-2xl">
 
             <div class="bg-[#4a3a20] px-6 py-5">
@@ -861,6 +901,7 @@
                 <div class="flex items-center justify-between">
 
                     <div>
+
                         <h5
                             class="m-0 text-lg font-bold text-[#f8ebca]"
                             id="modalEditarPresupuestoLabel"
@@ -871,6 +912,7 @@
                         <p class="mt-1 mb-0 text-xs text-[#c3b18e]">
                             Modifica la información de tu presupuesto.
                         </p>
+
                     </div>
 
                     <button
@@ -895,15 +937,17 @@
 
                 @Html.AntiForgeryToken()
 
-                <input 
-                    type="hidden" 
-                    id="EditarBudgetId" 
+                <input
+                    type="hidden"
+                    id="EditarBudgetId"
                     name="budgetId"
                 />
+
 
                 <div class="space-y-4 bg-[#fffaf0] px-6 py-6">
 
                     <div>
+
                         <label
                             for="EditarCategoryId"
                             class="mb-1.5 block text-xs font-semibold text-[#5a4525]"
@@ -932,6 +976,7 @@
                                 focus:ring-[#c79a3f]/20
                             "
                         >
+
                             <option value="">
                                 Selecciona una categoría
                             </option>
@@ -944,10 +989,12 @@
                             }
 
                         </select>
+
                     </div>
 
 
                     <div>
+
                         <label
                             for="EditarAmount"
                             class="mb-1.5 block text-xs font-semibold text-[#5a4525]"
@@ -957,17 +1004,15 @@
 
                         <div class="relative">
 
-                            <span
-                                class="
-                                    absolute
-                                    left-3
-                                    top-1/2
-                                    -translate-y-1/2
-                                    text-xs
-                                    font-semibold
-                                    text-[#977d4e]
-                                "
-                            >
+                            <span class="
+                                absolute
+                                left-3
+                                top-1/2
+                                -translate-y-1/2
+                                text-xs
+                                font-semibold
+                                text-[#977d4e]
+                            ">
                                 $
                             </span>
 
@@ -998,12 +1043,14 @@
                             />
 
                         </div>
+
                     </div>
 
 
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 
                         <div>
+
                             <label
                                 for="EditarStartDate"
                                 class="mb-1.5 block text-xs font-semibold text-[#5a4525]"
@@ -1033,10 +1080,12 @@
                                     focus:ring-[#c79a3f]/20
                                 "
                             />
+
                         </div>
 
 
                         <div>
+
                             <label
                                 for="EditarEndDate"
                                 class="mb-1.5 block text-xs font-semibold text-[#5a4525]"
@@ -1066,6 +1115,7 @@
                                     focus:ring-[#c79a3f]/20
                                 "
                             />
+
                         </div>
 
                     </div>
@@ -1073,19 +1123,17 @@
                 </div>
 
 
-                <div
-                    class="
-                        flex
-                        items-center
-                        justify-end
-                        gap-2
-                        border-t
-                        border-[#eee3ce]
-                        bg-[#fffaf0]
-                        px-6
-                        py-4
-                    "
-                >
+                <div class="
+                    flex
+                    items-center
+                    justify-end
+                    gap-2
+                    border-t
+                    border-[#eee3ce]
+                    bg-[#fffaf0]
+                    px-6
+                    py-4
+                ">
 
                     <button
                         type="button"
@@ -1127,8 +1175,11 @@
                             hover:bg-[#b38732]
                         "
                     >
+
                         <i class="fa-solid fa-floppy-disk text-[10px]"></i>
+
                         Guardar cambios
+
                     </button>
 
                 </div>
@@ -1136,12 +1187,16 @@
             </form>
 
         </div>
+
     </div>
+
 </div>
+
 
 @section Scripts {
 
     <script>
+
         document.addEventListener("DOMContentLoaded", function () {
 
             const inputBuscar =
@@ -1149,6 +1204,7 @@
 
             const filasTabla =
                 document.querySelectorAll("tbody tr");
+
 
             if (inputBuscar) {
 
@@ -1179,55 +1235,77 @@
 
             }
 
+
+            const modalEditarPresupuesto =
+                document.getElementById("modalEditarPresupuesto");
+
+
+            if (modalEditarPresupuesto) {
+
+                modalEditarPresupuesto.addEventListener(
+                    "show.bs.modal",
+                    function (event) {
+
+                        const button =
+                            event.relatedTarget;
+
+                        const budgetId =
+                            button.getAttribute(
+                                "data-budget-id"
+                            );
+
+                        const categoryId =
+                            button.getAttribute(
+                                "data-category-id"
+                            );
+
+                        const amount =
+                            button.getAttribute(
+                                "data-amount"
+                            );
+
+                        const startDate =
+                            button.getAttribute(
+                                "data-start-date"
+                            );
+
+                        const endDate =
+                            button.getAttribute(
+                                "data-end-date"
+                            );
+
+
+                        document.getElementById(
+                            "EditarBudgetId"
+                        ).value = budgetId;
+
+
+                        document.getElementById(
+                            "EditarCategoryId"
+                        ).value = categoryId;
+
+
+                        document.getElementById(
+                            "EditarAmount"
+                        ).value = amount;
+
+
+                        document.getElementById(
+                            "EditarStartDate"
+                        ).value = startDate;
+
+
+                        document.getElementById(
+                            "EditarEndDate"
+                        ).value = endDate;
+
+                    }
+                );
+
+            }
+
         });
-    </script>
 
-    <script>
-        const modalEditarPresupuesto =
-            document.getElementById("modalEditarPresupuesto");
-
-        if (modalEditarPresupuesto) {
-
-            modalEditarPresupuesto.addEventListener(
-                "show.bs.modal",
-                function (event) {
-
-                    const button = event.relatedTarget;
-
-                    const budgetId =
-                        button.getAttribute("data-budget-id");
-
-                    const categoryId =
-                        button.getAttribute("data-category-id");
-
-                    const amount =
-                        button.getAttribute("data-amount");
-
-                    const startDate =
-                        button.getAttribute("data-start-date");
-
-                    const endDate =
-                        button.getAttribute("data-end-date");
-
-
-                    document.getElementById("EditarBudgetId").value =
-                        budgetId;
-
-                    document.getElementById("EditarCategoryId").value =
-                        categoryId;
-
-                    document.getElementById("EditarAmount").value =
-                        amount;
-
-                    document.getElementById("EditarStartDate").value =
-                        startDate;
-
-                    document.getElementById("EditarEndDate").value =
-                        endDate;
-                }
-            );
-
-        }
     </script>
 
 }

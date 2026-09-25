@@ -126,4 +126,24 @@ public class BudgetRepository
 
         return rowsAffected > 0;
     }
+
+    public async Task<bool> DeleteBudgetAsync(int budgetId, int userId)
+    {
+        const string sql = @"
+            DELETE FROM budgets
+            WHERE id = @budgetId
+            AND user_id = @userId;
+        ";
+
+        await using var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@budgetId", budgetId);
+        command.Parameters.AddWithValue("@userId", userId);
+
+        int rowsAffected = await command.ExecuteNonQueryAsync();
+
+        return rowsAffected > 0;
+    }
 }
