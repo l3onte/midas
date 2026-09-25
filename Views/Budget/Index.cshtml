@@ -85,7 +85,8 @@
                         outline-none
                         placeholder:text-white/50
                     "
-                    placeholder="Buscar presupuesto..." />
+                    placeholder="Buscar presupuesto..."
+                />
 
             </div>
 
@@ -112,7 +113,8 @@
                     hover:shadow-xl
                 "
                 data-bs-toggle="modal"
-                data-bs-target="#modalAgregarPresupuesto">
+                data-bs-target="#modalAgregarPresupuesto"
+            >
 
                 <i class="fa-solid fa-plus text-[11px]"></i>
 
@@ -123,7 +125,6 @@
         </div>
 
     </div>
-
 
     <div class="
         min-h-0
@@ -140,7 +141,7 @@
 
             <table class="
                 m-0
-                min-w-[900px]
+                min-w-[1250px]
                 w-full
                 align-middle
                 text-xs
@@ -196,6 +197,39 @@
                             font-bold
                             text-[#4c381d]
                         ">
+                            Gastado
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Disponible
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Progreso
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
                             Fecha Inicial
                         </th>
 
@@ -236,13 +270,14 @@
 
                 </thead>
 
-
                 <tbody>
 
                     @if (Model != null && Model.Any())
                     {
                         @foreach (var budget in Model)
                         {
+                            var progress = Math.Min(budget.Percentage, 100);
+
                             <tr class="
                                 border-b
                                 border-[#eee3ce]
@@ -262,7 +297,6 @@
                                     @budget.Id
                                 </td>
 
-
                                 <td class="
                                     max-w-[220px]
                                     px-4
@@ -275,7 +309,6 @@
                                     </div>
 
                                 </td>
-
 
                                 <td class="
                                     whitespace-nowrap
@@ -301,6 +334,166 @@
 
                                 </td>
 
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    font-bold
+                                    text-[#a34d3f]
+                                ">
+
+                                    $
+                                    @budget.Spent.ToString(
+                                        "N2",
+                                        new System.Globalization.CultureInfo("en-US")
+                                    )
+
+                                    <span class="
+                                        text-[10px]
+                                        font-medium
+                                        text-[#977d4e]
+                                    ">
+                                        USD
+                                    </span>
+
+                                </td>
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    font-bold
+                                    @(budget.Available >= 0
+                                        ? "text-emerald-700"
+                                        : "text-red-700")
+                                ">
+
+                                    $
+                                    @Math.Abs(budget.Available).ToString(
+                                        "N2",
+                                        new System.Globalization.CultureInfo("en-US")
+                                    )
+
+                                    <span class="
+                                        text-[10px]
+                                        font-medium
+                                        @(budget.Available >= 0
+                                            ? "text-[#977d4e]"
+                                            : "text-red-500")
+                                    ">
+                                        @(budget.Available >= 0 ? "USD" : "Excedido")
+                                    </span>
+
+                                </td>
+
+                                <td class="px-4 py-3">
+
+                                    <div class="w-[190px]">
+
+                                        <div class="
+                                            mb-1
+                                            flex
+                                            items-center
+                                            justify-between
+                                            gap-2
+                                        ">
+
+                                            <span class="
+                                                text-[10px]
+                                                font-semibold
+                                                @(budget.Percentage >= 100
+                                                    ? "text-red-700"
+                                                    : budget.Percentage >= 80
+                                                        ? "text-amber-700"
+                                                        : "text-[#806634]")
+                                            ">
+                                                @budget.Percentage.ToString("N0")%
+                                            </span>
+
+                                            @if (budget.Percentage >= 100)
+                                            {
+                                                <span class="
+                                                    text-[10px]
+                                                    font-bold
+                                                    text-red-700
+                                                ">
+                                                    Excedido
+                                                </span>
+                                            }
+                                            else if (budget.Percentage >= 80)
+                                            {
+                                                <span class="
+                                                    text-[10px]
+                                                    font-bold
+                                                    text-amber-700
+                                                ">
+                                                    Cerca del límite
+                                                </span>
+                                            }
+
+                                        </div>
+
+                                        <div class="
+                                            h-2
+                                            w-full
+                                            overflow-hidden
+                                            rounded-full
+                                            bg-[#eadfca]
+                                        ">
+
+                                            <div
+                                                class="
+                                                    h-full
+                                                    rounded-full
+                                                    transition-all
+                                                    duration-300
+                                                    @(budget.Percentage >= 100
+                                                        ? "bg-red-500"
+                                                        : budget.Percentage >= 80
+                                                            ? "bg-amber-500"
+                                                            : "bg-[#c79a3f]")
+                                                "
+                                                style="width: @progress.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)%;"
+                                            ></div>
+
+                                        </div>
+
+                                        <div class="
+                                            mt-1
+                                            text-[10px]
+                                            @(budget.Available < 0
+                                                ? "text-red-600"
+                                                : "text-[#977d4e]")
+                                        ">
+
+                                            @if (budget.Available >= 0)
+                                            {
+                                                <span>
+                                                    Disponible:
+                                                    $
+                                                    @budget.Available.ToString(
+                                                        "N2",
+                                                        new System.Globalization.CultureInfo("en-US")
+                                                    )
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span>
+                                                    Excedido:
+                                                    $
+                                                    @Math.Abs(budget.Available).ToString(
+                                                        "N2",
+                                                        new System.Globalization.CultureInfo("en-US")
+                                                    )
+                                                </span>
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
 
                                 <td class="
                                     whitespace-nowrap
@@ -311,7 +504,6 @@
                                     @budget.StartDate.ToString("dd/MM/yyyy")
                                 </td>
 
-
                                 <td class="
                                     whitespace-nowrap
                                     px-4
@@ -320,7 +512,6 @@
                                 ">
                                     @budget.EndDate.ToString("dd/MM/yyyy")
                                 </td>
-
 
                                 <td class="px-4 py-3">
 
@@ -379,7 +570,6 @@
 
                                 </td>
 
-
                                 <td class="px-4 py-3">
 
                                     <div class="
@@ -400,12 +590,12 @@
                                                 transition
                                                 hover:bg-[#f3ead7]
                                                 hover:text-[#b38732]
-                                            ">
+                                            "
+                                        >
 
                                             <i class="fa-solid fa-eye text-xs"></i>
 
                                         </button>
-
 
                                         <button
                                             type="button"
@@ -425,12 +615,12 @@
                                                 transition
                                                 hover:bg-[#f3ead7]
                                                 hover:text-[#b38732]
-                                            ">
+                                            "
+                                        >
 
                                             <i class="fa-solid fa-pen text-xs"></i>
 
                                         </button>
-
 
                                         <form
                                             asp-controller="Budget"
@@ -459,7 +649,8 @@
                                                     transition
                                                     hover:bg-red-50
                                                     hover:text-red-600
-                                                ">
+                                                "
+                                            >
 
                                                 <i class="fa-solid fa-trash text-xs"></i>
 
@@ -479,12 +670,13 @@
                         <tr>
 
                             <td
-                                colspan="7"
+                                colspan="10"
                                 class="
                                     px-6
                                     py-14
                                     text-center
-                                ">
+                                "
+                            >
 
                                 <div class="
                                     flex
@@ -591,7 +783,6 @@
 
             </div>
 
-
             <form
                 asp-controller="Budget"
                 asp-action="Create"
@@ -648,7 +839,6 @@
 
                     </div>
 
-
                     <div>
 
                         <label
@@ -703,7 +893,6 @@
 
                     </div>
 
-
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 
                         <div>
@@ -739,7 +928,6 @@
                             />
 
                         </div>
-
 
                         <div>
 
@@ -777,7 +965,6 @@
 
                     </div>
 
-
                     <div class="
                         rounded-lg
                         border
@@ -813,7 +1000,6 @@
                     </div>
 
                 </div>
-
 
                 <div class="
                     flex
@@ -928,7 +1114,6 @@
 
             </div>
 
-
             <form
                 asp-controller="Budget"
                 asp-action="Update"
@@ -942,7 +1127,6 @@
                     id="EditarBudgetId"
                     name="budgetId"
                 />
-
 
                 <div class="space-y-4 bg-[#fffaf0] px-6 py-6">
 
@@ -991,7 +1175,6 @@
                         </select>
 
                     </div>
-
 
                     <div>
 
@@ -1046,7 +1229,6 @@
 
                     </div>
 
-
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 
                         <div>
@@ -1082,7 +1264,6 @@
                             />
 
                         </div>
-
 
                         <div>
 
@@ -1121,7 +1302,6 @@
                     </div>
 
                 </div>
-
 
                 <div class="
                     flex
@@ -1192,7 +1372,6 @@
 
 </div>
 
-
 @section Scripts {
 
     <script>
@@ -1204,7 +1383,6 @@
 
             const filasTabla =
                 document.querySelectorAll("tbody tr");
-
 
             if (inputBuscar) {
 
@@ -1235,10 +1413,8 @@
 
             }
 
-
             const modalEditarPresupuesto =
                 document.getElementById("modalEditarPresupuesto");
-
 
             if (modalEditarPresupuesto) {
 
@@ -1274,26 +1450,21 @@
                                 "data-end-date"
                             );
 
-
                         document.getElementById(
                             "EditarBudgetId"
                         ).value = budgetId;
-
 
                         document.getElementById(
                             "EditarCategoryId"
                         ).value = categoryId;
 
-
                         document.getElementById(
                             "EditarAmount"
                         ).value = amount;
 
-
                         document.getElementById(
                             "EditarStartDate"
                         ).value = startDate;
-
 
                         document.getElementById(
                             "EditarEndDate"

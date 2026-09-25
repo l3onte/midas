@@ -26,15 +26,43 @@ public class BudgetRepository
                 b.status,
 
                 mc.id AS category_id,
-                mc.name AS category_name
+                mc.name AS category_name,
+
+                COALESCE(
+                    SUM(
+                        CASE
+                            WHEN m.movement_type_id <> 1
+                            THEN m.amount
+                            ELSE 0
+                        END
+                    ),
+                    0
+                ) AS spent
 
             FROM budgets b
+
             INNER JOIN movement_categories mc
                 ON mc.id = b.category_id
 
+            LEFT JOIN movements m
+                ON m.user_id = b.user_id
+                AND m.movement_categorie_id = b.category_id
+                AND m.created_at >= b.start_date
+                AND m.created_at < DATE_ADD(b.end_date, INTERVAL 1 DAY)
+
             WHERE b.user_id = @userId
-              AND b.status = 1
-              
+
+            GROUP BY
+                b.id,
+                b.user_id,
+                b.category_id,
+                b.amount,
+                b.start_date,
+                b.end_date,
+                b.status,
+                mc.id,
+                mc.name
+
             ORDER BY b.start_date DESC;
         ";
 
@@ -59,6 +87,8 @@ public class BudgetRepository
                 StartDate = reader.GetDateTime("start_date"),
                 EndDate = reader.GetDateTime("end_date"),
                 Status = reader.GetBoolean("status"),
+
+                Spent = reader.GetDecimal("spent"),
 
                 MovementCategory = new MovementCategory
                 {

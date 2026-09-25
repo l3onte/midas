@@ -1,3 +1,4 @@
+using midasMVC.Models.ViewModels;
 using MySqlConnector;
 
 namespace midasMVC.Models;
@@ -36,6 +37,49 @@ public class MovementCategoryRepository
         while (await reader.ReadAsync())
         {
             list.Add(new MovementCategory { Id = reader.GetInt32("id"), User_id = userId, Name = reader.GetString("name") });
+        }
+
+        return list;
+    }
+
+    public async Task<List<MovementCategoryViewModel>> GetMovementCategoriesByUserWithBudgetsAmountAsync(int userId)
+    {
+        var list = new List<MovementCategoryViewModel>();
+
+        const string sql = @"
+            SELECT
+                mc.id,
+                mc.user_id,
+                mc.name,
+                b.amount AS budget_amount
+            FROM movement_categories mc
+            LEFT JOIN budgets b
+                ON b.category_id = mc.id
+                AND b.user_id = mc.user_id
+                AND b.status = 1
+                AND NOW() BETWEEN b.start_date AND b.end_date
+            WHERE mc.user_id = @userId;
+        ";
+
+        await using var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@userId", userId);
+
+        await using var reader = await command.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync())
+        {
+            list.Add(new MovementCategoryViewModel
+            {
+                Id = reader.GetInt32("id"),
+                User_id = reader.GetInt32("user_id"),
+                Name = reader.GetString("name"),
+                BudgetAmount = reader.IsDBNull(reader.GetOrdinal("budget_amount"))
+                    ? null
+                    : reader.GetDecimal("budget_amount")
+            });
         }
 
         return list;
