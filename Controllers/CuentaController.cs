@@ -226,5 +226,59 @@ namespace MyApp.Namespace
 
             return RedirectToAction("Login", "Cuenta");
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult Register()
+        {
+            if (User.Identity?.IsAuthenticated == true)
+                return RedirectToAction("Index", "Home");
+
+            return View(new User());
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(User user)
+        {
+            if (!ModelState.IsValid)
+                return View(user);
+
+            user.Role_id = 2;
+            user.Status = true;
+
+            user.Email = user.Email.Trim();
+            user.Name = user.Name.Trim();
+            user.Last_name = user.Last_name.Trim();
+
+            if (!string.IsNullOrWhiteSpace(user.Phone))
+                user.Phone = user.Phone.Trim();
+
+            user.Password = BCrypt.Net.BCrypt.HashPassword(
+                user.Password?.Trim() ?? string.Empty
+            );
+
+            try
+            {
+                await _userRepository.CreateUserAsync(user);
+
+                return RedirectToAction("Login");
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                if (ex.Number == 1062)
+                {
+                    ModelState.AddModelError(
+                        "Email",
+                        "Ya existe una cuenta registrada con ese correo electrónico."
+                    );
+
+                    return View(user);
+                }
+
+                throw;
+            }
+        }
     }
 }

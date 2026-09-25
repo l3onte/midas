@@ -129,6 +129,40 @@
                 <button class="btn btn-primary w-100 btn-lg" type="submit">
                     Iniciar Sesión
                 </button>
+
+                <div class="mt-3 text-center">
+
+                    <span
+                        class="d-block mb-2 small"
+                        style="color: #b8b8b8;"
+                    >
+                        ¿Todavía no tienes una cuenta?
+                    </span>
+
+                    <a
+                        asp-controller="Cuenta"
+                        asp-action="Register"
+                        class="
+                            d-inline-flex
+                            align-items-center
+                            justify-content-center
+                            gap-2
+                            w-100
+                            btn
+                            btn-outline-secondary
+                            btn-lg
+                            text-decoration-none
+                        "
+                        style="
+                            border-color: #c79a3f;
+                            color: #806634;
+                        "
+                    >
+                        <i class="fa-solid fa-user-plus"></i>
+                        Crear una cuenta
+                    </a>
+
+                </div>
             </form>
         </div>
     </section>

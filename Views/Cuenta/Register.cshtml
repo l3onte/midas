@@ -1,0 +1,397 @@
+@model midasMVC.Models.User
+
+@{
+    ViewData["Title"] = "Crear cuenta";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    />
+
+    <title>Crear cuenta - Midas Finanzas</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="~/images/MIDAS_Logo.png"
+    />
+
+    <link
+        rel="stylesheet"
+        href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+    />
+
+    <link
+        rel="stylesheet"
+        href="~/css/login.css"
+        asp-append-version="true"
+    />
+
+</head>
+
+<body>
+
+<div class="login-page">
+
+    <section class="login-hero">
+
+        <div class="hero-overlay">
+
+            <div class="hero-main">
+
+                <div class="hero-badge">
+
+                    <span class="hero-badge-dot"></span>
+
+                    MIDAS FINANZAS
+
+                </div>
+
+                <h2>
+                    Comienza con Midas<span>.</span>
+                </h2>
+
+                <p class="hero-description">
+                    Crea tu cuenta y empieza a organizar tus ingresos,
+                    gastos, presupuestos y metas desde un solo lugar.
+                </p>
+
+                <div class="hero-features">
+
+                    <div class="hero-feature">
+
+                        <span class="feature-icon">
+                            ↗
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Ingresos
+                            </strong>
+
+                            <small>
+                                Controlados
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <div class="hero-feature">
+
+                        <span class="feature-icon">
+                            −
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Presupuestos
+                            </strong>
+
+                            <small>
+                                Organizados
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <div class="hero-feature">
+
+                        <span class="feature-icon">
+                            ◇
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Metas
+                            </strong>
+
+                            <small>
+                                En camino
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="hero-bottom">
+
+                <div class="hero-glass-card">
+
+                    <div class="glass-card-icon">
+                        $
+                    </div>
+
+                    <div class="glass-card-content">
+
+                        <span>
+                            Una mejor forma de administrar tu dinero
+                        </span>
+
+                        <strong>
+                            Midas
+                        </strong>
+
+                        <small>
+                            Tus finanzas, organizadas en un solo lugar
+                        </small>
+
+                    </div>
+
+                    <div class="glass-card-chart">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                </div>
+
+                <div class="hero-footer-text">
+
+                    <span></span>
+
+                    Empieza a construir un mejor control financiero.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="login-panel">
+
+        <div class="login-box">
+
+            <div class="mb-4">
+
+                <h1>
+                    Crear cuenta
+                </h1>
+
+                <p class="subtitle">
+                    Regístrate para comenzar a gestionar tus finanzas personales.
+                </p>
+
+            </div>
+
+            <form
+                asp-controller="Cuenta"
+                asp-action="Register"
+                method="post"
+            >
+
+                @Html.AntiForgeryToken()
+
+                <div
+                    asp-validation-summary="ModelOnly"
+                    class="text-danger mb-3"
+                ></div>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <label
+                            asp-for="Name"
+                            class="form-label"
+                        >
+                            Nombre
+                        </label>
+
+                        <input
+                            asp-for="Name"
+                            class="form-control form-control-lg"
+                            autocomplete="given-name"
+                            placeholder="Tu nombre"
+                        />
+
+                        <span
+                            asp-validation-for="Name"
+                            class="text-danger"
+                        ></span>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label
+                            asp-for="Last_name"
+                            class="form-label"
+                        >
+                            Apellido
+                        </label>
+
+                        <input
+                            asp-for="Last_name"
+                            class="form-control form-control-lg"
+                            autocomplete="family-name"
+                            placeholder="Tu apellido"
+                        />
+
+                        <span
+                            asp-validation-for="Last_name"
+                            class="text-danger"
+                        ></span>
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <label
+                            asp-for="Email"
+                            class="form-label"
+                        >
+                            Correo electrónico
+                        </label>
+
+                        <input
+                            asp-for="Email"
+                            type="email"
+                            class="form-control form-control-lg"
+                            autocomplete="email"
+                            placeholder="ejemplo@correo.com"
+                        />
+
+                        <span
+                            asp-validation-for="Email"
+                            class="text-danger"
+                        ></span>
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <label
+                            asp-for="Phone"
+                            class="form-label"
+                        >
+                            Teléfono
+                        </label>
+
+                        <input
+                            asp-for="Phone"
+                            type="tel"
+                            class="form-control form-control-lg"
+                            autocomplete="tel"
+                            placeholder="8888-8888"
+                        />
+
+                        <span
+                            asp-validation-for="Phone"
+                            class="text-danger"
+                        ></span>
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <label
+                            asp-for="Password"
+                            class="form-label"
+                        >
+                            Contraseña
+                        </label>
+
+                        <input
+                            asp-for="Password"
+                            type="password"
+                            class="form-control form-control-lg"
+                            autocomplete="new-password"
+                            placeholder="••••••••"
+                        />
+
+                        <span
+                            asp-validation-for="Password"
+                            class="text-danger"
+                        ></span>
+
+                    </div>
+
+                </div>
+
+                <div class="mt-4">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100 btn-lg"
+                    >
+                        Crear mi cuenta
+                    </button>
+
+                </div>
+
+                <div class="text-center mt-4">
+
+                    <span
+                        class="d-block mb-2 small"
+                        style="color: #b8b8b8;"
+                    >
+                        ¿Ya tienes una cuenta?
+                    </span>
+
+                    <a
+                        asp-controller="Cuenta"
+                        asp-action="Login"
+                        class="
+                            d-inline-flex
+                            align-items-center
+                            justify-content-center
+                            gap-2
+                            w-100
+                            btn
+                            btn-lg
+                            text-decoration-none
+                        "
+                        style="
+                            border: 1px solid #c79a3f;
+                            color: #d8b866;
+                            background: transparent;
+                        "
+                    >
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Iniciar sesión
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+
+</html>
