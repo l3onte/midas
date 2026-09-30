@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -5,7 +6,6 @@ using midasMVC.Data;
 using midasMVC.Models;
 using midasMVC.Services;
 using MySqlConnector;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +19,7 @@ builder.Services.AddScoped<MetasRepository>();
 builder.Services.AddScoped<SubscriptionRepository>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<BudgetRepository>();
+builder.Services.AddScoped<LoanRepository>();
 
 var jwtKey = builder.Configuration["Jwt:Key"];
 
