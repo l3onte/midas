@@ -1,0 +1,1080 @@
+@model IEnumerable<midasMVC.Models.LoanPaymentHistory>
+
+@{
+    ViewData["Title"] = "Historial de pagos";
+
+    var payments = Model?.ToList()
+        ?? new List<midasMVC.Models.LoanPaymentHistory>();
+
+    var totalPaid = payments.Sum(p => p.Amount);
+    var paymentCount = payments.Count;
+}
+
+<div class="flex h-full min-h-0 w-full flex-col overflow-hidden">
+
+    <div class="
+        flex
+        flex-shrink-0
+        flex-col
+        gap-4
+        pb-4
+        lg:flex-row
+        lg:items-center
+        lg:justify-between
+    ">
+
+        <div class="min-w-0">
+
+            <div class="
+                flex
+                items-center
+                gap-2
+                mb-1
+            ">
+
+                <!-- BOTÓN VOLVER -->
+
+                <a
+                    asp-controller="Loan"
+                    asp-action="Index"
+                    title="Volver a préstamos"
+                    class="
+                        flex
+                        h-8
+                        w-8
+                        items-center
+                        justify-center
+                        rounded-md
+                        text-[#806634]
+                        transition
+                        hover:bg-[#f3ead7]
+                        hover:text-[#b38732]
+                        no-underline
+                    "
+                >
+
+                    <i class="
+                        fa-solid
+                        fa-arrow-left
+                        text-xs
+                    "></i>
+
+                </a>
+
+                <h2 class="
+                    m-0
+                    text-xl
+                    font-bold
+                    tracking-tight
+                    text-[#f8ebca]
+                    sm:text-2xl
+                ">
+                    Historial de pagos
+                </h2>
+
+            </div>
+
+            <p class="
+                mt-1
+                mb-0
+                text-xs
+                text-[#c3b18e]
+            ">
+                Consulta todos los pagos realizados para este préstamo.
+            </p>
+
+            <div class="
+                mt-2
+                flex
+                items-center
+                gap-2
+            ">
+
+                <span class="
+                    inline-flex
+                    items-center
+                    gap-1.5
+                    rounded-full
+                    border
+                    border-[#e0ba5e]/30
+                    bg-[#4a3a20]/60
+                    px-2.5
+                    py-1
+                    text-[10px]
+                    font-bold
+                    text-[#f0d98e]
+                ">
+
+                    <i class="
+                        fa-solid
+                        fa-file-invoice-dollar
+                        text-[9px]
+                    "></i>
+
+                    Préstamo #@ViewBag.LoanId
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- BUSCADOR -->
+
+        <div class="
+            flex
+            w-full
+            items-center
+            gap-2
+            sm:w-auto
+        ">
+
+            <div class="
+                flex
+                h-10
+                min-w-0
+                w-full
+                items-center
+                rounded-lg
+                border
+                border-white/10
+                bg-white/10
+                px-3
+                sm:w-[280px]
+            ">
+
+                <i class="
+                    fa-solid
+                    fa-magnifying-glass
+                    mr-2
+                    text-xs
+                    text-white/50
+                "></i>
+
+                <input
+                    type="text"
+                    id="inputBuscarPago"
+                    class="
+                        w-full
+                        min-w-0
+                        border-0
+                        bg-transparent
+                        text-xs
+                        text-white
+                        outline-none
+                        placeholder:text-white/50
+                    "
+                    placeholder="Buscar pago..."
+                />
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESUMEN -->
+
+    <div class="
+        mb-4
+        grid
+        flex-shrink-0
+        grid-cols-1
+        gap-3
+        sm:grid-cols-2
+    ">
+
+        <!-- TOTAL PAGADO -->
+
+        <div class="
+            rounded-xl
+            border
+            border-white/10
+            bg-[#4a3a20]
+            px-4
+            py-3
+            shadow-lg
+        ">
+
+            <div class="
+                flex
+                items-center
+                justify-between
+            ">
+
+                <div>
+
+                    <p class="
+                        m-0
+                        text-[10px]
+                        font-semibold
+                        uppercase
+                        tracking-wide
+                        text-[#c3b18e]
+                    ">
+                        Total pagado
+                    </p>
+
+                    <p class="
+                        mt-1
+                        mb-0
+                        text-lg
+                        font-bold
+                        text-[#f8ebca]
+                    ">
+
+                        $
+                        @totalPaid.ToString(
+                            "N2",
+                            new System.Globalization.CultureInfo("en-US")
+                        )
+
+                        <span class="
+                            text-[10px]
+                            font-medium
+                            text-[#c3b18e]
+                        ">
+                            USD
+                        </span>
+
+                    </p>
+
+                </div>
+
+                <div class="
+                    flex
+                    h-9
+                    w-9
+                    items-center
+                    justify-center
+                    rounded-lg
+                    bg-[#c79a3f]/20
+                    text-[#e0ba5e]
+                ">
+
+                    <i class="
+                        fa-solid
+                        fa-dollar-sign
+                        text-sm
+                    "></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CANTIDAD DE PAGOS -->
+
+        <div class="
+            rounded-xl
+            border
+            border-white/10
+            bg-[#4a3a20]
+            px-4
+            py-3
+            shadow-lg
+        ">
+
+            <div class="
+                flex
+                items-center
+                justify-between
+            ">
+
+                <div>
+
+                    <p class="
+                        m-0
+                        text-[10px]
+                        font-semibold
+                        uppercase
+                        tracking-wide
+                        text-[#c3b18e]
+                    ">
+                        Pagos realizados
+                    </p>
+
+                    <p class="
+                        mt-1
+                        mb-0
+                        text-lg
+                        font-bold
+                        text-[#f8ebca]
+                    ">
+                        @paymentCount
+                    </p>
+
+                </div>
+
+                <div class="
+                    flex
+                    h-9
+                    w-9
+                    items-center
+                    justify-center
+                    rounded-lg
+                    bg-[#c79a3f]/20
+                    text-[#e0ba5e]
+                ">
+
+                    <i class="
+                        fa-solid
+                        fa-receipt
+                        text-sm
+                    "></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TABLA -->
+
+    <div class="
+        min-h-0
+        flex-1
+        overflow-hidden
+        rounded-2xl
+        border
+        border-white/10
+        bg-[#fffaf0]
+        shadow-xl
+    ">
+
+        <div class="
+            h-full
+            w-full
+            overflow-auto
+        ">
+
+            <table class="
+                m-0
+                min-w-[700px]
+                w-full
+                align-middle
+                text-xs
+            ">
+
+                <thead class="
+                    sticky
+                    top-0
+                    z-10
+                    bg-[#ead9ae]
+                ">
+
+                    <tr class="
+                        border-b
+                        border-[#d7c59f]
+                    ">
+
+                        <!-- NUMERO -->
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            #
+                        </th>
+
+
+                        <!-- ID -->
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            ID Pago
+                        </th>
+
+
+                        <!-- MONTO -->
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Monto
+                        </th>
+
+
+                        <!-- FECHA -->
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Fecha de pago
+                        </th>
+
+
+                        <!-- ESTADO -->
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Estado
+                        </th>
+
+
+                        <!-- ACCIONES -->
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-center
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Acciones
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    @if (payments.Any())
+                    {
+
+                        var paymentNumber = 1;
+
+                        foreach (var payment in payments)
+                        {
+
+                            <tr class="
+                                border-b
+                                border-[#eee3ce]
+                                bg-[#fffaf0]
+                                transition
+                                duration-150
+                                hover:bg-[#f8efd9]
+                            ">
+
+                                <!-- NUMERO -->
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    font-semibold
+                                    text-[#806634]
+                                ">
+
+                                    @paymentNumber
+
+                                </td>
+
+
+                                <!-- ID -->
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    font-medium
+                                    text-[#5a4525]
+                                ">
+
+                                    #@payment.Id
+
+                                </td>
+
+
+                                <!-- MONTO -->
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    font-bold
+                                    text-[#4c381d]
+                                ">
+
+                                    $
+
+                                    @payment.Amount.ToString(
+                                        "N2",
+                                        new System.Globalization.CultureInfo("en-US")
+                                    )
+
+                                    <span class="
+                                        text-[10px]
+                                        font-medium
+                                        text-[#977d4e]
+                                    ">
+                                        USD
+                                    </span>
+
+                                </td>
+
+
+                                <!-- FECHA -->
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    text-[#6f5a35]
+                                ">
+
+                                    <div class="
+                                        flex
+                                        items-center
+                                        gap-2
+                                    ">
+
+                                        <i class="
+                                            fa-regular
+                                            fa-calendar
+                                            text-[11px]
+                                            text-[#b38732]
+                                        "></i>
+
+                                        @payment.PaymentDate.ToString("dd/MM/yyyy")
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- ESTADO -->
+
+                                <td class="px-4 py-3">
+
+                                    <span class="
+                                        inline-flex
+                                        items-center
+                                        gap-1.5
+                                        rounded-full
+                                        bg-emerald-100
+                                        px-2.5
+                                        py-1
+                                        text-[10px]
+                                        font-bold
+                                        text-emerald-700
+                                    ">
+
+                                        <span class="
+                                            h-1.5
+                                            w-1.5
+                                            rounded-full
+                                            bg-emerald-500
+                                        "></span>
+
+                                        Registrado
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- ACCIONES -->
+
+                                <td class="px-4 py-3">
+
+                                    <div class="
+                                        flex
+                                        items-center
+                                        justify-center
+                                        gap-1
+                                    ">
+
+                                        <button
+                                            type="button"
+                                            title="Ver pago"
+                                            class="
+                                                flex
+                                                h-8
+                                                w-8
+                                                items-center
+                                                justify-center
+                                                rounded-md
+                                                text-[#806634]
+                                                transition
+                                                hover:bg-[#f3ead7]
+                                                hover:text-[#b38732]
+                                            "
+                                            data-payment-id="@payment.Id"
+                                            data-payment-amount="@payment.Amount.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                            data-payment-date="@payment.PaymentDate.ToString("dd/MM/yyyy HH:mm")"
+                                            onclick="mostrarPago(this)"
+                                        >
+
+                                            <i class="
+                                                fa-solid
+                                                fa-eye
+                                                text-xs
+                                            "></i>
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            paymentNumber++;
+                        }
+
+                    }
+                    else
+                    {
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="
+                                    px-6
+                                    py-14
+                                    text-center
+                                "
+                            >
+
+                                <div class="
+                                    flex
+                                    flex-col
+                                    items-center
+                                    justify-center
+                                ">
+
+                                    <div class="
+                                        mb-4
+                                        flex
+                                        h-14
+                                        w-14
+                                        items-center
+                                        justify-center
+                                        rounded-full
+                                        bg-[#f3ead7]
+                                        text-[#977d4e]
+                                    ">
+
+                                        <i class="
+                                            fa-solid
+                                            fa-receipt
+                                            text-xl
+                                        "></i>
+
+                                    </div>
+
+
+                                    <h4 class="
+                                        text-sm
+                                        font-semibold
+                                        text-[#5a4525]
+                                    ">
+                                        No hay pagos registrados
+                                    </h4>
+
+
+                                    <p class="
+                                        mt-1
+                                        max-w-sm
+                                        text-xs
+                                        text-[#977d4e]
+                                    ">
+                                        Este préstamo todavía no tiene
+                                        pagos registrados en su historial.
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div
+    class="modal fade"
+    id="modalVerPago"
+    tabindex="-1"
+    aria-labelledby="modalVerPagoLabel"
+    aria-hidden="true"
+>
+
+    <div class="
+        modal-dialog
+        modal-dialog-centered
+    ">
+
+        <div class="
+            modal-content
+            overflow-hidden
+            rounded-2xl
+            border-0
+            shadow-2xl
+        ">
+
+
+            <!-- HEADER -->
+
+            <div class="bg-[#4a3a20] px-6 py-5">
+
+                <div class="
+                    flex
+                    items-center
+                    justify-between
+                ">
+
+                    <div>
+
+                        <h5
+                            id="modalVerPagoLabel"
+                            class="
+                                m-0
+                                text-lg
+                                font-bold
+                                text-[#f8ebca]
+                            "
+                        >
+                            Detalle del pago
+                        </h5>
+
+                        <p class="
+                            mt-1
+                            mb-0
+                            text-xs
+                            text-[#c3b18e]
+                        ">
+                            Información del pago registrado.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="
+                            text-xl
+                            text-white/60
+                            transition
+                            hover:text-white
+                        "
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar"
+                    >
+
+                        <i class="fa-solid fa-xmark"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTENIDO -->
+
+            <div class="
+                space-y-4
+                bg-[#fffaf0]
+                px-6
+                py-6
+            ">
+
+                <!-- ID -->
+
+                <div class="
+                    rounded-xl
+                    border
+                    border-[#e5d7b9]
+                    bg-[#f8efd9]
+                    px-4
+                    py-3
+                ">
+
+                    <p class="
+                        m-0
+                        text-[10px]
+                        font-bold
+                        uppercase
+                        tracking-wide
+                        text-[#977d4e]
+                    ">
+                        ID del pago
+                    </p>
+
+                    <p
+                        id="detallePaymentId"
+                        class="
+                            mt-1
+                            mb-0
+                            text-sm
+                            font-bold
+                            text-[#5a4525]
+                        "
+                    >
+                        -
+                    </p>
+
+                </div>
+
+
+                <!-- MONTO -->
+
+                <div class="
+                    rounded-xl
+                    border
+                    border-[#e5d7b9]
+                    bg-[#f8efd9]
+                    px-4
+                    py-3
+                ">
+
+                    <p class="
+                        m-0
+                        text-[10px]
+                        font-bold
+                        uppercase
+                        tracking-wide
+                        text-[#977d4e]
+                    ">
+                        Monto pagado
+                    </p>
+
+                    <p
+                        id="detallePaymentAmount"
+                        class="
+                            mt-1
+                            mb-0
+                            text-xl
+                            font-bold
+                            text-[#4c381d]
+                        "
+                    >
+                        $0.00
+                    </p>
+
+                </div>
+
+
+                <!-- FECHA -->
+
+                <div class="
+                    rounded-xl
+                    border
+                    border-[#e5d7b9]
+                    bg-[#f8efd9]
+                    px-4
+                    py-3
+                ">
+
+                    <p class="
+                        m-0
+                        text-[10px]
+                        font-bold
+                        uppercase
+                        tracking-wide
+                        text-[#977d4e]
+                    ">
+                        Fecha de pago
+                    </p>
+
+                    <p
+                        id="detallePaymentDate"
+                        class="
+                            mt-1
+                            mb-0
+                            text-sm
+                            font-semibold
+                            text-[#5a4525]
+                        "
+                    >
+                        -
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div class="
+                flex
+                items-center
+                justify-end
+                border-t
+                border-[#eee3ce]
+                bg-[#fffaf0]
+                px-6
+                py-4
+            ">
+
+                <button
+                    type="button"
+                    data-bs-dismiss="modal"
+                    class="
+                        h-9
+                        rounded-lg
+                        border
+                        border-[#d7c59f]
+                        bg-white
+                        px-4
+                        text-xs
+                        font-semibold
+                        text-[#806634]
+                        transition
+                        hover:bg-[#f8efd9]
+                    "
+                >
+                    Cerrar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const inputBuscarPago =
+                document.getElementById("inputBuscarPago");
+
+            const filasTabla =
+                document.querySelectorAll("tbody tr");
+
+
+            if (inputBuscarPago) {
+
+                inputBuscarPago.addEventListener(
+                    "input",
+                    function () {
+
+                        const criterio =
+                            this.value
+                                .toLowerCase()
+                                .trim();
+
+
+                        filasTabla.forEach(fila => {
+
+                            const textoFila =
+                                fila.textContent
+                                    .toLowerCase();
+
+
+                            fila.style.display =
+                                textoFila.includes(criterio)
+                                    ? ""
+                                    : "none";
+
+                        });
+
+                    }
+                );
+
+            }
+
+        });
+
+
+        function mostrarPago(button) {
+
+            const paymentId =
+                button.getAttribute("data-payment-id");
+
+            const paymentAmount =
+                button.getAttribute("data-payment-amount");
+
+            const paymentDate =
+                button.getAttribute("data-payment-date");
+
+
+            document.getElementById(
+                "detallePaymentId"
+            ).textContent =
+                "#" + paymentId;
+
+
+            const amount =
+                Number(paymentAmount);
+
+
+            document.getElementById(
+                "detallePaymentAmount"
+            ).textContent =
+                "$" +
+                amount.toLocaleString(
+                    "en-US",
+                    {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }
+                );
+
+
+            document.getElementById(
+                "detallePaymentDate"
+            ).textContent =
+                paymentDate;
+
+
+            const modal =
+                new bootstrap.Modal(
+                    document.getElementById(
+                        "modalVerPago"
+                    )
+                );
+
+
+            modal.show();
+
+        }
+
+    </script>
+
+}

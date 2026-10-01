@@ -551,9 +551,6 @@
 
                                 </td>
 
-
-                                <!-- ACCIONES -->
-
                                 <td class="px-4 py-3">
 
                                     <div class="
@@ -563,6 +560,31 @@
                                         gap-1
                                     ">
 
+                                        <a asp-controller="LoanPaymentHistory"
+                                        asp-action="Index"
+                                        asp-route-loanId="@loan.Id"
+                                        title="Historial de pagos"
+                                        class="
+                                            flex
+                                            h-8
+                                            w-8
+                                            items-center
+                                            justify-center
+                                            rounded-md
+                                            text-[#806634]
+                                            transition
+                                            hover:bg-[#f3ead7]
+                                            hover:text-[#b38732]
+                                            no-underline
+                                        "
+                                        >
+                                            <i class="
+                                                fa-solid
+                                                fa-receipt
+                                                text-xs
+                                            "></i>
+                                        </a>
+                                        
                                         <button
                                             type="button"
                                             title="Editar préstamo"
@@ -589,13 +611,11 @@
                                                 hover:text-[#b38732]
                                             "
                                         >
-
                                             <i class="
                                                 fa-solid
                                                 fa-pen
                                                 text-xs
                                             "></i>
-
                                         </button>
 
                                     </div>
@@ -1857,11 +1877,6 @@
     <script>
 
         document.addEventListener("DOMContentLoaded", function () {
-
-
-            // ==========================================
-            // BUSCADOR
-            // ==========================================
 
             const inputBuscar =
                 document.getElementById("inputBuscar");

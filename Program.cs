@@ -20,6 +20,7 @@ builder.Services.AddScoped<SubscriptionRepository>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<BudgetRepository>();
 builder.Services.AddScoped<LoanRepository>();
+builder.Services.AddScoped<LoanPaymentHistoryRepository>();
 
 var jwtKey = builder.Configuration["Jwt:Key"];
 
