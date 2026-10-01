@@ -1,7 +1,2015 @@
+@model IEnumerable<midasMVC.Models.Loans>
+
 @{
-    ViewData["Title"] = "Prestamos";
+    ViewData["Title"] = "Préstamos";
 }
 
-<div>
-    Prestamos
+<div class="flex h-full min-h-0 w-full flex-col overflow-hidden">
+
+    <!-- ENCABEZADO -->
+
+    <div class="
+        flex
+        flex-shrink-0
+        flex-col
+        gap-3
+        pb-4
+        lg:flex-row
+        lg:items-center
+        lg:justify-between
+    ">
+
+        <div class="min-w-0">
+
+            <h2 class="
+                m-0
+                text-xl
+                font-bold
+                tracking-tight
+                text-[#f8ebca]
+                sm:text-2xl
+            ">
+                Préstamos
+            </h2>
+
+            <p class="
+                mt-1
+                mb-0
+                text-xs
+                text-[#c3b18e]
+            ">
+                Consulta y administra el dinero que has prestado o recibido.
+            </p>
+
+        </div>
+
+        <div class="
+            flex
+            w-full
+            flex-col
+            gap-2
+            sm:flex-row
+            lg:w-auto
+        ">
+
+            <!-- BUSCADOR -->
+
+            <div class="
+                flex
+                h-10
+                min-w-0
+                w-full
+                items-center
+                rounded-lg
+                border
+                border-white/10
+                bg-white/10
+                px-3
+                sm:w-[280px]
+            ">
+
+                <i class="
+                    fa-solid
+                    fa-magnifying-glass
+                    mr-2
+                    text-xs
+                    text-white/50
+                "></i>
+
+                <input
+                    type="text"
+                    id="inputBuscar"
+                    class="
+                        w-full
+                        min-w-0
+                        border-0
+                        bg-transparent
+                        text-xs
+                        text-white
+                        outline-none
+                        placeholder:text-white/50
+                    "
+                    placeholder="Buscar préstamo..."
+                />
+
+            </div>
+
+            <!-- BOTÓN AGREGAR -->
+
+            <button
+                type="button"
+                class="
+                    inline-flex
+                    h-10
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-lg
+                    border
+                    border-[#e0ba5e]/40
+                    bg-[#c79a3f]
+                    px-4
+                    text-xs
+                    font-semibold
+                    text-white
+                    shadow-lg
+                    transition
+                    duration-200
+                    hover:bg-[#b38732]
+                    hover:shadow-xl
+                "
+                data-bs-toggle="modal"
+                data-bs-target="#modalAgregarPrestamo"
+            >
+
+                <i class="fa-solid fa-plus text-[11px]"></i>
+
+                <span>Agregar Préstamo</span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- TABLA -->
+
+    <div class="
+        min-h-0
+        flex-1
+        overflow-hidden
+        rounded-2xl
+        border
+        border-white/10
+        bg-[#fffaf0]
+        shadow-xl
+    ">
+
+        <div class="h-full w-full overflow-auto">
+
+            <table class="
+                m-0
+                min-w-[1200px]
+                w-full
+                align-middle
+                text-xs
+            ">
+
+                <thead class="
+                    sticky
+                    top-0
+                    z-10
+                    bg-[#ead9ae]
+                ">
+
+                    <tr class="border-b border-[#d7c59f]">
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Id
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Persona / Entidad
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Tipo
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Monto
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Interés
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Descripción
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Fecha Inicial
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Vencimiento
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-left
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Estado
+                        </th>
+
+                        <th class="
+                            whitespace-nowrap
+                            px-4
+                            py-3
+                            text-center
+                            font-bold
+                            text-[#4c381d]
+                        ">
+                            Acciones
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    @if (Model != null && Model.Any())
+                    {
+
+                        @foreach (var loan in Model)
+                        {
+
+                            <tr class="
+                                border-b
+                                border-[#eee3ce]
+                                bg-[#fffaf0]
+                                transition
+                                duration-150
+                                hover:bg-[#f8efd9]
+                            ">
+
+                                <!-- ID -->
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    font-medium
+                                    text-[#5a4525]
+                                ">
+                                    @loan.Id
+                                </td>
+
+
+                                <!-- PERSONA -->
+
+                                <td class="
+                                    max-w-[180px]
+                                    px-4
+                                    py-3
+                                    text-[#4d3a20]
+                                ">
+
+                                    <div class="truncate font-medium">
+                                        @loan.PersonName
+                                    </div>
+
+                                </td>
+
+
+                                <!-- TIPO -->
+
+                                <td class="px-4 py-3">
+
+                                    @if (loan.Type == midasMVC.Models.LoanType.Given)
+                                    {
+
+                                        <span class="
+                                            inline-flex
+                                            items-center
+                                            gap-1.5
+                                            rounded-full
+                                            bg-amber-100
+                                            px-2.5
+                                            py-1
+                                            text-[10px]
+                                            font-bold
+                                            text-amber-700
+                                        ">
+
+                                            <i class="
+                                                fa-solid
+                                                fa-arrow-up
+                                                text-[9px]
+                                            "></i>
+
+                                            Prestado
+
+                                        </span>
+
+                                    }
+                                    else
+                                    {
+
+                                        <span class="
+                                            inline-flex
+                                            items-center
+                                            gap-1.5
+                                            rounded-full
+                                            bg-blue-100
+                                            px-2.5
+                                            py-1
+                                            text-[10px]
+                                            font-bold
+                                            text-blue-700
+                                        ">
+
+                                            <i class="
+                                                fa-solid
+                                                fa-arrow-down
+                                                text-[9px]
+                                            "></i>
+
+                                            Recibido
+
+                                        </span>
+
+                                    }
+
+                                </td>
+
+
+                                <!-- MONTO -->
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    font-bold
+                                    text-[#4c381d]
+                                ">
+
+                                    $
+                                    @loan.Amount.ToString(
+                                        "N2",
+                                        new System.Globalization.CultureInfo("en-US")
+                                    )
+
+                                    <span class="
+                                        text-[10px]
+                                        font-medium
+                                        text-[#977d4e]
+                                    ">
+                                        USD
+                                    </span>
+
+                                </td>
+
+
+                                <!-- INTERÉS -->
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    font-semibold
+                                    text-[#806634]
+                                ">
+
+                                    @loan.InterestRate.ToString("N2")%
+
+                                </td>
+
+
+                                <!-- DESCRIPCIÓN -->
+
+                                <td class="
+                                    max-w-[220px]
+                                    px-4
+                                    py-3
+                                    text-[#6f5a35]
+                                ">
+
+                                    <div
+                                        class="truncate"
+                                        title="@loan.Description"
+                                    >
+                                        @(string.IsNullOrWhiteSpace(loan.Description)
+                                            ? "Sin descripción"
+                                            : loan.Description)
+                                    </div>
+
+                                </td>
+
+
+                                <!-- FECHA INICIAL -->
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    text-[#6f5a35]
+                                ">
+
+                                    @loan.StartDate.ToString("dd/MM/yyyy")
+
+                                </td>
+
+
+                                <!-- VENCIMIENTO -->
+
+                                <td class="
+                                    whitespace-nowrap
+                                    px-4
+                                    py-3
+                                    text-[#6f5a35]
+                                ">
+
+                                    @if (loan.DueDate.HasValue)
+                                    {
+                                        @loan.DueDate.Value.ToString("dd/MM/yyyy")
+                                    }
+                                    else
+                                    {
+                                        <span class="text-[#977d4e]">
+                                            Sin fecha
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- ESTADO -->
+
+                                <td class="px-4 py-3">
+
+                                    @if (loan.Status)
+                                    {
+
+                                        <span class="
+                                            inline-flex
+                                            items-center
+                                            rounded-full
+                                            bg-emerald-100
+                                            px-2.5
+                                            py-1
+                                            text-[10px]
+                                            font-bold
+                                            text-emerald-700
+                                        ">
+
+                                            <span class="
+                                                mr-1.5
+                                                h-1.5
+                                                w-1.5
+                                                rounded-full
+                                                bg-emerald-500
+                                            "></span>
+
+                                            Activo
+
+                                        </span>
+
+                                    }
+                                    else
+                                    {
+
+                                        <span class="
+                                            inline-flex
+                                            items-center
+                                            rounded-full
+                                            bg-red-100
+                                            px-2.5
+                                            py-1
+                                            text-[10px]
+                                            font-bold
+                                            text-red-700
+                                        ">
+
+                                            <span class="
+                                                mr-1.5
+                                                h-1.5
+                                                w-1.5
+                                                rounded-full
+                                                bg-red-500
+                                            "></span>
+
+                                            Inactivo
+
+                                        </span>
+
+                                    }
+
+                                </td>
+
+
+                                <!-- ACCIONES -->
+
+                                <td class="px-4 py-3">
+
+                                    <div class="
+                                        flex
+                                        items-center
+                                        justify-center
+                                        gap-1
+                                    ">
+
+                                        <button
+                                            type="button"
+                                            title="Editar préstamo"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalEditarPrestamo"
+
+                                            data-loan-id="@loan.Id"
+                                            data-person-name="@loan.PersonName"
+                                            data-amount="@loan.Amount.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                            data-type="@loan.Type"
+                                            data-interest-rate="@loan.InterestRate.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                            data-description="@loan.Description"
+                                            data-start-date="@loan.StartDate.ToString("yyyy-MM-dd")"
+                                            data-due-date="@(loan.DueDate.HasValue ? loan.DueDate.Value.ToString("yyyy-MM-dd") : "")"
+                                            data-status="@loan.Status.ToString().ToLower()"
+
+                                            class="
+                                                h-8
+                                                w-8
+                                                rounded-md
+                                                text-[#806634]
+                                                transition
+                                                hover:bg-[#f3ead7]
+                                                hover:text-[#b38732]
+                                            "
+                                        >
+
+                                            <i class="
+                                                fa-solid
+                                                fa-pen
+                                                text-xs
+                                            "></i>
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        }
+
+                    }
+                    else
+                    {
+
+                        <tr>
+
+                            <td
+                                colspan="10"
+                                class="
+                                    px-6
+                                    py-14
+                                    text-center
+                                "
+                            >
+
+                                <div class="
+                                    flex
+                                    flex-col
+                                    items-center
+                                    justify-center
+                                ">
+
+                                    <div class="
+                                        mb-4
+                                        flex
+                                        h-14
+                                        w-14
+                                        items-center
+                                        justify-center
+                                        rounded-full
+                                        bg-[#f3ead7]
+                                        text-[#977d4e]
+                                    ">
+
+                                        <i class="
+                                            fa-solid
+                                            fa-hand-holding-dollar
+                                            text-xl
+                                        "></i>
+
+                                    </div>
+
+                                    <h4 class="
+                                        text-sm
+                                        font-semibold
+                                        text-[#5a4525]
+                                    ">
+                                        No hay préstamos registrados
+                                    </h4>
+
+                                    <p class="
+                                        mt-1
+                                        max-w-sm
+                                        text-xs
+                                        text-[#977d4e]
+                                    ">
+                                        Todavía no tienes préstamos registrados.
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </div>
+
+<div
+    class="modal fade"
+    id="modalAgregarPrestamo"
+    tabindex="-1"
+    aria-labelledby="modalAgregarPrestamoLabel"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="
+            modal-content
+            overflow-hidden
+            rounded-2xl
+            border-0
+            shadow-2xl
+        ">
+
+
+            <!-- HEADER -->
+
+            <div class="bg-[#4a3a20] px-6 py-5">
+
+                <div class="
+                    flex
+                    items-center
+                    justify-between
+                ">
+
+                    <div>
+
+                        <h5
+                            class="
+                                m-0
+                                text-lg
+                                font-bold
+                                text-[#f8ebca]
+                            "
+                            id="modalAgregarPrestamoLabel"
+                        >
+                            Agregar Préstamo
+                        </h5>
+
+                        <p class="
+                            mt-1
+                            mb-0
+                            text-xs
+                            text-[#c3b18e]
+                        ">
+                            Registra un préstamo que hayas dado o recibido.
+                        </p>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="
+                            text-xl
+                            text-white/60
+                            transition
+                            hover:text-white
+                        "
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar"
+                    >
+
+                        <i class="fa-solid fa-xmark"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- FORMULARIO -->
+
+            <form
+                asp-controller="Loan"
+                asp-action="Create"
+                method="post"
+            >
+
+                @Html.AntiForgeryToken()
+
+                <div class="
+                    space-y-4
+                    bg-[#fffaf0]
+                    px-6
+                    py-6
+                ">
+
+
+                    <!-- PERSONA -->
+
+                    <div>
+
+                        <label
+                            for="PersonName"
+                            class="
+                                mb-1.5
+                                block
+                                text-xs
+                                font-semibold
+                                text-[#5a4525]
+                            "
+                        >
+                            Persona / Entidad
+                        </label>
+
+                        <input
+                            type="text"
+                            id="PersonName"
+                            name="PersonName"
+                            maxlength="100"
+                            required
+                            placeholder="Ej. María López o BAC"
+                            class="
+                                w-full
+                                rounded-lg
+                                border
+                                border-[#d7c59f]
+                                bg-white
+                                px-3
+                                py-2.5
+                                text-xs
+                                text-[#4d3a20]
+                                outline-none
+                                transition
+                                focus:border-[#c79a3f]
+                                focus:ring-2
+                                focus:ring-[#c79a3f]/20
+                            "
+                        />
+
+                    </div>
+
+
+                    <!-- TIPO + MONTO -->
+
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+
+                        <!-- TIPO -->
+
+                        <div>
+
+                            <label
+                                for="Type"
+                                class="
+                                    mb-1.5
+                                    block
+                                    text-xs
+                                    font-semibold
+                                    text-[#5a4525]
+                                "
+                            >
+                                Tipo de préstamo
+                            </label>
+
+                            <select
+                                id="Type"
+                                name="Type"
+                                required
+                                class="
+                                    w-full
+                                    rounded-lg
+                                    border
+                                    border-[#d7c59f]
+                                    bg-white
+                                    px-3
+                                    py-2.5
+                                    text-xs
+                                    text-[#4d3a20]
+                                    outline-none
+                                    transition
+                                    focus:border-[#c79a3f]
+                                    focus:ring-2
+                                    focus:ring-[#c79a3f]/20
+                                "
+                            >
+
+                                <option value="">
+                                    Selecciona un tipo
+                                </option>
+
+                                <option value="Given">
+                                    Dinero prestado
+                                </option>
+
+                                <option value="Received">
+                                    Dinero recibido
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- MONTO -->
+
+                        <div>
+
+                            <label
+                                for="Amount"
+                                class="
+                                    mb-1.5
+                                    block
+                                    text-xs
+                                    font-semibold
+                                    text-[#5a4525]
+                                "
+                            >
+                                Monto
+                            </label>
+
+                            <div class="relative">
+
+                                <span class="
+                                    absolute
+                                    left-3
+                                    top-1/2
+                                    -translate-y-1/2
+                                    text-xs
+                                    font-semibold
+                                    text-[#977d4e]
+                                ">
+                                    $
+                                </span>
+
+                                <input
+                                    type="number"
+                                    id="Amount"
+                                    name="Amount"
+                                    min="0.01"
+                                    step="0.01"
+                                    required
+                                    placeholder="0.00"
+                                    class="
+                                        w-full
+                                        rounded-lg
+                                        border
+                                        border-[#d7c59f]
+                                        bg-white
+                                        py-2.5
+                                        pl-7
+                                        pr-3
+                                        text-xs
+                                        text-[#4d3a20]
+                                        outline-none
+                                        transition
+                                        focus:border-[#c79a3f]
+                                        focus:ring-2
+                                        focus:ring-[#c79a3f]/20
+                                    "
+                                />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- INTERÉS -->
+
+                    <div>
+
+                        <label
+                            for="InterestRate"
+                            class="
+                                mb-1.5
+                                block
+                                text-xs
+                                font-semibold
+                                text-[#5a4525]
+                            "
+                        >
+                            Tasa de interés
+                        </label>
+
+                        <div class="relative">
+
+                            <input
+                                type="number"
+                                id="InterestRate"
+                                name="InterestRate"
+                                min="0"
+                                step="0.01"
+                                value="0"
+                                required
+                                class="
+                                    w-full
+                                    rounded-lg
+                                    border
+                                    border-[#d7c59f]
+                                    bg-white
+                                    px-3
+                                    py-2.5
+                                    pr-8
+                                    text-xs
+                                    text-[#4d3a20]
+                                    outline-none
+                                    transition
+                                    focus:border-[#c79a3f]
+                                    focus:ring-2
+                                    focus:ring-[#c79a3f]/20
+                                "
+                            />
+
+                            <span class="
+                                absolute
+                                right-3
+                                top-1/2
+                                -translate-y-1/2
+                                text-xs
+                                font-semibold
+                                text-[#977d4e]
+                            ">
+                                %
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DESCRIPCIÓN -->
+
+                    <div>
+
+                        <label
+                            for="Description"
+                            class="
+                                mb-1.5
+                                block
+                                text-xs
+                                font-semibold
+                                text-[#5a4525]
+                            "
+                        >
+                            Descripción
+                        </label>
+
+                        <textarea
+                            id="Description"
+                            name="Description"
+                            maxlength="200"
+                            rows="3"
+                            placeholder="Describe brevemente el préstamo..."
+                            class="
+                                w-full
+                                resize-none
+                                rounded-lg
+                                border
+                                border-[#d7c59f]
+                                bg-white
+                                px-3
+                                py-2.5
+                                text-xs
+                                text-[#4d3a20]
+                                outline-none
+                                transition
+                                focus:border-[#c79a3f]
+                                focus:ring-2
+                                focus:ring-[#c79a3f]/20
+                            "
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- FECHAS -->
+
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+
+                        <!-- INICIO -->
+
+                        <div>
+
+                            <label
+                                for="StartDate"
+                                class="
+                                    mb-1.5
+                                    block
+                                    text-xs
+                                    font-semibold
+                                    text-[#5a4525]
+                                "
+                            >
+                                Fecha inicial
+                            </label>
+
+                            <input
+                                type="date"
+                                id="StartDate"
+                                name="StartDate"
+                                required
+                                class="
+                                    w-full
+                                    rounded-lg
+                                    border
+                                    border-[#d7c59f]
+                                    bg-white
+                                    px-3
+                                    py-2.5
+                                    text-xs
+                                    text-[#4d3a20]
+                                    outline-none
+                                    transition
+                                    focus:border-[#c79a3f]
+                                    focus:ring-2
+                                    focus:ring-[#c79a3f]/20
+                                "
+                            />
+
+                        </div>
+
+
+                        <!-- VENCIMIENTO -->
+
+                        <div>
+
+                            <label
+                                for="DueDate"
+                                class="
+                                    mb-1.5
+                                    block
+                                    text-xs
+                                    font-semibold
+                                    text-[#5a4525]
+                                "
+                            >
+                                Fecha de vencimiento
+                            </label>
+
+                            <input
+                                type="date"
+                                id="DueDate"
+                                name="DueDate"
+                                class="
+                                    w-full
+                                    rounded-lg
+                                    border
+                                    border-[#d7c59f]
+                                    bg-white
+                                    px-3
+                                    py-2.5
+                                    text-xs
+                                    text-[#4d3a20]
+                                    outline-none
+                                    transition
+                                    focus:border-[#c79a3f]
+                                    focus:ring-2
+                                    focus:ring-[#c79a3f]/20
+                                "
+                            />
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- INFORMACIÓN -->
+
+                    <div class="
+                        rounded-lg
+                        border
+                        border-[#e5d7b9]
+                        bg-[#f8efd9]
+                        px-3
+                        py-2.5
+                    ">
+
+                        <div class="
+                            flex
+                            items-start
+                            gap-2
+                        ">
+
+                            <i class="
+                                fa-solid
+                                fa-circle-info
+                                mt-0.5
+                                text-xs
+                                text-[#b38732]
+                            "></i>
+
+                            <p class="
+                                m-0
+                                text-[11px]
+                                leading-relaxed
+                                text-[#806634]
+                            ">
+                                Selecciona "Dinero prestado" cuando tú
+                                prestaste el dinero y "Dinero recibido"
+                                cuando tú recibiste el préstamo.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FOOTER -->
+
+                <div class="
+                    flex
+                    items-center
+                    justify-end
+                    gap-2
+                    border-t
+                    border-[#eee3ce]
+                    bg-[#fffaf0]
+                    px-6
+                    py-4
+                ">
+
+                    <button
+                        type="button"
+                        data-bs-dismiss="modal"
+                        class="
+                            h-9
+                            rounded-lg
+                            border
+                            border-[#d7c59f]
+                            bg-white
+                            px-4
+                            text-xs
+                            font-semibold
+                            text-[#806634]
+                            transition
+                            hover:bg-[#f8efd9]
+                        "
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="
+                            inline-flex
+                            h-9
+                            items-center
+                            gap-2
+                            rounded-lg
+                            border
+                            border-[#e0ba5e]/40
+                            bg-[#c79a3f]
+                            px-4
+                            text-xs
+                            font-semibold
+                            text-white
+                            shadow-lg
+                            transition
+                            hover:bg-[#b38732]
+                        "
+                    >
+
+                        <i class="
+                            fa-solid
+                            fa-plus
+                            text-[10px]
+                        "></i>
+
+                        Crear préstamo
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div
+    class="modal fade"
+    id="modalEditarPrestamo"
+    tabindex="-1"
+    aria-labelledby="modalEditarPrestamoLabel"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="
+            modal-content
+            overflow-hidden
+            rounded-2xl
+            border-0
+            shadow-2xl
+        ">
+
+
+            <!-- HEADER -->
+
+            <div class="bg-[#4a3a20] px-6 py-5">
+
+                <div class="
+                    flex
+                    items-center
+                    justify-between
+                ">
+
+                    <div>
+
+                        <h5
+                            class="
+                                m-0
+                                text-lg
+                                font-bold
+                                text-[#f8ebca]
+                            "
+                            id="modalEditarPrestamoLabel"
+                        >
+                            Editar Préstamo
+                        </h5>
+
+                        <p class="
+                            mt-1
+                            mb-0
+                            text-xs
+                            text-[#c3b18e]
+                        ">
+                            Modifica la información del préstamo.
+                        </p>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="
+                            text-xl
+                            text-white/60
+                            transition
+                            hover:text-white
+                        "
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar"
+                    >
+
+                        <i class="fa-solid fa-xmark"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- FORMULARIO -->
+
+            <form
+                asp-controller="Loan"
+                asp-action="Update"
+                method="post"
+            >
+
+                @Html.AntiForgeryToken()
+
+                <input
+                    type="hidden"
+                    id="EditarLoanId"
+                    name="Id"
+                />
+
+
+                <div class="
+                    space-y-4
+                    bg-[#fffaf0]
+                    px-6
+                    py-6
+                ">
+
+
+                    <!-- PERSONA -->
+
+                    <div>
+
+                        <label
+                            for="EditarPersonName"
+                            class="
+                                mb-1.5
+                                block
+                                text-xs
+                                font-semibold
+                                text-[#5a4525]
+                            "
+                        >
+                            Persona / Entidad
+                        </label>
+
+                        <input
+                            type="text"
+                            id="EditarPersonName"
+                            name="PersonName"
+                            maxlength="100"
+                            required
+                            class="
+                                w-full
+                                rounded-lg
+                                border
+                                border-[#d7c59f]
+                                bg-white
+                                px-3
+                                py-2.5
+                                text-xs
+                                text-[#4d3a20]
+                                outline-none
+                                transition
+                                focus:border-[#c79a3f]
+                                focus:ring-2
+                                focus:ring-[#c79a3f]/20
+                            "
+                        />
+
+                    </div>
+
+
+                    <!-- TIPO + MONTO -->
+
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+
+                        <!-- TIPO -->
+
+                        <div>
+
+                            <label
+                                for="EditarType"
+                                class="
+                                    mb-1.5
+                                    block
+                                    text-xs
+                                    font-semibold
+                                    text-[#5a4525]
+                                "
+                            >
+                                Tipo de préstamo
+                            </label>
+
+                            <select
+                                id="EditarType"
+                                name="Type"
+                                required
+                                class="
+                                    w-full
+                                    rounded-lg
+                                    border
+                                    border-[#d7c59f]
+                                    bg-white
+                                    px-3
+                                    py-2.5
+                                    text-xs
+                                    text-[#4d3a20]
+                                    outline-none
+                                    transition
+                                    focus:border-[#c79a3f]
+                                    focus:ring-2
+                                    focus:ring-[#c79a3f]/20
+                                "
+                            >
+
+                                <option value="Given">
+                                    Dinero prestado
+                                </option>
+
+                                <option value="Received">
+                                    Dinero recibido
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- MONTO -->
+
+                        <div>
+
+                            <label
+                                for="EditarAmount"
+                                class="
+                                    mb-1.5
+                                    block
+                                    text-xs
+                                    font-semibold
+                                    text-[#5a4525]
+                                "
+                            >
+                                Monto
+                            </label>
+
+                            <div class="relative">
+
+                                <span class="
+                                    absolute
+                                    left-3
+                                    top-1/2
+                                    -translate-y-1/2
+                                    text-xs
+                                    font-semibold
+                                    text-[#977d4e]
+                                ">
+                                    $
+                                </span>
+
+                                <input
+                                    type="number"
+                                    id="EditarAmount"
+                                    name="Amount"
+                                    min="0.01"
+                                    step="0.01"
+                                    required
+                                    class="
+                                        w-full
+                                        rounded-lg
+                                        border
+                                        border-[#d7c59f]
+                                        bg-white
+                                        py-2.5
+                                        pl-7
+                                        pr-3
+                                        text-xs
+                                        text-[#4d3a20]
+                                        outline-none
+                                        transition
+                                        focus:border-[#c79a3f]
+                                        focus:ring-2
+                                        focus:ring-[#c79a3f]/20
+                                    "
+                                />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- INTERÉS -->
+
+                    <div>
+
+                        <label
+                            for="EditarInterestRate"
+                            class="
+                                mb-1.5
+                                block
+                                text-xs
+                                font-semibold
+                                text-[#5a4525]
+                            "
+                        >
+                            Tasa de interés
+                        </label>
+
+                        <div class="relative">
+
+                            <input
+                                type="number"
+                                id="EditarInterestRate"
+                                name="InterestRate"
+                                min="0"
+                                step="0.01"
+                                required
+                                class="
+                                    w-full
+                                    rounded-lg
+                                    border
+                                    border-[#d7c59f]
+                                    bg-white
+                                    px-3
+                                    py-2.5
+                                    pr-8
+                                    text-xs
+                                    text-[#4d3a20]
+                                    outline-none
+                                    transition
+                                    focus:border-[#c79a3f]
+                                    focus:ring-2
+                                    focus:ring-[#c79a3f]/20
+                                "
+                            />
+
+                            <span class="
+                                absolute
+                                right-3
+                                top-1/2
+                                -translate-y-1/2
+                                text-xs
+                                font-semibold
+                                text-[#977d4e]
+                            ">
+                                %
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DESCRIPCIÓN -->
+
+                    <div>
+
+                        <label
+                            for="EditarDescription"
+                            class="
+                                mb-1.5
+                                block
+                                text-xs
+                                font-semibold
+                                text-[#5a4525]
+                            "
+                        >
+                            Descripción
+                        </label>
+
+                        <textarea
+                            id="EditarDescription"
+                            name="Description"
+                            maxlength="200"
+                            rows="3"
+                            class="
+                                w-full
+                                resize-none
+                                rounded-lg
+                                border
+                                border-[#d7c59f]
+                                bg-white
+                                px-3
+                                py-2.5
+                                text-xs
+                                text-[#4d3a20]
+                                outline-none
+                                transition
+                                focus:border-[#c79a3f]
+                                focus:ring-2
+                                focus:ring-[#c79a3f]/20
+                            "
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- FECHAS -->
+
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+                        <div>
+
+                            <label
+                                for="EditarStartDate"
+                                class="
+                                    mb-1.5
+                                    block
+                                    text-xs
+                                    font-semibold
+                                    text-[#5a4525]
+                                "
+                            >
+                                Fecha inicial
+                            </label>
+
+                            <input
+                                type="date"
+                                id="EditarStartDate"
+                                name="StartDate"
+                                required
+                                class="
+                                    w-full
+                                    rounded-lg
+                                    border
+                                    border-[#d7c59f]
+                                    bg-white
+                                    px-3
+                                    py-2.5
+                                    text-xs
+                                    text-[#4d3a20]
+                                    outline-none
+                                    transition
+                                    focus:border-[#c79a3f]
+                                    focus:ring-2
+                                    focus:ring-[#c79a3f]/20
+                                "
+                            />
+
+                        </div>
+
+
+                        <div>
+
+                            <label
+                                for="EditarDueDate"
+                                class="
+                                    mb-1.5
+                                    block
+                                    text-xs
+                                    font-semibold
+                                    text-[#5a4525]
+                                "
+                            >
+                                Fecha de vencimiento
+                            </label>
+
+                            <input
+                                type="date"
+                                id="EditarDueDate"
+                                name="DueDate"
+                                class="
+                                    w-full
+                                    rounded-lg
+                                    border
+                                    border-[#d7c59f]
+                                    bg-white
+                                    px-3
+                                    py-2.5
+                                    text-xs
+                                    text-[#4d3a20]
+                                    outline-none
+                                    transition
+                                    focus:border-[#c79a3f]
+                                    focus:ring-2
+                                    focus:ring-[#c79a3f]/20
+                                "
+                            />
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ESTADO -->
+
+                    <div>
+
+                        <label
+                            for="EditarStatus"
+                            class="
+                                mb-1.5
+                                block
+                                text-xs
+                                font-semibold
+                                text-[#5a4525]
+                            "
+                        >
+                            Estado
+                        </label>
+
+                        <select
+                            id="EditarStatus"
+                            name="Status"
+                            class="
+                                w-full
+                                rounded-lg
+                                border
+                                border-[#d7c59f]
+                                bg-white
+                                px-3
+                                py-2.5
+                                text-xs
+                                text-[#4d3a20]
+                                outline-none
+                                transition
+                                focus:border-[#c79a3f]
+                                focus:ring-2
+                                focus:ring-[#c79a3f]/20
+                            "
+                        >
+
+                            <option value="true">
+                                Activo
+                            </option>
+
+                            <option value="false">
+                                Inactivo
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FOOTER -->
+
+                <div class="
+                    flex
+                    items-center
+                    justify-end
+                    gap-2
+                    border-t
+                    border-[#eee3ce]
+                    bg-[#fffaf0]
+                    px-6
+                    py-4
+                ">
+
+                    <button
+                        type="button"
+                        data-bs-dismiss="modal"
+                        class="
+                            h-9
+                            rounded-lg
+                            border
+                            border-[#d7c59f]
+                            bg-white
+                            px-4
+                            text-xs
+                            font-semibold
+                            text-[#806634]
+                            transition
+                            hover:bg-[#f8efd9]
+                        "
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="
+                            inline-flex
+                            h-9
+                            items-center
+                            gap-2
+                            rounded-lg
+                            border
+                            border-[#e0ba5e]/40
+                            bg-[#c79a3f]
+                            px-4
+                            text-xs
+                            font-semibold
+                            text-white
+                            shadow-lg
+                            transition
+                            hover:bg-[#b38732]
+                        "
+                    >
+
+                        <i class="
+                            fa-solid
+                            fa-floppy-disk
+                            text-[10px]
+                        "></i>
+
+                        Guardar cambios
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+
+            // ==========================================
+            // BUSCADOR
+            // ==========================================
+
+            const inputBuscar =
+                document.getElementById("inputBuscar");
+
+            const filasTabla =
+                document.querySelectorAll("tbody tr");
+
+            if (inputBuscar) {
+
+                inputBuscar.addEventListener(
+                    "input",
+                    function () {
+
+                        const criterio =
+                            this.value
+                                .toLowerCase()
+                                .trim();
+
+                        filasTabla.forEach(fila => {
+
+                            const textoFila =
+                                fila.textContent
+                                    .toLowerCase();
+
+                            fila.style.display =
+                                textoFila.includes(criterio)
+                                    ? ""
+                                    : "none";
+
+                        });
+
+                    }
+                );
+
+            }
+
+            const modalEditarPrestamo =
+                document.getElementById(
+                    "modalEditarPrestamo"
+                );
+
+            if (modalEditarPrestamo) {
+
+                modalEditarPrestamo.addEventListener(
+                    "show.bs.modal",
+                    function (event) {
+
+                        const button =
+                            event.relatedTarget;
+
+
+                        const loanId =
+                            button.getAttribute(
+                                "data-loan-id"
+                            );
+
+                        const personName =
+                            button.getAttribute(
+                                "data-person-name"
+                            );
+
+                        const amount =
+                            button.getAttribute(
+                                "data-amount"
+                            );
+
+                        const type =
+                            button.getAttribute(
+                                "data-type"
+                            );
+
+                        const interestRate =
+                            button.getAttribute(
+                                "data-interest-rate"
+                            );
+
+                        const description =
+                            button.getAttribute(
+                                "data-description"
+                            );
+
+                        const startDate =
+                            button.getAttribute(
+                                "data-start-date"
+                            );
+
+                        const dueDate =
+                            button.getAttribute(
+                                "data-due-date"
+                            );
+
+                        const status =
+                            button.getAttribute(
+                                "data-status"
+                            );
+
+
+                        document.getElementById(
+                            "EditarLoanId"
+                        ).value = loanId;
+
+
+                        document.getElementById(
+                            "EditarPersonName"
+                        ).value = personName;
+
+
+                        document.getElementById(
+                            "EditarAmount"
+                        ).value = amount;
+
+
+                        document.getElementById(
+                            "EditarType"
+                        ).value = type;
+
+
+                        document.getElementById(
+                            "EditarInterestRate"
+                        ).value = interestRate;
+
+
+                        document.getElementById(
+                            "EditarDescription"
+                        ).value = description;
+
+
+                        document.getElementById(
+                            "EditarStartDate"
+                        ).value = startDate;
+
+
+                        document.getElementById(
+                            "EditarDueDate"
+                        ).value = dueDate;
+
+
+                        document.getElementById(
+                            "EditarStatus"
+                        ).value = status;
+
+                    }
+                );
+
+            }
+
+        });
+
+    </script>
+
+}
