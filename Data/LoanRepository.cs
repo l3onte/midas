@@ -215,4 +215,148 @@ public class LoanRepository
 
         return rowsAffected > 0;
     }
+
+    public async Task<List<Loans>> GetLoansByUserIdAndLoanTypeAsync(int userId)
+    {
+        var Loans = new List<Loans>();
+
+        const string sql = @"
+            SELECT
+                id,
+                user_id,
+                person_name,
+                amount,
+                type,
+                interest_rate,
+                description,
+                start_date,
+                due_date,
+                status
+            FROM loans
+            WHERE user_id = @userId
+            AND type = 'received'
+            AND status = 1;
+        ";
+
+        await using var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@userId", userId);
+
+        await using var reader = await command.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync())
+        {
+            Loans.Add(new Loans
+            {
+                Id = reader.GetInt32("id"),
+                UserId = reader.GetInt32("user_id"),
+                PersonName = reader.GetString("person_name"),
+                Amount = reader.GetDecimal("amount"),
+
+                Type = Enum.Parse<LoanType>(
+                    reader.GetString("type"),
+                    true
+                ),
+
+                InterestRate = reader.GetDecimal("interest_rate"),
+                Description = reader.GetString("description"),
+
+                StartDate = reader.GetDateOnly("start_date"),
+
+                DueDate = reader.IsDBNull(
+                    reader.GetOrdinal("due_date")
+                )
+                    ? null
+                    : reader.GetDateOnly("due_date"),
+
+                Status = reader.GetBoolean("status")
+            });
+        }
+
+        return Loans;
+    }
+
+    public async Task<List<LoanPaymentOption>> GetLoansForPaymentAsync(int userId)
+    {
+        var loans = new List<LoanPaymentOption>();
+
+        const string sql = @"
+            SELECT
+                l.id,
+                l.person_name,
+                l.amount,
+                l.type,
+
+                COALESCE(
+                    SUM(lph.amount),
+                    0
+                ) AS paid_amount,
+
+                (
+                    l.amount -
+                    COALESCE(SUM(lph.amount), 0)
+                ) AS remaining_amount
+
+            FROM loans l
+
+            LEFT JOIN loan_payment_history lph
+                ON lph.loan_id = l.id
+
+            WHERE l.user_id = @userId
+            AND l.status = 1
+
+            GROUP BY
+                l.id,
+                l.person_name,
+                l.amount,
+                l.type
+
+            HAVING
+                (
+                    l.amount -
+                    COALESCE(SUM(lph.amount), 0)
+                ) > 0
+
+            ORDER BY l.person_name;
+        ";
+
+        await using var connection =
+            new MySqlConnection(_connectionString);
+
+        await connection.OpenAsync();
+
+        await using var command =
+            new MySqlCommand(sql, connection);
+
+        command.Parameters.AddWithValue("@userId", userId);
+
+        await using var reader =
+            await command.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync())
+        {
+            loans.Add(new LoanPaymentOption
+            {
+                Id = reader.GetInt32("id"),
+
+                PersonName = reader.GetString("person_name"),
+
+                Amount = reader.GetDecimal("amount"),
+
+                Type = Enum.Parse<LoanType>(
+                    reader.GetString("type"),
+                    true
+                ),
+
+                PaidAmount = reader.GetDecimal("paid_amount"),
+
+                RemainingAmount =
+                    reader.GetDecimal("remaining_amount")
+            });
+        }
+
+        return loans;
+    }
 }

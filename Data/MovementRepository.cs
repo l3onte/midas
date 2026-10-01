@@ -96,26 +96,64 @@ public class MovementRepository
         return movements;
     }
 
-    public async Task<bool> CreateMovementAsync(Movement movement, int? goalId = null)
+    public async Task<bool> CreateMovementAsync(
+        Movement movement,
+        int? goalId = null,
+        int? loanId = null)
     {
         var insertMovementSql = @"
-            INSERT INTO movements (user_id, account_id, movement_categorie_id, movement_type_id, description, amount, created_at) 
-            VALUES (@userId, @accountId, @movementCategorieId, @movementTypeId, @description, @amount, NOW());
+            INSERT INTO movements 
+            (
+                user_id, 
+                account_id, 
+                movement_categorie_id, 
+                movement_type_id, 
+                description, 
+                amount, 
+                created_at
+            )  
+            VALUES 
+            (
+                @userId, 
+                @accountId, 
+                @movementCategorieId, 
+                @movementTypeId, 
+                @description, 
+                @amount, 
+                NOW()
+            );
         ";
 
         var updateBalanceSql = @"
-            UPDATE accounts 
-            SET balance = balance + CASE 
-                WHEN @movementTypeId = 1 THEN @amount 
-                ELSE -@amount 
-            END
-            WHERE id = @accountId AND user_id = @userId;
+            UPDATE accounts  
+            SET balance = balance + CASE  
+                WHEN @movementTypeId = 1 THEN @amount  
+                ELSE -@amount  
+            END 
+            WHERE id = @accountId 
+            AND user_id = @userId;
         ";
 
         var updateGoalAmountSql = @"
-            UPDATE goals 
-            SET current_amount = current_amount + @amount 
-            WHERE id = @goalId AND user_id = @userId;
+            UPDATE goals  
+            SET current_amount = current_amount + @amount  
+            WHERE id = @goalId 
+            AND user_id = @userId;
+        ";
+
+        var insertLoanPaymentSql = @"
+            INSERT INTO loan_payment_history
+            (
+                loan_id,
+                amount,
+                payment_date
+            )
+            VALUES
+            (
+                @loanId,
+                @amount,
+                NOW()
+            );
         ";
 
         await using var connection = new MySqlConnection(_connectionString);
@@ -125,27 +163,59 @@ public class MovementRepository
 
         try
         {
-            await using var commandMovement = new MySqlCommand(insertMovementSql, connection, transaction);
+            await using var commandMovement = new MySqlCommand(
+                insertMovementSql,
+                connection,
+                transaction
+            );
+
             commandMovement.Parameters.AddWithValue("@userId", movement.User_id);
             commandMovement.Parameters.AddWithValue("@accountId", movement.Account_id);
-            commandMovement.Parameters.AddWithValue("@movementCategorieId", movement.Movement_categorie_id);
-            commandMovement.Parameters.AddWithValue("@movementTypeId", movement.Movement_type_id);
-            commandMovement.Parameters.AddWithValue("@description", movement.Description ?? string.Empty);
-            commandMovement.Parameters.AddWithValue("@amount", movement.Amount);
-            
+            commandMovement.Parameters.AddWithValue(
+                "@movementCategorieId",
+                movement.Movement_categorie_id
+            );
+            commandMovement.Parameters.AddWithValue(
+                "@movementTypeId",
+                movement.Movement_type_id
+            );
+            commandMovement.Parameters.AddWithValue(
+                "@description",
+                movement.Description ?? string.Empty
+            );
+            commandMovement.Parameters.AddWithValue(
+                "@amount",
+                movement.Amount
+            );
+
             await commandMovement.ExecuteNonQueryAsync();
 
-            await using var commandBalance = new MySqlCommand(updateBalanceSql, connection, transaction);
+            await using var commandBalance = new MySqlCommand(
+                updateBalanceSql,
+                connection,
+                transaction
+            );
+
             commandBalance.Parameters.AddWithValue("@userId", movement.User_id);
             commandBalance.Parameters.AddWithValue("@accountId", movement.Account_id);
-            commandBalance.Parameters.AddWithValue("@movementTypeId", movement.Movement_type_id);
+            commandBalance.Parameters.AddWithValue(
+                "@movementTypeId",
+                movement.Movement_type_id
+            );
             commandBalance.Parameters.AddWithValue("@amount", movement.Amount);
 
             await commandBalance.ExecuteNonQueryAsync();
 
-            if (movement.Movement_type_id == 1 && goalId.HasValue && goalId > 0)
+            if (movement.Movement_type_id == 1 &&
+                goalId.HasValue &&
+                goalId > 0)
             {
-                await using var commandGoal = new MySqlCommand(updateGoalAmountSql, connection, transaction);
+                await using var commandGoal = new MySqlCommand(
+                    updateGoalAmountSql,
+                    connection,
+                    transaction
+                );
+
                 commandGoal.Parameters.AddWithValue("@goalId", goalId.Value);
                 commandGoal.Parameters.AddWithValue("@userId", movement.User_id);
                 commandGoal.Parameters.AddWithValue("@amount", movement.Amount);
@@ -153,7 +223,29 @@ public class MovementRepository
                 await commandGoal.ExecuteNonQueryAsync();
             }
 
+            if (loanId.HasValue && loanId > 0)
+            {
+                await using var commandLoanPayment = new MySqlCommand(
+                    insertLoanPaymentSql,
+                    connection,
+                    transaction
+                );
+
+                commandLoanPayment.Parameters.AddWithValue(
+                    "@loanId",
+                    loanId.Value
+                );
+
+                commandLoanPayment.Parameters.AddWithValue(
+                    "@amount",
+                    movement.Amount
+                );
+
+                await commandLoanPayment.ExecuteNonQueryAsync();
+            }
+
             await transaction.CommitAsync();
+
             return true;
         }
         catch

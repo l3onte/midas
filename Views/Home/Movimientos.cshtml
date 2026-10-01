@@ -6,111 +6,35 @@
 
 <div class="flex h-full min-h-0 w-full flex-col overflow-hidden">
 
-    <div class="
-        flex
-        flex-shrink-0
-        flex-col
-        gap-3
-        pb-4
-        lg:flex-row
-        lg:items-center
-        lg:justify-between
-    ">
+    <div class="flex flex-shrink-0 flex-col gap-3 pb-4 lg:flex-row lg:items-center lg:justify-between">
 
         <div class="min-w-0">
 
-            <h2 class="
-                m-0
-                text-xl
-                font-bold
-                tracking-tight
-                text-[#f8ebca]
-                sm:text-2xl
-            ">
+            <h2 class="m-0 text-xl font-bold tracking-tight text-[#f8ebca] sm:text-2xl">
                 Mis Movimientos
             </h2>
 
-            <p class="
-                mt-1
-                mb-0
-                text-xs
-                text-[#c3b18e]
-            ">
+            <p class="mt-1 mb-0 text-xs text-[#c3b18e]">
                 Consulta y administra tus movimientos financieros.
             </p>
 
         </div>
 
+        <div class="flex w-full flex-col gap-2 sm:flex-row lg:w-auto">
 
-        <div class="
-            flex
-            w-full
-            flex-col
-            gap-2
-            sm:flex-row
-            lg:w-auto
-        ">
+            <div class="flex h-10 min-w-0 w-full items-center rounded-lg border border-white/10 bg-white/10 px-3 sm:w-[280px]">
 
-            <div class="
-                flex
-                h-10
-                min-w-0
-                w-full
-                items-center
-                rounded-lg
-                border
-                border-white/10
-                bg-white/10
-                px-3
-                sm:w-[280px]
-            ">
-
-                <i class="
-                    fa-solid
-                    fa-magnifying-glass
-                    mr-2
-                    text-xs
-                    text-white/50
-                "></i>
+                <i class="fa-solid fa-magnifying-glass mr-2 text-xs text-white/50"></i>
 
                 <input type="text"
                        id="inputBuscar"
-                       class="
-                            w-full
-                            min-w-0
-                            border-0
-                            bg-transparent
-                            text-xs
-                            text-white
-                            outline-none
-                            placeholder:text-white/50
-                       "
+                       class="w-full min-w-0 border-0 bg-transparent text-xs text-white outline-none placeholder:text-white/50"
                        placeholder="Buscar movimiento..." />
 
             </div>
 
-
             <button type="button"
-                    class="
-                        inline-flex
-                        h-10
-                        items-center
-                        justify-center
-                        gap-2
-                        rounded-lg
-                        border
-                        border-[#e0ba5e]/40
-                        bg-[#c79a3f]
-                        px-4
-                        text-xs
-                        font-semibold
-                        text-white
-                        shadow-lg
-                        transition
-                        duration-200
-                        hover:bg-[#b38732]
-                        hover:shadow-xl
-                    "
+                    class="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-[#e0ba5e]/40 bg-[#c79a3f] px-4 text-xs font-semibold text-white shadow-lg transition duration-200 hover:bg-[#b38732] hover:shadow-xl"
                     data-bs-toggle="modal"
                     data-bs-target="#modalAgregarMovimiento">
 
@@ -124,124 +48,45 @@
 
     </div>
 
-    <div class="
-        min-h-0
-        flex-1
-        overflow-hidden
-        rounded-2xl
-        border
-        border-white/10
-        bg-[#fffaf0]
-        shadow-xl
-    ">
-        <div class="
-            h-full
-            w-full
-            overflow-auto
-        ">
+    <div class="min-h-0 flex-1 overflow-hidden rounded-2xl border border-white/10 bg-[#fffaf0] shadow-xl">
 
-            <table class="
-                m-0
-                min-w-[1050px]
-                w-full
-                align-middle
-                text-xs
-            ">
+        <div class="h-full w-full overflow-auto">
 
-                <thead class="
-                    sticky
-                    top-0
-                    z-10
-                    bg-[#ead9ae]
-                ">
+            <table class="m-0 min-w-[1050px] w-full align-middle text-xs">
+
+                <thead class="sticky top-0 z-10 bg-[#ead9ae]">
 
                     <tr class="border-b border-[#d7c59f]">
 
-                        <th class="
-                            whitespace-nowrap
-                            px-4
-                            py-3
-                            text-left
-                            font-bold
-                            text-[#4c381d]
-                        ">
+                        <th class="whitespace-nowrap px-4 py-3 text-left font-bold text-[#4c381d]">
                             Id
                         </th>
 
-                        <th class="
-                            whitespace-nowrap
-                            px-4
-                            py-3
-                            text-left
-                            font-bold
-                            text-[#4c381d]
-                        ">
+                        <th class="whitespace-nowrap px-4 py-3 text-left font-bold text-[#4c381d]">
                             Cuenta
                         </th>
 
-                        <th class="
-                            whitespace-nowrap
-                            px-4
-                            py-3
-                            text-left
-                            font-bold
-                            text-[#4c381d]
-                        ">
+                        <th class="whitespace-nowrap px-4 py-3 text-left font-bold text-[#4c381d]">
                             Tipo
                         </th>
 
-                        <th class="
-                            whitespace-nowrap
-                            px-4
-                            py-3
-                            text-left
-                            font-bold
-                            text-[#4c381d]
-                        ">
+                        <th class="whitespace-nowrap px-4 py-3 text-left font-bold text-[#4c381d]">
                             Categoría
                         </th>
 
-                        <th class="
-                            whitespace-nowrap
-                            px-4
-                            py-3
-                            text-left
-                            font-bold
-                            text-[#4c381d]
-                        ">
+                        <th class="whitespace-nowrap px-4 py-3 text-left font-bold text-[#4c381d]">
                             Descripción
                         </th>
 
-                        <th class="
-                            whitespace-nowrap
-                            px-4
-                            py-3
-                            text-left
-                            font-bold
-                            text-[#4c381d]
-                        ">
+                        <th class="whitespace-nowrap px-4 py-3 text-left font-bold text-[#4c381d]">
                             Monto
                         </th>
 
-                        <th class="
-                            whitespace-nowrap
-                            px-4
-                            py-3
-                            text-left
-                            font-bold
-                            text-[#4c381d]
-                        ">
+                        <th class="whitespace-nowrap px-4 py-3 text-left font-bold text-[#4c381d]">
                             Balance Acumulado
                         </th>
 
-                        <th class="
-                            whitespace-nowrap
-                            px-4
-                            py-3
-                            text-left
-                            font-bold
-                            text-[#4c381d]
-                        ">
+                        <th class="whitespace-nowrap px-4 py-3 text-left font-bold text-[#4c381d]">
                             Fecha
                         </th>
 
@@ -257,36 +102,18 @@
                         {
                             bool esIngreso =
                                 movement.MovementType?.Name?
-                                .Equals(
-                                    "Ingreso",
-                                    StringComparison.OrdinalIgnoreCase
-                                ) ?? false;
+                                    .Equals(
+                                        "Ingreso",
+                                        StringComparison.OrdinalIgnoreCase
+                                    ) ?? false;
 
-                            <tr class="
-                                border-b
-                                border-[#eee3ce]
-                                bg-[#fffaf0]
-                                transition
-                                duration-150
-                                hover:bg-[#f8efd9]
-                            ">
-                                <td class="
-                                    whitespace-nowrap
-                                    px-4
-                                    py-3
-                                    font-medium
-                                    text-[#5a4525]
-                                ">
+                            <tr class="border-b border-[#eee3ce] bg-[#fffaf0] transition duration-150 hover:bg-[#f8efd9]">
+
+                                <td class="whitespace-nowrap px-4 py-3 font-medium text-[#5a4525]">
                                     @movement.Id
                                 </td>
 
-
-                                <td class="
-                                    max-w-[190px]
-                                    px-4
-                                    py-3
-                                    text-[#4d3a20]
-                                ">
+                                <td class="max-w-[190px] px-4 py-3 text-[#4d3a20]">
 
                                     <div class="truncate">
                                         @(movement.Account?.Name ?? "N/A")
@@ -296,28 +123,9 @@
 
                                 <td class="px-4 py-3">
 
-                                    <span class="
-                                        inline-flex
-                                        items-center
-                                        rounded-full
-                                        px-2.5
-                                        py-1
-                                        text-[10px]
-                                        font-bold
-                                        @(esIngreso
-                                            ? "bg-emerald-100 text-emerald-700"
-                                            : "bg-red-100 text-red-700")
-                                    ">
+                                    <span class="inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold @(esIngreso ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700")">
 
-                                        <span class="
-                                            mr-1.5
-                                            h-1.5
-                                            w-1.5
-                                            rounded-full
-                                            @(esIngreso
-                                                ? "bg-emerald-500"
-                                                : "bg-red-500")
-                                        "></span>
+                                        <span class="mr-1.5 h-1.5 w-1.5 rounded-full @(esIngreso ? "bg-emerald-500" : "bg-red-500")"></span>
 
                                         @(movement.MovementType?.Name ?? "N/A")
 
@@ -325,12 +133,7 @@
 
                                 </td>
 
-                                <td class="
-                                    max-w-[180px]
-                                    px-4
-                                    py-3
-                                    text-[#5f4a29]
-                                ">
+                                <td class="max-w-[180px] px-4 py-3 text-[#5f4a29]">
 
                                     <div class="truncate">
                                         @(movement.MovementCategory?.Name ?? "N/A")
@@ -338,12 +141,7 @@
 
                                 </td>
 
-                                <td class="
-                                    max-w-[220px]
-                                    px-4
-                                    py-3
-                                    text-[#5f4a29]
-                                ">
+                                <td class="max-w-[220px] px-4 py-3 text-[#5f4a29]">
 
                                     <div class="truncate">
                                         @movement.Description
@@ -351,15 +149,7 @@
 
                                 </td>
 
-                                <td class="
-                                    whitespace-nowrap
-                                    px-4
-                                    py-3
-                                    font-bold
-                                    @(esIngreso
-                                        ? "text-emerald-700"
-                                        : "text-red-700")
-                                ">
+                                <td class="whitespace-nowrap px-4 py-3 font-bold @(esIngreso ? "text-emerald-700" : "text-red-700")">
 
                                     @(esIngreso ? "+" : "-")@movement.Amount.ToString(
                                         "C2",
@@ -368,31 +158,20 @@
 
                                 </td>
 
-                                <td class="
-                                    whitespace-nowrap
-                                    px-4
-                                    py-3
-                                    font-bold
-                                    text-[#4c381d]
-                                ">
+                                <td class="whitespace-nowrap px-4 py-3 font-bold text-[#4c381d]">
 
                                     $@movement.RunningBalance.ToString(
                                         "N2",
                                         new System.Globalization.CultureInfo("en-US")
                                     )
+
                                     <span class="text-[10px] font-medium text-[#977d4e]">
                                         USD
                                     </span>
 
                                 </td>
 
-
-                                <td class="
-                                    whitespace-nowrap
-                                    px-4
-                                    py-3
-                                    text-[#6f5a35]
-                                ">
+                                <td class="whitespace-nowrap px-4 py-3 text-[#6f5a35]">
 
                                     @movement.Created_at.ToString(
                                         "dd/MM/yyyy HH:mm"
@@ -414,7 +193,6 @@
 
 </div>
 
-
 <div class="modal fade"
      id="modalAgregarMovimiento"
      tabindex="-1"
@@ -423,35 +201,11 @@
 
     <div class="modal-dialog modal-dialog-centered">
 
-        <div class="
-            modal-content
-            overflow-hidden
-            rounded-2xl
-            border-0
-            bg-[#fffaf0]
-            shadow-2xl
-        ">
+        <div class="modal-content overflow-hidden rounded-2xl border-0 bg-[#fffaf0] shadow-2xl">
 
+            <div class="modal-header border-0 bg-gradient-to-r from-[#b58934] to-[#d0a74d] px-5 py-4 text-white">
 
-            <div class="
-                modal-header
-                border-0
-                bg-gradient-to-r
-                from-[#b58934]
-                to-[#d0a74d]
-                px-5
-                py-4
-                text-white
-            ">
-
-                <h5 class="
-                    modal-title
-                    flex
-                    items-center
-                    gap-2
-                    text-base
-                    font-bold
-                "
+                <h5 class="modal-title flex items-center gap-2 text-base font-bold"
                     id="modalAgregarMovimientoLabel">
 
                     <i class="fa-solid fa-plus-circle"></i>
@@ -460,18 +214,13 @@
 
                 </h5>
 
-
                 <button type="button"
-                        class="
-                            btn-close
-                            btn-close-white
-                        "
+                        class="btn-close btn-close-white"
                         data-bs-dismiss="modal"
                         aria-label="Close">
                 </button>
 
             </div>
-
 
             <form asp-controller="Movement"
                   asp-action="Create"
@@ -479,23 +228,14 @@
 
                 @Html.AntiForgeryToken()
 
-
                 <div class="modal-body p-5">
+
                     <div class="mb-3">
 
                         <label for="Account_id"
-                               class="
-                                    form-label
-                                    mb-2
-                                    text-xs
-                                    font-bold
-                                    text-[#4d3a20]
-                               ">
-
+                               class="form-label mb-2 text-xs font-bold text-[#4d3a20]">
                             Cuenta
-
                         </label>
-
 
                         <select name="Account_id"
                                 id="Account_id"
@@ -508,10 +248,7 @@
 
                             @if (ViewBag.Accounts != null)
                             {
-                                foreach (
-                                    var account
-                                    in (IEnumerable<SelectListItem>)ViewBag.Accounts
-                                )
+                                foreach (var account in (IEnumerable<SelectListItem>)ViewBag.Accounts)
                                 {
                                     <option value="@account.Value">
                                         @account.Text
@@ -526,21 +263,11 @@
                     <div class="mb-3">
 
                         <label for="Movement_type_id"
-                               class="
-                                    form-label
-                                    mb-2
-                                    text-xs
-                                    font-bold
-                                    text-[#4d3a20]
-                               ">
-
+                               class="form-label mb-2 text-xs font-bold text-[#4d3a20]">
                             Tipo de Movimiento
-
                         </label>
 
-
-                        <select name="Movement_type_id"
-                                id="Movement_type_id"
+                        <select id="Movement_type_id"
                                 class="form-select rounded-lg border-[#dfd1b7]"
                                 required>
 
@@ -550,21 +277,21 @@
 
                             @if (ViewBag.Types != null)
                             {
-                                foreach (
-                                    var type
-                                    in (IEnumerable<SelectListItem>)ViewBag.Types
-                                )
+                                foreach (var type in (IEnumerable<SelectListItem>)ViewBag.Types)
                                 {
                                     <option value="@type.Value"
                                             data-name="@type.Text">
-
                                         @type.Text
-
                                     </option>
                                 }
                             }
 
                         </select>
+
+                        <input type="hidden"
+                               name="Movement_type_id"
+                               id="Movement_type_id_hidden"
+                               value="" />
 
                     </div>
 
@@ -573,18 +300,9 @@
                          style="display: none;">
 
                         <label for="goalId"
-                               class="
-                                    form-label
-                                    mb-2
-                                    text-xs
-                                    font-bold
-                                    text-[#4d3a20]
-                               ">
-
+                               class="form-label mb-2 text-xs font-bold text-[#4d3a20]">
                             Asignar a Meta (Opcional)
-
                         </label>
-
 
                         <select name="goalId"
                                 id="goalId"
@@ -596,10 +314,7 @@
 
                             @if (ViewBag.Goals != null)
                             {
-                                foreach (
-                                    var goal
-                                    in (IEnumerable<SelectListItem>)ViewBag.Goals
-                                )
+                                foreach (var goal in (IEnumerable<SelectListItem>)ViewBag.Goals)
                                 {
                                     <option value="@goal.Value">
                                         @goal.Text
@@ -614,18 +329,9 @@
                     <div class="mb-3">
 
                         <label for="Movement_categorie_id"
-                               class="
-                                    form-label
-                                    mb-2
-                                    text-xs
-                                    font-bold
-                                    text-[#4d3a20]
-                               ">
-
+                               class="form-label mb-2 text-xs font-bold text-[#4d3a20]">
                             Categoría
-
                         </label>
-
 
                         <select name="Movement_categorie_id"
                                 id="Movement_categorie_id"
@@ -638,10 +344,7 @@
 
                             @if (ViewBag.Categories != null)
                             {
-                                foreach (
-                                    var cat
-                                    in (IEnumerable<SelectListItem>)ViewBag.Categories
-                                )
+                                foreach (var cat in (IEnumerable<SelectListItem>)ViewBag.Categories)
                                 {
                                     <option value="@cat.Value">
                                         @cat.Text
@@ -653,21 +356,38 @@
 
                     </div>
 
+                    <div class="mb-3"
+                         id="divLoan"
+                         style="display: none;">
+
+                        <label for="loanId"
+                               class="form-label mb-2 text-xs font-bold text-[#4d3a20]">
+                            Préstamo
+                        </label>
+
+                        <select name="loanId"
+                                id="loanId"
+                                class="form-select rounded-lg border-[#dfd1b7]">
+
+                            <option value="">
+                                -- Seleccione el préstamo --
+                            </option>
+
+                        </select>
+
+                        <div id="loanRemaining"
+                             class="mt-2 rounded-lg border border-[#e4d5b8] bg-[#f7efdf] px-3 py-2 text-xs font-semibold text-[#806634]"
+                             style="display: none;">
+                        </div>
+
+                    </div>
+
                     <div class="mb-3">
 
                         <label for="Description"
-                               class="
-                                    form-label
-                                    mb-2
-                                    text-xs
-                                    font-bold
-                                    text-[#4d3a20]
-                               ">
-
+                               class="form-label mb-2 text-xs font-bold text-[#4d3a20]">
                             Descripción
-
                         </label>
-
 
                         <input type="text"
                                name="Description"
@@ -681,27 +401,13 @@
                     <div class="mb-3">
 
                         <label for="Amount"
-                               class="
-                                    form-label
-                                    mb-2
-                                    text-xs
-                                    font-bold
-                                    text-[#4d3a20]
-                               ">
-
+                               class="form-label mb-2 text-xs font-bold text-[#4d3a20]">
                             Monto ($ USD)
-
                         </label>
-
 
                         <div class="input-group">
 
-                            <span class="
-                                input-group-text
-                                border-[#dfd1b7]
-                                bg-[#f3ead7]
-                                text-[#806634]
-                            ">
+                            <span class="input-group-text border-[#dfd1b7] bg-[#f3ead7] text-[#806634]">
                                 $
                             </span>
 
@@ -716,51 +422,27 @@
 
                         </div>
 
+                        <div id="loanAmountHelp"
+                             class="mt-2 text-[11px] font-medium text-[#977d4e]"
+                             style="display: none;">
+                        </div>
+
                     </div>
 
                 </div>
 
-
-                <div class="
-                    modal-footer
-                    border-0
-                    bg-[#f8f0df]
-                    px-5
-                    py-4
-                ">
+                <div class="modal-footer border-0 bg-[#f8f0df] px-5 py-4">
 
                     <button type="button"
-                            class="
-                                btn
-                                rounded-lg
-                                border-0
-                                bg-[#e5dcc9]
-                                px-4
-                                text-xs
-                                font-semibold
-                                text-[#5a4525]
-                            "
+                            class="btn rounded-lg border-0 bg-[#e5dcc9] px-4 text-xs font-semibold text-[#5a4525]"
                             data-bs-dismiss="modal">
 
                         Cancelar
 
                     </button>
 
-
                     <button type="submit"
-                            class="
-                                btn
-                                rounded-lg
-                                border-0
-                                bg-[#c79a3f]
-                                px-4
-                                text-xs
-                                font-semibold
-                                text-white
-                                shadow
-                                transition
-                                hover:bg-[#b38732]
-                            ">
+                            class="btn rounded-lg border-0 bg-[#c79a3f] px-4 text-xs font-semibold text-white shadow transition hover:bg-[#b38732]">
 
                         <i class="fa-solid fa-check me-1"></i>
 
@@ -778,7 +460,6 @@
 
 </div>
 
-
 @section Scripts {
 
     <script>
@@ -788,27 +469,104 @@
             const typeSelect =
                 document.getElementById("Movement_type_id");
 
+            const typeHidden =
+                document.getElementById("Movement_type_id_hidden");
+
             const divGoal =
                 document.getElementById("divGoal");
 
             const goalSelect =
-                document.getElementById("Goal_id");
+                document.getElementById("goalId");
 
+            const categorySelect =
+                document.getElementById("Movement_categorie_id");
 
-            typeSelect.addEventListener("change", function () {
+            const divLoan =
+                document.getElementById("divLoan");
+
+            const loanSelect =
+                document.getElementById("loanId");
+
+            const loanRemaining =
+                document.getElementById("loanRemaining");
+
+            const amountInput =
+                document.getElementById("Amount");
+
+            const loanAmountHelp =
+                document.getElementById("loanAmountHelp");
+
+            function syncMovementType() {
+
+                if (!typeSelect || !typeHidden) {
+                    return;
+                }
+
+                typeHidden.value = typeSelect.value;
+
+            }
+
+            function getTypeName() {
+
+                if (!typeSelect || typeSelect.selectedIndex < 0) {
+                    return "";
+                }
 
                 const selectedOption =
-                    this.options[this.selectedIndex];
+                    typeSelect.options[typeSelect.selectedIndex];
+
+                return (
+                    selectedOption.getAttribute("data-name")
+                    || selectedOption.text
+                    || ""
+                ).trim();
+
+            }
+
+            function selectMovementType(typeName) {
+
+                if (!typeSelect) {
+                    return;
+                }
+
+                const normalizedType =
+                    typeName.trim().toLowerCase();
+
+                for (const option of typeSelect.options) {
+
+                    const optionName =
+                        (
+                            option.getAttribute("data-name")
+                            || option.text
+                            || ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+                    if (optionName === normalizedType) {
+
+                        typeSelect.value = option.value;
+
+                        syncMovementType();
+
+                        break;
+
+                    }
+
+                }
+
+            }
+
+            function updateGoalVisibility() {
+
+                if (!divGoal || !goalSelect) {
+                    return;
+                }
 
                 const typeName =
-                    selectedOption.getAttribute("data-name")
-                    || selectedOption.text;
+                    getTypeName().toLowerCase();
 
-
-                if (
-                    typeName.trim().toLowerCase()
-                    === "ingreso"
-                ) {
+                if (typeName === "ingreso") {
 
                     divGoal.style.display = "block";
 
@@ -820,45 +578,488 @@
 
                 }
 
-            });
+            }
 
-        });
+            function clearLoan() {
 
+                if (loanSelect) {
 
-        document.addEventListener("DOMContentLoaded", function () {
+                    loanSelect.innerHTML = `
+                        <option value="">
+                            -- Seleccione el préstamo --
+                        </option>
+                    `;
 
-            const inputBuscar =
-                document.getElementById("inputBuscar");
+                    loanSelect.value = "";
 
-            const filasTabla =
-                document.querySelectorAll("tbody tr");
+                }
 
+                if (loanRemaining) {
 
-            if (inputBuscar) {
+                    loanRemaining.style.display = "none";
+                    loanRemaining.textContent = "";
 
-                inputBuscar.addEventListener(
+                }
+
+                if (loanAmountHelp) {
+
+                    loanAmountHelp.style.display = "none";
+                    loanAmountHelp.textContent = "";
+
+                }
+
+                if (amountInput) {
+
+                    amountInput.removeAttribute("max");
+
+                }
+
+            }
+
+            async function updateLoanVisibility() {
+
+                if (!categorySelect || !divLoan) {
+                    return;
+                }
+
+                const selectedOption =
+                    categorySelect.options[
+                        categorySelect.selectedIndex
+                    ];
+
+                if (!selectedOption) {
+                    return;
+                }
+
+                const categoryName =
+                    (
+                        selectedOption.text || ""
+                    )
+                    .split("—")[0]
+                    .trim()
+                    .toLowerCase();
+
+                if (categoryName !== "préstamos") {
+
+                    divLoan.style.display = "none";
+
+                    clearLoan();
+
+                    typeSelect.disabled = false;
+
+                    updateGoalVisibility();
+
+                    syncMovementType();
+
+                    return;
+
+                }
+
+                divLoan.style.display = "block";
+
+                if (divGoal && goalSelect) {
+
+                    divGoal.style.display = "none";
+                    goalSelect.value = "";
+
+                }
+
+                if (typeSelect) {
+
+                    typeSelect.disabled = true;
+
+                }
+
+                clearLoan();
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/Movement/GetLoans",
+                            {
+                                method: "GET",
+                                headers: {
+                                    "X-Requested-With":
+                                        "XMLHttpRequest"
+                                }
+                            }
+                        );
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "No se pudieron cargar los préstamos."
+                        );
+
+                    }
+
+                    const loans =
+                        await response.json();
+
+                    if (
+                        !Array.isArray(loans)
+                        || loans.length === 0
+                    ) {
+
+                        loanSelect.innerHTML = `
+                            <option value="">
+                                -- No hay préstamos pendientes --
+                            </option>
+                        `;
+
+                        return;
+
+                    }
+
+                    loans.forEach(function (loan) {
+
+                        const option =
+                            document.createElement("option");
+
+                        option.value = loan.id;
+
+                        option.dataset.type =
+                            loan.type || "";
+
+                        option.dataset.remaining =
+                            loan.remainingAmount ?? 0;
+
+                        const personName =
+                            loan.personName || "Sin nombre";
+
+                        const remaining =
+                            Number(
+                                loan.remainingAmount ?? 0
+                            ).toFixed(2);
+
+                        option.textContent =
+                            `${personName} — Pendiente: $${remaining}`;
+
+                        loanSelect.appendChild(option);
+
+                    });
+
+                }
+                catch (error) {
+
+                    console.error(
+                        "Error cargando préstamos:",
+                        error
+                    );
+
+                    loanSelect.innerHTML = `
+                        <option value="">
+                            -- Error al cargar préstamos --
+                        </option>
+                    `;
+
+                }
+
+            }
+
+            if (typeSelect) {
+
+                typeSelect.addEventListener(
+                    "change",
+                    function () {
+
+                        syncMovementType();
+
+                        updateGoalVisibility();
+
+                    }
+                );
+
+            }
+
+            if (categorySelect) {
+
+                categorySelect.addEventListener(
+                    "change",
+                    function () {
+
+                        updateLoanVisibility();
+
+                    }
+                );
+
+            }
+
+            if (loanSelect) {
+
+                loanSelect.addEventListener(
+                    "change",
+                    function () {
+
+                        const selectedOption =
+                            this.options[
+                                this.selectedIndex
+                            ];
+
+                        if (
+                            !selectedOption
+                            || !selectedOption.value
+                        ) {
+
+                            if (loanRemaining) {
+
+                                loanRemaining.style.display =
+                                    "none";
+
+                                loanRemaining.textContent =
+                                    "";
+
+                            }
+
+                            if (loanAmountHelp) {
+
+                                loanAmountHelp.style.display =
+                                    "none";
+
+                                loanAmountHelp.textContent =
+                                    "";
+
+                            }
+
+                            if (amountInput) {
+
+                                amountInput.removeAttribute(
+                                    "max"
+                                );
+
+                            }
+
+                            return;
+
+                        }
+
+                        const loanType =
+                            (
+                                selectedOption.dataset.type
+                                || ""
+                            )
+                            .trim()
+                            .toLowerCase();
+
+                        const remaining =
+                            Number(
+                                selectedOption.dataset.remaining
+                                || 0
+                            );
+
+                        if (loanRemaining) {
+
+                            loanRemaining.style.display =
+                                "block";
+
+                            loanRemaining.innerHTML = `
+                                <i class="fa-solid fa-circle-info me-1"></i>
+                                Saldo pendiente:
+                                <strong>
+                                    $${remaining.toFixed(2)}
+                                </strong>
+                            `;
+
+                        }
+
+                        if (amountInput) {
+
+                            amountInput.max =
+                                remaining.toFixed(2);
+
+                            if (
+                                amountInput.value
+                                && Number(amountInput.value)
+                                    > remaining
+                            ) {
+
+                                amountInput.value =
+                                    remaining.toFixed(2);
+
+                            }
+
+                        }
+
+                        if (loanAmountHelp) {
+
+                            loanAmountHelp.style.display =
+                                "block";
+
+                            loanAmountHelp.textContent =
+                                `El monto máximo para este pago es $${remaining.toFixed(2)}.`;
+
+                        }
+
+                        if (
+                            loanType === "given"
+                            || loanType === "dado"
+                        ) {
+
+                            selectMovementType("Ingreso");
+
+                        }
+                        else if (
+                            loanType === "received"
+                            || loanType === "recibido"
+                        ) {
+
+                            selectMovementType("Egreso");
+
+                        }
+
+                    }
+                );
+
+            }
+
+            if (amountInput) {
+
+                amountInput.addEventListener(
                     "input",
                     function () {
 
-                        const criterio =
-                            this.value
-                                .toLowerCase()
-                                .trim();
+                        if (
+                            !loanSelect
+                            || !loanSelect.value
+                        ) {
 
+                            return;
 
-                        filasTabla.forEach(fila => {
+                        }
 
-                            const textoFila =
-                                fila.textContent
-                                    .toLowerCase();
+                        const selectedOption =
+                            loanSelect.options[
+                                loanSelect.selectedIndex
+                            ];
 
+                        if (!selectedOption) {
+                            return;
+                        }
 
-                            fila.style.display =
-                                textoFila.includes(criterio)
-                                    ? ""
-                                    : "none";
+                        const remaining =
+                            Number(
+                                selectedOption.dataset.remaining
+                                || 0
+                            );
 
-                        });
+                        const amount =
+                            Number(this.value);
+
+                        if (amount > remaining) {
+
+                            this.value =
+                                remaining.toFixed(2);
+
+                        }
+
+                    }
+                );
+
+            }
+
+            const form =
+                document.querySelector(
+                    "#modalAgregarMovimiento form"
+                );
+
+            if (form) {
+
+                form.addEventListener(
+                    "submit",
+                    function (event) {
+
+                        syncMovementType();
+
+                        if (
+                            !loanSelect
+                            || !loanSelect.value
+                        ) {
+
+                            return;
+
+                        }
+
+                        const selectedOption =
+                            loanSelect.options[
+                                loanSelect.selectedIndex
+                            ];
+
+                        if (!selectedOption) {
+                            return;
+                        }
+
+                        const remaining =
+                            Number(
+                                selectedOption.dataset.remaining
+                                || 0
+                            );
+
+                        const amount =
+                            Number(
+                                amountInput.value
+                            );
+
+                        if (
+                            !amount
+                            || amount <= 0
+                            || amount > remaining
+                        ) {
+
+                            event.preventDefault();
+
+                            alert(
+                                `El monto del pago no puede ser mayor a $${remaining.toFixed(2)}.`
+                            );
+
+                            amountInput.focus();
+
+                        }
+
+                    }
+                );
+
+            }
+
+            const modal =
+                document.getElementById(
+                    "modalAgregarMovimiento"
+                );
+
+            if (modal) {
+
+                modal.addEventListener(
+                    "hidden.bs.modal",
+                    function () {
+
+                        if (categorySelect) {
+                            categorySelect.value = "";
+                        }
+
+                        if (divLoan) {
+                            divLoan.style.display = "none";
+                        }
+
+                        clearLoan();
+
+                        if (typeSelect) {
+
+                            typeSelect.disabled = false;
+                            typeSelect.value = "";
+
+                        }
+
+                        if (typeHidden) {
+                            typeHidden.value = "";
+                        }
+
+                        if (divGoal) {
+                            divGoal.style.display = "none";
+                        }
+
+                        if (goalSelect) {
+                            goalSelect.value = "";
+                        }
 
                     }
                 );
@@ -867,5 +1068,56 @@
 
         });
 
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const inputBuscar =
+                    document.getElementById(
+                        "inputBuscar"
+                    );
+
+                const filasTabla =
+                    document.querySelectorAll(
+                        "tbody tr"
+                    );
+
+                if (inputBuscar) {
+
+                    inputBuscar.addEventListener(
+                        "input",
+                        function () {
+
+                            const criterio =
+                                this.value
+                                    .toLowerCase()
+                                    .trim();
+
+                            filasTabla.forEach(
+                                fila => {
+
+                                    const textoFila =
+                                        fila.textContent
+                                            .toLowerCase();
+
+                                    fila.style.display =
+                                        textoFila.includes(
+                                            criterio
+                                        )
+                                            ? ""
+                                            : "none";
+
+                                }
+                            );
+
+                        }
+                    );
+
+                }
+
+            }
+        );
+
     </script>
+
 }
